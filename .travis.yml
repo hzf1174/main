@@ -4,8 +4,8 @@ matrix:
     - jdk: oraclejdk9
 
 script: >-
-    ./config/travis/run-checks.sh &&
-    travis_retry ./gradlew clean checkstyleMain checkstyleTest headless allTests coverage coveralls asciidoctor copyDummySearchPage
+  ./config/travis/run-checks.sh &&
+  travis_retry ./gradlew clean checkstyleMain checkstyleTest headless allTests coverage coveralls asciidoctor copyDummySearchPage
 
 deploy:
   skip_cleanup: true
@@ -27,3 +27,15 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+
+notifications:
+  slack:
+    rooms:
+      - nus-cs2103-ay1819s1:aKFQ7xxpz8LnQNjWWCKz6jzI#teamboleh
+    template:
+      - "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository_slug}@%{branch} by %{author} %{result} in %{duration}"
+      - "_%{commit_message}_"
+      - "*%{message}*"
+    email:
+      on_failure: always
+      on_success: never
