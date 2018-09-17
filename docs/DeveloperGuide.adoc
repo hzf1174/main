@@ -1,4 +1,4 @@
-= AddressBook Level 4 - Developer Guide
+= modsUni - Developer Guide
 :site-section: DeveloperGuide
 :toc:
 :toc-title:
@@ -14,7 +14,7 @@ ifdef::env-github[]
 endif::[]
 :repoURL: https://github.com/se-edu/addressbook-level4/tree/master
 
-By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
+By: `Team W17-2`      Since: `Sep 2018`      Licence: `MIT`
 
 == Setting up
 
@@ -814,14 +814,10 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 == Product Scope
 
 *Target user profile*:
+NUS undergraduates, in particular, a freshman who has just started their candidature and have absolutely no idea how to plan their modules.
 
-* has a need to manage a significant number of contacts
-* prefer desktop apps over other types
-* can type fast
-* prefers typing over mouse input
-* is reasonably comfortable using CLI apps
-
-*Value proposition*: manage contacts faster than a typical mouse/GUI driven app
+*Value proposition*:
+A candidature planner for NUS Undergraduates to assist them in their module planning process.
 
 [appendix]
 == User Stories
@@ -830,72 +826,143 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 [width="59%",cols="22%,<23%,<25%,<30%",options="header",]
 |=======================================================================
-|Priority |As a ... |I want to ... |So that I can...
-|`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
+|Priority |As a ... |I want to ... |So that...
+|`* * *` |student |my search queries to be case-insensitive |I can type commands faster
+|`* * *` |student |be able to know the total workload of the modules |I will not overload
+|`* * *` |student |set a preferred semester to take a module |I can take it with friends
+|`* * *` |student |remove modules |my schedule will be updated
+|`* * *` |student |add in modules that I would like to take |it will be added into my schedule
+|`* * *` |student |set a preferred max of semesters |I can I can graduate earlier
+|`* * *` |student |add in modules that I’ve taken previously |I can see what modules I can take
+|`* * *` |student |load my schedule |I do not need to plan it again
+|`* * *` |user |see what commands are available |I know what i can do
+|`* * *` |student |save my schedule |I do not need to plan it again
+|`* * *` |student |search through a list of available modules |I can determine the exact module code
+|`* * *` |student |check if my module plan is feasible |I know if I need to make any changes
+|`* * *` |student |search for a module |I can find out details about it
+|`* * *` |developer |be able to view all documentation on methods |I can include additional features in the future
+|`* * *` |student |be able to see the prerequisite modules of a module |I can see what modules to take
+|`* * *` |student |an application that is standalone |I do not have to download dependency
+|`* * *` |student |be able to determine if I have preclusion to a module |i will not end up taking modules i am not suppose to take
+|`* * *` |user |be able to contact the developer |I can report bugs to improve the software
+|`* * *` |student |be able to generate a module planner |I can plan for my entire candidature in my respective university
 
-|`* * *` |user |add a new person |
+|`**` |user |to customise the look of the software |it is pleasing to the eyes
+|`**` |advanced user |to have auto complete commands |I do not need to type so much
+|`**` |student |to be able to edit modules |I don't need to generate a new plan if I need to make any changes
+|`**` |student |to search for a professor |I know what mods is he teaching
+|`**` |student |to be warned of the timetable clashes |I will not make an unreasonable schedule
+|`**` |student |my personal information to be stored securely |I am not subjected to identity theft
+|`**` |developer |to be able to integrate my plugins |I can enhance user experience
+|`**` |student |to be able to view student reviews on modules |I can better inform myself on what to expect of certain modules
+|`**` |student |to be able to print the schedule |I can better store it
 
-|`* * *` |user |delete a person |remove entries that I no longer need
-
-|`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
-
-|`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
-
-|`*` |user with many persons in the address book |sort persons by name |locate a person easily
+|`*` |user| to be able to store my settings in cloud| I can access them everywhere
+|`*` |student |to be able to view exam schedules| I can better prepare for finals
 |=======================================================================
-
-_{More to be added}_
 
 [appendix]
 == Use Cases
 
-(For all use cases below, the *System* is the `AddressBook` and the *Actor* is the `user`, unless specified otherwise)
+(For all use cases below, the *System* is the `modsUni` and the *Actor* is the `NUS Undergraduate`, unless specified otherwise)
 
 [discrete]
-=== Use case: Delete person
+=== Use case: Add module
 
 *MSS*
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  User starts up application
+2.  User type in the relevant commands [`add <MOD_CODE>`]
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 2a. The list is empty.
+* Load existing module configurations.
 +
 Use case ends.
 
-* 3a. The given index is invalid.
-+
-[none]
-** 3a1. AddressBook shows an error message.
-+
-Use case resumes at step 2.
+[discrete]
+=== Use case: Delete module
 
-_{More to be added}_
+*MSS*
+
+1.  User starts up application
+2.  User type in the relevant commands [`remove <MOD_CODE>`]
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* Load updated module configurations.
++
+Use case ends.
+
+[discrete]
+=== Use case: Generate Candidature Plan
+
+*MSS*
+
+1. User starts up application
+2. User add module [UC01] using command line
+3. User generate plan using relevant command [`generate`]
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* Student able to generate plan based on years of candidature using relevant command [`generate <NUM_YEAR>year`].
++
+Use case ends.
+
+* Student able to generate plan based on specifying the semester in which a module is preferred to be taken using relevant command [`generate <MOD_CODE><SEMESTER>`]
+Use case ends.
+
+[discrete]
+=== Use case: Search module
+
+*MSS*
+
+1. User type in the relevant command [search <KEYWORD>]
+2. modsUni output search results in a list on the screen if any
++
+Use case ends.
+
+[discrete]
+=== Use case: See prerequisites of a module
+
+*MSS*
+
+1. User type in the relevant command [`prereq <MODULE CODE>`]
+2. System output the prerequisites for the module
++
+Use case ends.
+
+[discrete]
+=== Use case: Load existing configuration
+
+*MSS*
+
+1. User starts up application
+2. User type in the relevant command [`load <CONFIG_FILE>`]
++
+Use case ends.
 
 [appendix]
 == Non Functional Requirements
 
 .  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java `9` or higher installed.
-.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-
-_{More to be added}_
+.  Should be able to generate a user’s schedule without a significant delay
 
 [appendix]
 == Glossary
 
 [[mainstream-os]] Mainstream OS::
 Windows, Linux, Unix, OS-X
-
-[[private-contact-detail]] Private contact detail::
-A contact detail that is not meant to be shared with others
 
 [appendix]
 == Product Survey
