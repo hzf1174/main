@@ -5,43 +5,47 @@ import java.util.Objects;
 import javax.xml.bind.annotation.XmlElement;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.UserAccount;
+import seedu.address.model.credential.Credential;
 
 /**
- * JAXB-friendly version of the UserAccount.
+ * JAXB-friendly version of the Credential.
  */
-public class XmlAdaptedUserAccount {
+public class XmlAdaptedCredential {
 
-    public static final String MISSING_FIELD_MESSAGE_FORMAT = "UserAccount's " +
+    public static final String MISSING_FIELD_MESSAGE_FORMAT = "Credential's " +
         "%s field is missing!";
 
     @XmlElement(required = true)
     private String username;
     @XmlElement(required = true)
     private String password;
+    @XmlElement(required = true)
+    private String key;
 
     /**
      * Constructs an XmlAdaptedPerson.
      * This is the no-arg constructor that is required by JAXB.
      */
-    public XmlAdaptedUserAccount() {}
+    public XmlAdaptedCredential() {}
 
     /**
      * Constructs an {@code XmlAdaptedPerson} with the given person details.
      */
-    public XmlAdaptedUserAccount(String username, String password) {
+    public XmlAdaptedCredential(String username, String password, String key) {
         this.username = username;
         this.password = password;
+        this.key = key;
     }
 
     /**
      * Converts a given Person into this class for JAXB use.
      *
-     * @param source future changes to this will not affect the created XmlAdaptedUserAccount
+     * @param source future changes to this will not affect the created XmlAdaptedCredential
      */
-    public XmlAdaptedUserAccount(UserAccount source) {
+    public XmlAdaptedCredential(Credential source) {
         username = source.getUsername();
         password = source.getPassword();
+        key = source.getKey();
     }
 
 
@@ -50,7 +54,7 @@ public class XmlAdaptedUserAccount {
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted person
      */
-    public UserAccount toModelType() throws IllegalValueException {
+    public Credential toModelType() throws IllegalValueException {
 
         if (username == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Username"));
@@ -60,7 +64,11 @@ public class XmlAdaptedUserAccount {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Password"));
         }
 
-        return new UserAccount(username, password);
+        if (key == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Key"));
+        }
+
+        return new Credential(username, password, key);
     }
 
     @Override
@@ -69,12 +77,13 @@ public class XmlAdaptedUserAccount {
             return true;
         }
 
-        if (!(other instanceof XmlAdaptedUserAccount)) {
+        if (!(other instanceof XmlAdaptedCredential)) {
             return false;
         }
 
-        XmlAdaptedUserAccount otherAccount = (XmlAdaptedUserAccount) other;
-        return Objects.equals(username, otherAccount.username)
-            && Objects.equals(password, otherAccount.password);
+        XmlAdaptedCredential otherCredential = (XmlAdaptedCredential) other;
+        return Objects.equals(username, otherCredential.username)
+            && Objects.equals(password, otherCredential.password)
+            && Objects.equals(key, otherCredential.key);
     }
 }

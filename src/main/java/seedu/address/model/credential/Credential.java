@@ -1,16 +1,18 @@
-package seedu.address.model;
+package seedu.address.model.credential;
 
-public class UserAccount {
+public class Credential {
 
     // Identity Field
     private final String username;
 
     // Data Field
     private final String password;
+    private final String key; // TODO Awaiting Encryption function
 
-    public UserAccount(String username, String password) {
+    public Credential(String username, String password, String key) {
         this.username = username;
         this.password = password;
+        this.key = key;
     }
 
     public String getUsername() {
@@ -20,4 +22,7 @@ public class UserAccount {
     public String getPassword() {
         return password;
     }
+
+    public String getKey() { return key; }
+
 }

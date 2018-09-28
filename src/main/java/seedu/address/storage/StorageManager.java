@@ -12,9 +12,9 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.exceptions.DataConversionException;
+import seedu.address.model.credential.CredentialStore;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.ReadOnlyUserCredentials;
-import seedu.address.model.UserCredentials;
+import seedu.address.model.credential.ReadOnlyCredentialStore;
 import seedu.address.model.UserPrefs;
 
 /**
@@ -25,16 +25,16 @@ public class StorageManager extends ComponentManager implements Storage {
     private static final Logger logger = LogsCenter.getLogger(StorageManager.class);
     private AddressBookStorage addressBookStorage;
     private UserPrefsStorage userPrefsStorage;
-    private UserCredentialsStorage userCredentialsStorage;
+    private CredentialStoreStorage credentialStoreStorage;
 
 
     public StorageManager(AddressBookStorage addressBookStorage,
                           UserPrefsStorage userPrefsStorage,
-                          UserCredentialsStorage userCredentialsStorage) {
+                          CredentialStoreStorage credentialStoreStorage) {
         super();
         this.addressBookStorage = addressBookStorage;
         this.userPrefsStorage = userPrefsStorage;
-        this.userCredentialsStorage = userCredentialsStorage;
+        this.credentialStoreStorage = credentialStoreStorage;
     }
 
     // ================ UserPrefs methods ==============================
@@ -96,33 +96,33 @@ public class StorageManager extends ComponentManager implements Storage {
         }
     }
 
-    // ================ UserCredential methods =========================
+    // ================ CredentialStore methods =========================
 
     @Override
-    public Path getUserCredentialsFilePath() {
-        return userCredentialsStorage.getUserCredentialsFilePath();
+    public Path getCredentialStoreFilePath() {
+        return credentialStoreStorage.getCredentialStoreFilePath();
     }
 
     @Override
-    public Optional<ReadOnlyUserCredentials> readUserAccounts() throws DataConversionException, IOException {
-        return userCredentialsStorage.readUserAccounts();
+    public Optional<ReadOnlyCredentialStore> readCredentialStore() throws DataConversionException, IOException {
+        return credentialStoreStorage.readCredentialStore();
     }
 
     @Override
-    public Optional<ReadOnlyUserCredentials> readUserAccounts(Path filePath) throws DataConversionException, IOException {
+    public Optional<ReadOnlyCredentialStore> readCredentialStore(Path filePath) throws DataConversionException, IOException {
         logger.fine("Attempting to read data from file: " + filePath);
-        return userCredentialsStorage.readUserAccounts();
+        return credentialStoreStorage.readCredentialStore();
     }
 
     @Override
-    public void saveUserAccounts(UserCredentials userCredentials) throws IOException {
-        userCredentialsStorage.saveUserAccounts(userCredentials,
-            userCredentialsStorage.getUserCredentialsFilePath());
+    public void saveCredentialStore(CredentialStore credentialStore) throws IOException {
+        credentialStoreStorage.saveCredentialStore(credentialStore,
+            credentialStoreStorage.getCredentialStoreFilePath());
     }
 
     @Override
-    public void saveUserAccounts(UserCredentials userCredentials, Path filePath) throws IOException {
+    public void saveCredentialStore(CredentialStore credentialStore, Path filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
-        userCredentialsStorage.saveUserAccounts(userCredentials, filePath);
+        credentialStoreStorage.saveCredentialStore(credentialStore, filePath);
     }
 }

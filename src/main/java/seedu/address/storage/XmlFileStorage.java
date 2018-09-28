@@ -37,25 +37,26 @@ public class XmlFileStorage {
     }
 
     /**
-     * Saves the given usercredentials data to the specified file.
+     * Saves the given credential store data to the specified file.
      */
     public static void saveDataToFile(Path file,
-                                      XmlSerializableUserCredentials userCredentials)
+                                      XmlSerializableCredentialStore credentialStore)
         throws FileNotFoundException {
         try {
-            XmlUtil.saveDataToFile(file, userCredentials);
+            XmlUtil.saveDataToFile(file, credentialStore);
         } catch (JAXBException e) {
             throw new AssertionError("Unexpected exception " + e.getMessage(), e);
         }
     }
 
     /**
-     * Returns UserCredentials in the file or an empty usercredentials
+     * Returns CredentialStore in the file or an empty usercredentials
      */
-    public static XmlSerializableUserCredentials loadUserCredentialsDataFromSaveFile(Path file) throws DataConversionException,
+    public static XmlSerializableCredentialStore loadCredentialStoreDataFromSaveFile(Path file) throws DataConversionException,
+
         FileNotFoundException {
         try {
-            return XmlUtil.getDataFromFile(file, XmlSerializableUserCredentials.class);
+            return XmlUtil.getDataFromFile(file, XmlSerializableCredentialStore.class);
         } catch (JAXBException e) {
             throw new DataConversionException(e);
         }

@@ -13,7 +13,7 @@ public class UserPrefs {
 
     private GuiSettings guiSettings;
     private Path addressBookFilePath = Paths.get("data" , "addressbook.xml");
-    private Path userAccountFilePath = Paths.get("data" , "useraccounts.xml");
+    private Path credentialStoreFilePath = Paths.get("data" , "credentialstore.xml");
 
     public UserPrefs() {
         setGuiSettings(500, 500, 0, 0);
@@ -31,12 +31,12 @@ public class UserPrefs {
         guiSettings = new GuiSettings(width, height, x, y);
     }
 
-    public Path getUserAccountFilePath() {
-        return userAccountFilePath;
+    public Path getCredentialStoreFilePath() {
+        return credentialStoreFilePath;
     }
 
-    public void setUserAccountFilePath(Path userAccountFilePath) {
-        this.userAccountFilePath = userAccountFilePath;
+    public void setCredentialStoreFilePath(Path credentialStoreFilePath) {
+        this.credentialStoreFilePath = credentialStoreFilePath;
     }
 
     public Path getAddressBookFilePath() {
@@ -72,6 +72,7 @@ public class UserPrefs {
         StringBuilder sb = new StringBuilder();
         sb.append("Gui Settings : " + guiSettings.toString());
         sb.append("\nLocal data file location : " + addressBookFilePath);
+        sb.append("\nLocal Credential Store File Location : " + credentialStoreFilePath);
         return sb.toString();
     }
 

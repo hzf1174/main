@@ -5,8 +5,6 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import javax.swing.text.html.Option;
-
 import com.google.common.eventbus.Subscribe;
 
 import javafx.application.Application;
@@ -23,21 +21,21 @@ import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
 import seedu.address.logic.LogicManager;
 import seedu.address.model.AddressBook;
+import seedu.address.model.credential.CredentialStore;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.ReadOnlyUserCredentials;
-import seedu.address.model.UserCredentials;
+import seedu.address.model.credential.ReadOnlyCredentialStore;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.AddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
-import seedu.address.storage.UserCredentialsStorage;
+import seedu.address.storage.CredentialStoreStorage;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.storage.XmlAddressBookStorage;
-import seedu.address.storage.XmlUserCredentialsStorage;
+import seedu.address.storage.XmlCredentialStoreStorage;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
 
@@ -68,11 +66,11 @@ public class MainApp extends Application {
 
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         userPrefs = initPrefs(userPrefsStorage);
-        UserCredentialsStorage userCredentialsStorage =
-            new XmlUserCredentialsStorage(userPrefs.getUserAccountFilePath());
+        CredentialStoreStorage credentialStoreStorage =
+            new XmlCredentialStoreStorage(userPrefs.getCredentialStoreFilePath());
         AddressBookStorage addressBookStorage = new XmlAddressBookStorage(userPrefs.getAddressBookFilePath());
         storage = new StorageManager(addressBookStorage, userPrefsStorage,
-            userCredentialsStorage);
+            credentialStoreStorage);
 
         initLogging(config);
 
@@ -91,23 +89,23 @@ public class MainApp extends Application {
      * or an empty address book will be used instead if errors occur when reading {@code storage}'s address book.
      */
     private Model initModelManager(Storage storage, UserPrefs userPrefs) {
-        Optional<ReadOnlyUserCredentials>  userCredentialsOptional;
-        ReadOnlyUserCredentials userCredentials;
+        Optional<ReadOnlyCredentialStore>  credentialStoreOptional;
+        ReadOnlyCredentialStore credentialStore;
 
         try {
-            userCredentialsOptional = storage.readUserAccounts();
-            if (!userCredentialsOptional.isPresent()) {
+            credentialStoreOptional = storage.readCredentialStore();
+            if (!credentialStoreOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample AddressBook");
             }
-            userCredentials =
-                userCredentialsOptional.orElse(new UserCredentials());
+            credentialStore =
+                credentialStoreOptional.orElse(new CredentialStore());
         } catch (DataConversionException e) {
             logger.warning("Data file not in the correct format. Will be " +
-                "starting with an empty UserCredentials");
-            userCredentials = new UserCredentials();
+                "starting with an empty CredentialStore");
+            credentialStore = new CredentialStore();
         } catch (IOException e) {
             logger.warning("Problem while reading from the file. Will be starting with an empty AddressBook");
-            userCredentials = new UserCredentials();
+            credentialStore = new CredentialStore();
         }
 
         Optional<ReadOnlyAddressBook> addressBookOptional;
@@ -126,7 +124,7 @@ public class MainApp extends Application {
             initialData = new AddressBook();
         }
 
-        return new ModelManager(initialData, userPrefs, userCredentials);
+        return new ModelManager(initialData, userPrefs, credentialStore);
     }
 
     private void initLogging(Config config) {

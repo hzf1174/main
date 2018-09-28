@@ -12,6 +12,8 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.model.credential.CredentialStore;
+import seedu.address.model.credential.ReadOnlyCredentialStore;
 import seedu.address.model.person.Person;
 
 /**
@@ -22,25 +24,30 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final VersionedAddressBook versionedAddressBook;
     private final FilteredList<Person> filteredPersons;
-    private final UserCredentials userCredentials;
+    private final CredentialStore credentialStore;
+    //private final ModuleList
+    //private final User
+
+    // User(..,...,..,List<Module> stageModules)
+    // private final User currentUser;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
     public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs,
-     ReadOnlyUserCredentials userCredentials ) {
+     ReadOnlyCredentialStore credentialStore ) {
         super();
-        requireAllNonNull(addressBook, userPrefs, userCredentials);
+        requireAllNonNull(addressBook, userPrefs, credentialStore);
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
         versionedAddressBook = new VersionedAddressBook(addressBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
-        this.userCredentials = (UserCredentials) userCredentials;
+        this.credentialStore = (CredentialStore) credentialStore;
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs(), new UserCredentials());
+        this(new AddressBook(), new UserPrefs(), new CredentialStore());
     }
 
     @Override

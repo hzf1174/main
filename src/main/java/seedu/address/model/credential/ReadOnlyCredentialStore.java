@@ -1,11 +1,11 @@
-package seedu.address.model;
+package seedu.address.model.credential;
 
 import java.util.List;
 
-public interface ReadOnlyUserCredentials {
+public interface ReadOnlyCredentialStore {
     /**
      * Returns an unmodifiable view of the persons list.
      * This list will not contain any duplicate persons.
      */
-    List<UserAccount> getUserAccounts();
+    List<Credential> getCredentials();
 }
