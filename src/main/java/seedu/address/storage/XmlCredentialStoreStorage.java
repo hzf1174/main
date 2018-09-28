@@ -56,12 +56,12 @@ public class XmlCredentialStoreStorage implements CredentialStoreStorage {
     }
 
     @Override
-    public void saveCredentialStore(CredentialStore credentialStore) throws IOException {
+    public void saveCredentialStore(ReadOnlyCredentialStore credentialStore) throws IOException {
         saveCredentialStore(credentialStore, filePath);
     }
 
     @Override
-    public void saveCredentialStore(CredentialStore credentialStore,
+    public void saveCredentialStore(ReadOnlyCredentialStore credentialStore,
                                Path filePath) throws IOException {
         requireNonNull(credentialStore);
         requireNonNull(filePath);

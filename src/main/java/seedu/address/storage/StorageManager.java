@@ -10,6 +10,7 @@ import com.google.common.eventbus.Subscribe;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.CredentialStoreChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.credential.CredentialStore;
@@ -115,14 +116,29 @@ public class StorageManager extends ComponentManager implements Storage {
     }
 
     @Override
-    public void saveCredentialStore(CredentialStore credentialStore) throws IOException {
+    public void saveCredentialStore(ReadOnlyCredentialStore credentialStore) throws IOException {
         credentialStoreStorage.saveCredentialStore(credentialStore,
             credentialStoreStorage.getCredentialStoreFilePath());
     }
 
     @Override
-    public void saveCredentialStore(CredentialStore credentialStore, Path filePath) throws IOException {
+    public void saveCredentialStore(ReadOnlyCredentialStore credentialStore,
+                                    Path filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
         credentialStoreStorage.saveCredentialStore(credentialStore, filePath);
     }
+
+    @Override
+    @Subscribe
+    public void handleCredentialStoreChangedEvent(CredentialStoreChangedEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Credential " +
+            "Store changed. saving to file"));
+        try {
+            saveCredentialStore(event.data);
+        } catch (IOException e) {
+            raise(new DataSavingExceptionEvent(e));
+        }
+        System.out.println("hihihi");
+    }
+
 }

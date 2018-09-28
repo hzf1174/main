@@ -12,6 +12,8 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.CredentialStoreChangedEvent;
+import seedu.address.model.credential.Credential;
 import seedu.address.model.credential.CredentialStore;
 import seedu.address.model.credential.ReadOnlyCredentialStore;
 import seedu.address.model.person.Person;
@@ -157,4 +159,21 @@ public class ModelManager extends ComponentManager implements Model {
                 && filteredPersons.equals(other.filteredPersons);
     }
 
+    //============ Credential Store Methods ====================================
+
+    /** Raise an event indicating that credential store has change*/
+    private void indicateCredentialStoreChanged() {
+        raise(new CredentialStoreChangedEvent(credentialStore));
+    }
+
+    @Override
+    public void addCredential(Credential credential){
+        credentialStore.addCredential(credential);
+        indicateCredentialStoreChanged();
+    }
+
+    @Override
+    public boolean hasCredential(Credential credential){
+        return credentialStore.hasCredential(credential);
+    }
 }

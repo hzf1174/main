@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.CredentialStoreChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -36,4 +37,6 @@ public interface Storage extends AddressBookStorage, UserPrefsStorage, Credentia
      * Raises {@link DataSavingExceptionEvent} if there was an error during saving.
      */
     void handleAddressBookChangedEvent(AddressBookChangedEvent abce);
+
+    void handleCredentialStoreChangedEvent(CredentialStoreChangedEvent csce);
 }

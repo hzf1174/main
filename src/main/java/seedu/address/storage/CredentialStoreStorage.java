@@ -37,10 +37,11 @@ public interface CredentialStoreStorage {
      * @param credentialStore cannot be null.
      * @throws IOException if there was any problem writing to the file.
      */
-    void saveCredentialStore(CredentialStore credentialStore) throws IOException;
+    void saveCredentialStore(ReadOnlyCredentialStore credentialStore) throws IOException;
 
     /**
-     * @see #saveCredentialStore(CredentialStore)
+     * @see #saveCredentialStore(ReadOnlyCredentialStore)
      */
-    void saveCredentialStore(CredentialStore credentialStore, Path filePath) throws IOException;
+    void saveCredentialStore(ReadOnlyCredentialStore credentialStore,
+                             Path filePath) throws IOException;
 }

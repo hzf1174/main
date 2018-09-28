@@ -3,6 +3,7 @@ package seedu.address.model;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.credential.Credential;
 import seedu.address.model.person.Person;
 
 /**
@@ -75,4 +76,16 @@ public interface Model {
      * Saves the current address book state for undo/redo.
      */
     void commitAddressBook();
+
+    /**
+     * Adds the given credential.
+     * {@code credential} must not already exist in the credential store.
+     */
+    void addCredential(Credential credential);
+
+    /**
+     * Returns true if credential with the same username already exists in
+     * the credential store.
+     */
+    boolean hasCredential(Credential credential);
 }
