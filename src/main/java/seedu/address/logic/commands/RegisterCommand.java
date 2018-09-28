@@ -7,11 +7,11 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PATH_TO_PIC;
 
 
-
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.credential.Credential;
+import seedu.address.model.user.User;
 
 
 /**
@@ -28,17 +28,20 @@ public class RegisterCommand extends Command{
         + PREFIX_NAME + "NAME "
         + PREFIX_PATH_TO_PIC + "PATH ";
 
-    public static final String MESSAGE_SUCCESS = "New Account created added: %1$s";
+    public static final String MESSAGE_SUCCESS = "New Account created added: " +
+        "%1$s\nCurrently Logged-in as: %1$s";
     public static final String MESSAGE_DUPLICATE_USERNAME = "This username already exists in the database";
 
     private final Credential toRegister;
+    private final User user;
 
     /**
      * Creates an AddCommand to add the specified {@code Person}
      */
-    public RegisterCommand(Credential newUserCredential) {
-        requireNonNull(newUserCredential);
-        toRegister = newUserCredential;
+    public RegisterCommand(Credential newCredential, User newUser) {
+        requireNonNull(newCredential);
+        toRegister = newCredential;
+        user = newUser;
     }
 
     @Override
@@ -50,6 +53,9 @@ public class RegisterCommand extends Command{
         }
 
         model.addCredential(toRegister);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toRegister));
+        model.setCurrentUser(user);
+        return new CommandResult(String.format(MESSAGE_SUCCESS,
+            toRegister.getUsername()));
     }
+
 }

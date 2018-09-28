@@ -1,15 +1,16 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_USERNAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PASSWORD;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PATH_TO_PIC;
+import static seedu.address.logic.parser.CliSyntax.*;
 
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.RegisterCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.credential.Credential;
+import seedu.address.model.user.Role;
+import seedu.address.model.user.Student;
+import seedu.address.model.user.User;
 
 /**
  * Parses input arguments and creates a new RegisterCommand object
@@ -24,21 +25,25 @@ public class RegisterCommandParser implements Parser<RegisterCommand> {
     public RegisterCommand parse(String userInput) throws ParseException {
         ArgumentMultimap argMultimap =
             ArgumentTokenizer.tokenize(userInput, PREFIX_USERNAME,
-                PREFIX_PASSWORD, PREFIX_PATH_TO_PIC);
+                PREFIX_PASSWORD, PREFIX_NAME, PREFIX_PATH_TO_PIC);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_USERNAME, PREFIX_PASSWORD
-            , PREFIX_PATH_TO_PIC)
+            , PREFIX_NAME, PREFIX_PATH_TO_PIC)
             || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RegisterCommand.MESSAGE_USAGE));
         }
 
         String username = argMultimap.getValue(PREFIX_USERNAME).get();
         String password = argMultimap.getValue(PREFIX_PASSWORD).get();
+        String name = argMultimap.getValue(PREFIX_NAME).get();
+        String pathToPic = argMultimap.getValue(PREFIX_PATH_TO_PIC).get();
+
+        User newUser = new Student(username, name, Role.STUDENT, pathToPic);
 
         //TODO key to be replaced
         Credential credential = new Credential(username, password, password);
 
-        return new RegisterCommand(credential);
+        return new RegisterCommand(credential, newUser);
     }
 
     /**

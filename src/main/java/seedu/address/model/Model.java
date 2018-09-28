@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.model.credential.Credential;
 import seedu.address.model.person.Person;
+import seedu.address.model.user.User;
 
 /**
  * The API of the Model component.
@@ -88,4 +89,6 @@ public interface Model {
      * the credential store.
      */
     boolean hasCredential(Credential credential);
+
+    void setCurrentUser(User user);
 }

@@ -17,6 +17,7 @@ import seedu.address.model.credential.Credential;
 import seedu.address.model.credential.CredentialStore;
 import seedu.address.model.credential.ReadOnlyCredentialStore;
 import seedu.address.model.person.Person;
+import seedu.address.model.user.User;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -27,6 +28,7 @@ public class ModelManager extends ComponentManager implements Model {
     private final VersionedAddressBook versionedAddressBook;
     private final FilteredList<Person> filteredPersons;
     private final CredentialStore credentialStore;
+    private static User currentUser = null;
     //private final ModuleList
     //private final User
 
@@ -175,5 +177,15 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public boolean hasCredential(Credential credential){
         return credentialStore.hasCredential(credential);
+    }
+
+    //============= User Account Management Methods ============================
+
+    @Override
+    public void setCurrentUser(User user){
+        requireNonNull(user);
+
+        currentUser = user;
+        System.out.println("this");
     }
 }
