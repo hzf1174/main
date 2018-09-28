@@ -5,6 +5,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_USERNAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PASSWORD;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PATH_TO_PIC;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_ENROLLMENT_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_MAJOR;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_MINOR;
 
 
 import seedu.address.logic.CommandHistory;
@@ -26,7 +29,12 @@ public class RegisterCommand extends Command{
         + PREFIX_USERNAME + "USERNAME "
         + PREFIX_PASSWORD + "PASSWORD "
         + PREFIX_NAME + "NAME "
-        + PREFIX_PATH_TO_PIC + "PATH ";
+        + PREFIX_PATH_TO_PIC + "PATH "
+        + PREFIX_STUDENT_ENROLLMENT_DATE + "DD/MM/YY "
+        + PREFIX_STUDENT_MAJOR + "MAJORCODE_1 " + PREFIX_STUDENT_MAJOR +
+        "MAJORCODE_2 "
+        + PREFIX_STUDENT_MINOR + "MINORCODE_1 " + PREFIX_STUDENT_MINOR +
+        "MINORCODE_2";
 
     public static final String MESSAGE_SUCCESS = "New Account created added: " +
         "%1$s\nCurrently Logged-in as: %1$s";

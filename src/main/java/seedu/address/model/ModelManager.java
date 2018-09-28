@@ -184,8 +184,6 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void setCurrentUser(User user){
         requireNonNull(user);
-
         currentUser = user;
-        System.out.println("this");
     }
 }
