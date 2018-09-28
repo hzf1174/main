@@ -13,6 +13,7 @@ public class UserPrefs {
 
     private GuiSettings guiSettings;
     private Path addressBookFilePath = Paths.get("data" , "addressbook.xml");
+    private Path moduleFilePath = Paths.get("data", "modules.xml");
 
     public UserPrefs() {
         setGuiSettings(500, 500, 0, 0);
@@ -38,6 +39,14 @@ public class UserPrefs {
         this.addressBookFilePath = addressBookFilePath;
     }
 
+    public Path getModuleFilePath() {
+        return moduleFilePath;
+    }
+
+    public void setModuleFilePath(Path moduleFilePath) {
+        this.moduleFilePath = moduleFilePath;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -50,7 +59,8 @@ public class UserPrefs {
         UserPrefs o = (UserPrefs) other;
 
         return Objects.equals(guiSettings, o.guiSettings)
-                && Objects.equals(addressBookFilePath, o.addressBookFilePath);
+                && Objects.equals(addressBookFilePath, o.addressBookFilePath)
+                && Objects.equals(moduleFilePath, o.moduleFilePath);
     }
 
     @Override
