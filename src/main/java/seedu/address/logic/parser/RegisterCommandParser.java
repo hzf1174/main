@@ -3,6 +3,8 @@ package seedu.address.logic.parser;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.*;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.RegisterCommand;
@@ -25,7 +27,8 @@ public class RegisterCommandParser implements Parser<RegisterCommand> {
     public RegisterCommand parse(String userInput) throws ParseException {
         ArgumentMultimap argMultimap =
             ArgumentTokenizer.tokenize(userInput, PREFIX_USERNAME,
-                PREFIX_PASSWORD, PREFIX_NAME, PREFIX_PATH_TO_PIC);
+                PREFIX_PASSWORD, PREFIX_NAME, PREFIX_PATH_TO_PIC,
+                PREFIX_STUDENT_ENROLLMENT_DATE, PREFIX_STUDENT_MAJOR, PREFIX_STUDENT_MINOR);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_USERNAME, PREFIX_PASSWORD
             , PREFIX_NAME, PREFIX_PATH_TO_PIC)
@@ -37,8 +40,13 @@ public class RegisterCommandParser implements Parser<RegisterCommand> {
         String password = argMultimap.getValue(PREFIX_PASSWORD).get();
         String name = argMultimap.getValue(PREFIX_NAME).get();
         String pathToPic = argMultimap.getValue(PREFIX_PATH_TO_PIC).get();
+        String enrollmentDate =
+            argMultimap.getValue(PREFIX_STUDENT_ENROLLMENT_DATE).get();
+        List<String> majors = argMultimap.getAllValues(PREFIX_STUDENT_MAJOR);
+        List<String> minors = argMultimap.getAllValues(PREFIX_STUDENT_MINOR);
 
-        User newUser = new Student(username, name, Role.STUDENT, pathToPic);
+        User newUser = new Student(username, name, Role.STUDENT, pathToPic,
+            enrollmentDate, majors, minors);
 
         //TODO key to be replaced
         Credential credential = new Credential(username, password, password);

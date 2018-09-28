@@ -1,10 +1,16 @@
 package seedu.address.model.user;
 
+import java.util.List;
+
 /**
  * Represents a Student User.
  *
  */
 public class Student extends User {
+
+    private final String enrollmentDate;
+    private final List<String> major;
+    private final List<String> minor;
     /**
      * Constructor method of User
      *
@@ -14,8 +20,12 @@ public class Student extends User {
      * @param pathToProfilePic The path to the image to be used as profile picture.
      */
     public Student(String username, String name, Role role,
-                   String pathToProfilePic) {
+                   String pathToProfilePic, String enrollmentDate,
+                   List<String> major, List<String> minor) {
         super(username, name, role, pathToProfilePic);
+        this.enrollmentDate = enrollmentDate;
+        this.major = major;
+        this.minor = minor;
     }
 
     @Override
