@@ -8,14 +8,14 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.Module;
+import seedu.address.model.module.Module;
 import seedu.address.model.ModuleList;
 import seedu.address.model.ReadOnlyModuleList;
 
 /**
  * An Immutable ModuleList that is serializable to XML format
  */
-@XmlRootElement(name = "modulelist")
+@XmlRootElement(name = "ModuleList")
 public class XmlSerializableModuleList {
 
     @XmlElement

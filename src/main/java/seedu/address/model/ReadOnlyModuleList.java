@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.module.Module;
 
 /**
  * Unmodifiable view of a module list

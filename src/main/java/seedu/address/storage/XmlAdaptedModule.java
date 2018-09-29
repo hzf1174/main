@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlElement;
 
-import seedu.address.model.Module;
+import seedu.address.model.module.Module;
 
 /**
  * JAXB-friendly version of Module.
