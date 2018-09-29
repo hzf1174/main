@@ -11,25 +11,25 @@ import seedu.address.model.Model;
  */
 public class SaveCommand extends Command {
 
-  public static final String COMMAND_WORD = "save";
-  public static final String MESSAGE_SUCCESS = "Current module configuration has be saved!";
+    public static final String COMMAND_WORD = "save";
+    public static final String MESSAGE_SUCCESS = "Current module configuration has be saved!";
 
-  private final Config toSaveConfig;
+    private final Config toSaveConfig;
 
-  public SaveCommand(Config newConfig) {
-    requireNonNull(newConfig);
-    toSaveConfig = newConfig;
-  }
+    public SaveCommand(Config newConfig) {
+        requireNonNull(newConfig);
+        toSaveConfig = newConfig;
+    }
 
 
-  @Override
-  public CommandResult execute(Model model, CommandHistory history) {
-    requireNonNull(model);
-    System.out.println("execute 1");
-    model.saveConfigFile(toSaveConfig);
-    System.out.println("execute 2");
-    model.commitAddressBook();
-    System.out.println("execute 3");
-    return new CommandResult(MESSAGE_SUCCESS);
-  }
+    @Override
+    public CommandResult execute(Model model, CommandHistory history) {
+        requireNonNull(model);
+        System.out.println("execute 1");
+        model.saveConfigFile(toSaveConfig);
+        System.out.println("execute 2");
+        model.commitAddressBook();
+        System.out.println("execute 3");
+        return new CommandResult(MESSAGE_SUCCESS);
+    }
 }
