@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import seedu.address.model.module.Module;
 import seedu.address.model.ModuleList;
+import seedu.address.model.module.Module;
 
 /**
  * A utility class containing a list of {@code Module} objects to be used in tests.
@@ -27,6 +27,30 @@ public class TypicalModules {
                     + "students.").withCredit(4).withIsAvailableInSem1(true).withIsAvailableInSem2(true)
             .withisAvailableInSpecialTerm1(false).withisAvailableInSpecialTerm2(false).build();
 
+    public static final Module ACC1002 = new ModuleBuilder().withCode("ACC1002")
+            .withDepartment("Accounting").withTitle("Financial Accounting")
+            .withDescription("The course provides an introduction to financial accounting. It examines "
+                    + "accounting from an external user's perspective: an external user being an investor "
+                    + "or a creditor. Such users would need to understand financial accounting in order to "
+                    + "make investing or lending decisions. However, to attain a good understanding, it is "
+                    + "also necessary to be familiar with how the information is derived. Therefore, "
+                    + "students would learn how to prepare the reports or statements resulting from "
+                    + "financial accounting and how to use them for decision-making.")
+            .withCredit(4).withIsAvailableInSem1(true).withIsAvailableInSem2(false)
+            .withisAvailableInSpecialTerm1(false).withisAvailableInSpecialTerm2(false).build();
+
+    public static final Module ACC1002X = new ModuleBuilder().withCode("ACC1002X")
+            .withDepartment("Accounting").withTitle("Financial Accounting")
+            .withDescription("The course provides an introduction to financial accounting. It examines "
+                    + "accounting from an external user's perspective: an external user being an investor or "
+                    + "a creditor. Such users would need to understand financial accounting in order to "
+                    + "make investing or lending decisions. However, to attain a good understanding, it is"
+                    + " also necessary to be familiar with how the information are derived. Therefore, "
+                    + "students would learn how to prepare the reports or statements resulting from "
+                    + "financial accounting and how to use them for decision-making.")
+            .withCredit(4).withIsAvailableInSem1(false).withIsAvailableInSem2(false)
+            .withisAvailableInSpecialTerm1(false).withisAvailableInSpecialTerm2(false).build();
+
     private TypicalModules() {} // prevents instantiation
 
     /**
@@ -41,7 +65,7 @@ public class TypicalModules {
     }
 
     public static List<Module> getTypicalModules() {
-        return new ArrayList<>(Arrays.asList(CS1010));
+        return new ArrayList<>(Arrays.asList(ACC1002, ACC1002X));
     }
 
 }
