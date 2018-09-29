@@ -1,7 +1,7 @@
 package seedu.address.testutil;
 
-import seedu.address.model.module.Module;
 import seedu.address.model.ModuleList;
+import seedu.address.model.module.Module;
 
 /**
  * A utility class to help with building ModuleList objects.
@@ -12,9 +12,13 @@ public class ModuleListBuilder {
 
     private ModuleList moduleList;
 
-    public ModuleListBuilder() { moduleList = new ModuleList();}
+    public ModuleListBuilder() {
+        moduleList = new ModuleList();
+    }
 
-    public ModuleListBuilder(ModuleList moduleList) { this.moduleList = moduleList; }
+    public ModuleListBuilder(ModuleList moduleList) {
+        this.moduleList = moduleList;
+    }
 
     /**
      * Adds a new {@code Module} to the {@code ModuleList} that we are building.
@@ -24,5 +28,7 @@ public class ModuleListBuilder {
         return this;
     }
 
-    public ModuleList build() { return moduleList; }
+    public ModuleList build() {
+        return moduleList;
+    }
 }
