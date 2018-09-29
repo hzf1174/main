@@ -10,15 +10,14 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.commons.util.XmlUtil;
-import seedu.address.model.AddressBook;
 import seedu.address.model.ModuleList;
-import seedu.address.testutil.TypicalPersons;
+import seedu.address.testutil.TypicalModules;
 
 public class XmlSerializableModuleListTest {
 
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data",
             "XmlSerializableModuleListTest");
-    private static final Path TYPICAL_MODULES_FILE = TEST_DATA_FOLDER.resolve("typicalModulesList.xml");
+    private static final Path TYPICAL_MODULES_FILE = TEST_DATA_FOLDER.resolve("typicalModulesListSmall.xml");
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -28,7 +27,7 @@ public class XmlSerializableModuleListTest {
         XmlSerializableModuleList dataFromFile = XmlUtil.getDataFromFile(TYPICAL_MODULES_FILE,
                 XmlSerializableModuleList.class);
         ModuleList moduleListFromFile = dataFromFile.toModelType();
-        AddressBook typicalModulesList = TypicalPersons.getTypicalAddressBook();
+        ModuleList typicalModulesList = TypicalModules.getTypicalModuleList();
         assertEquals(moduleListFromFile, typicalModulesList);
     }
 
