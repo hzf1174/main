@@ -1,4 +1,6 @@
-package seedu.address.model;
+package seedu.address.model.module;
+
+import java.util.Objects;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
@@ -66,5 +68,74 @@ public class Module {
 
     public boolean isAvailableInSpecialTerm2() {
         return isAvailableInSpecialTerm2;
+    }
+
+    /**
+     * Returns true if both modules of the same code.
+     * This defines a weaker notion of equality between two modules.
+     */
+    public boolean isSameModule(Module otherModule) {
+        if (otherModule == this) {
+            return true;
+        }
+
+        return otherModule != null
+                && otherModule.getCode().equals(getCode());
+    }
+
+    /**
+     * Returns true if both modules have the same identity and data fields.
+     * This defines a stronger notion of equality between two modules.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof Module)) {
+            return false;
+        }
+
+        Module otherModule = (Module) other;
+        return otherModule.getCode().equals(getCode())
+                && otherModule.getDepartment().equals(getDepartment())
+                && otherModule.getTitle().equals(getTitle())
+                && otherModule.getDescription().equals(getDescription())
+                && otherModule.getCredit() == getCredit()
+                && otherModule.isAvailableInSem1 == isAvailableInSem1
+                && otherModule.isAvailableInSem2 == isAvailableInSem2
+                && otherModule.isAvailableInSpecialTerm1 == isAvailableInSpecialTerm1
+                && otherModule.isAvailableInSpecialTerm2 == isAvailableInSpecialTerm2;
+    }
+
+    @Override
+    public int hashCode() {
+        // use this method for custom fields hashing instead of implementing your own
+        return Objects.hash(code, department, title, description, credit, isAvailableInSem1,
+                isAvailableInSem2, isAvailableInSpecialTerm1, isAvailableInSpecialTerm2);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(getCode())
+                .append(" Department: ")
+                .append(getDepartment())
+                .append(" Title: ")
+                .append(getTitle())
+                .append(" Description: ")
+                .append(getDescription())
+                .append(" Credit: ")
+                .append(getCredit())
+                .append(" Is Available in Sem 1: ")
+                .append(isAvailableInSem1)
+                .append(" Is Available in Sem 2: ")
+                .append(isAvailableInSem1)
+                .append(" Is Available in Special Term 1: ")
+                .append(isAvailableInSpecialTerm1)
+                .append(" Is Available in Special Term 2: ")
+                .append(isAvailableInSpecialTerm2);
+        return builder.toString();
     }
 }
