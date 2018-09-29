@@ -23,15 +23,20 @@ import seedu.address.logic.LogicManager;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
+import seedu.address.model.ModuleList;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyModuleList;
 import seedu.address.model.UserPrefs;
+
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.AddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
+import seedu.address.storage.ModuleListStorage;
 import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.storage.XmlAddressBookStorage;
+import seedu.address.storage.XmlModuleListStorage;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
 
@@ -63,7 +68,8 @@ public class MainApp extends Application {
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         userPrefs = initPrefs(userPrefsStorage);
         AddressBookStorage addressBookStorage = new XmlAddressBookStorage(userPrefs.getAddressBookFilePath());
-        storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        ModuleListStorage moduleListStorage = new XmlModuleListStorage(userPrefs.getModuleFilePath());
+        storage = new StorageManager(moduleListStorage, addressBookStorage, userPrefsStorage);
 
         initLogging(config);
 
@@ -82,9 +88,18 @@ public class MainApp extends Application {
      * or an empty address book will be used instead if errors occur when reading {@code storage}'s address book.
      */
     private Model initModelManager(Storage storage, UserPrefs userPrefs) {
+        Optional<ReadOnlyModuleList> moduleListOptional;
         Optional<ReadOnlyAddressBook> addressBookOptional;
         ReadOnlyAddressBook initialData;
+        ReadOnlyModuleList initialModuleListData;
         try {
+            moduleListOptional = storage.readModuleList();
+            if (!moduleListOptional.isPresent()) {
+                logger.info("Module List data file not found. Will be starting with a sample module list "
+                        + "data");
+            }
+            initialModuleListData = moduleListOptional.orElseGet(SampleDataUtil::getSampleModuleList);
+
             addressBookOptional = storage.readAddressBook();
             if (!addressBookOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample AddressBook");
@@ -93,12 +108,14 @@ public class MainApp extends Application {
         } catch (DataConversionException e) {
             logger.warning("Data file not in the correct format. Will be starting with an empty AddressBook");
             initialData = new AddressBook();
+            initialModuleListData = new ModuleList();
         } catch (IOException e) {
             logger.warning("Problem while reading from the file. Will be starting with an empty AddressBook");
             initialData = new AddressBook();
+            initialModuleListData = new ModuleList();
         }
 
-        return new ModelManager(initialData, userPrefs);
+        return new ModelManager(initialModuleListData, initialData, userPrefs);
     }
 
     private void initLogging(Config config) {
