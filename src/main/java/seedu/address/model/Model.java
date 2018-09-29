@@ -75,4 +75,9 @@ public interface Model {
      * Saves the current address book state for undo/redo.
      */
     void commitAddressBook();
+
+    /**
+     * Saves the current configuration.
+     */
+    void saveConfigFile(Config c);
 }

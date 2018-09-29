@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.ConfigStoreChangedEvent;
 import seedu.address.model.person.Person;
 
 /**
@@ -22,11 +23,12 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final VersionedAddressBook versionedAddressBook;
     private final FilteredList<Person> filteredPersons;
+    private final ConfigStore configStore;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs) {
+    public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs, ConfigStore configStore) {
         super();
         requireAllNonNull(addressBook, userPrefs);
 
@@ -34,10 +36,11 @@ public class ModelManager extends ComponentManager implements Model {
 
         versionedAddressBook = new VersionedAddressBook(addressBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
+        this.configStore = configStore;
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs());
+        this(new AddressBook(), new UserPrefs(), new ConfigStore());
     }
 
     @Override
@@ -127,6 +130,18 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void commitAddressBook() {
         versionedAddressBook.commit();
+    }
+
+    //=========== Save Config file ==========================================================================
+    @Override
+    public void saveConfigFile(Config c) {
+        configStore.addConfigData(c);
+        triggerFileSaveConfig();
+    }
+
+    /** Raises an event to trigger the save */
+    private void triggerFileSaveConfig() {
+        raise(new ConfigStoreChangedEvent(configStore));
     }
 
     @Override

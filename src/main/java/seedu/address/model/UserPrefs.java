@@ -13,6 +13,7 @@ public class UserPrefs {
 
     private GuiSettings guiSettings;
     private Path addressBookFilePath = Paths.get("data" , "addressbook.xml");
+    private Path userConfigFilePath = Paths.get("data" , "userconfig.xml");
 
     public UserPrefs() {
         setGuiSettings(500, 500, 0, 0);
@@ -28,6 +29,13 @@ public class UserPrefs {
 
     public void setGuiSettings(double width, double height, int x, int y) {
         guiSettings = new GuiSettings(width, height, x, y);
+    }
+
+    public Path getUserConfigFilePath() {
+        return userConfigFilePath;
+    }
+    public void setUserConfigFilePath(Path userConfigFilePath) {
+        this.userConfigFilePath = userConfigFilePath;
     }
 
     public Path getAddressBookFilePath() {
