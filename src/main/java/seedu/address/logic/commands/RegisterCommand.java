@@ -19,7 +19,7 @@ import seedu.address.model.user.User;
 
 
 /**
- * Adds a new Student to the local database.
+ * Adds a new Credential to the Credential Store.
  */
 public class RegisterCommand extends Command{
 
@@ -45,7 +45,7 @@ public class RegisterCommand extends Command{
     private final User user;
 
     /**
-     * Creates an AddCommand to add the specified {@code Person}
+     * Creates an RegisterCommand to add the specified {@code Credential}
      */
     public RegisterCommand(Credential newCredential, User newUser) {
         requireAllNonNull(newCredential, newUser);

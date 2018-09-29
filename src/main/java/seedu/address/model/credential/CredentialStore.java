@@ -14,18 +14,26 @@ import java.util.Map;
  */
 public class CredentialStore implements ReadOnlyCredentialStore {
 
-    private final HashMap<String, String> userCredentials = new HashMap<>();
+    private final HashMap<String, String> credentialStore = new HashMap<>();
     private final HashMap<String, String> keyMap = new HashMap<>();
 
     public CredentialStore() {}
 
+    /**
+     * Returns true if a credential with the same parameters as {@code
+     * credential} exists in the credential store.
+     */
     public boolean hasCredential(Credential credential) {
         requireNonNull(credential);
-        return userCredentials.containsKey(credential.getUsername());
+        return credentialStore.containsKey(credential.getUsername());
     }
 
+    /**
+     * Adds a credential to the credential store.
+     * The person must not already exist in the credential store.
+     */
     public void addCredential(Credential credential) {
-        userCredentials.put(credential.getUsername(),
+        credentialStore.put(credential.getUsername(),
             credential.getPassword());
         keyMap.put(credential.getUsername(), credential.getKey());
     }
@@ -33,7 +41,7 @@ public class CredentialStore implements ReadOnlyCredentialStore {
     @Override
     public List<Credential> getCredentials() {
         List<Credential> credentials = new ArrayList<>();
-        for (Map.Entry<String, String> entry : userCredentials.entrySet()) {
+        for (Map.Entry<String, String> entry : credentialStore.entrySet()) {
             Credential account = new Credential(entry.getKey(),
                 entry.getValue(), keyMap.get(entry.getKey()));
             credentials.add(account);
@@ -55,7 +63,7 @@ public class CredentialStore implements ReadOnlyCredentialStore {
 
         // state check
         CredentialStore other = (CredentialStore) obj;
-        return userCredentials.equals(other.userCredentials)
+        return credentialStore.equals(other.credentialStore)
             && keyMap.equals(other.keyMap);
     }
 }

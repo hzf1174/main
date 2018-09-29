@@ -3,6 +3,12 @@ package seedu.address.testutil;
 import seedu.address.model.credential.Credential;
 import seedu.address.model.credential.CredentialStore;
 
+/**
+ * A utility class to help with building CredentialStore objects.
+ * Example usage: <br>
+ *     {@code CredentialStore cs = new CredentialStoreBuilder()
+ *     .withCredential(newCredential).build();}
+ */
 public class CredentialStoreBuilder {
 
     private CredentialStore credentialStore;

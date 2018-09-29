@@ -17,6 +17,10 @@ import seedu.address.model.credential.Credential;
 import seedu.address.model.user.User;
 import seedu.address.testutil.StudentBuilder;
 
+/**
+ * Contains integration tests (interaction with the Model) for {@code
+ * RegisterCommand}.
+ */
 public class RegisterCommandIntegrationTest {
 
     private static Model model;

@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface ReadOnlyCredentialStore {
     /**
-     * Returns an unmodifiable view of the persons list.
-     * This list will not contain any duplicate persons.
+     * Returns an list of credentials.
+     * This list will not contain any duplicate credentials.
      */
     List<Credential> getCredentials();
 }

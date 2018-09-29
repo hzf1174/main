@@ -2,12 +2,15 @@ package seedu.address.testutil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import seedu.address.model.credential.Credential;
 import seedu.address.model.credential.CredentialStore;
 
+/**
+ * A utility class containing a list of {@code Credential} objects to be used
+ * in tests.
+ */
 public class TypicalCredentials {
 
     public static final Credential CREDENTIAL_STUDENT_MAX =
@@ -28,7 +31,7 @@ public class TypicalCredentials {
     private TypicalCredentials(){}
 
     /**
-     * Returns an {@code CredentialStore} with all the typical credentials.
+     * Returns a {@code CredentialStore} with all the typical credentials.
      */
     public static CredentialStore getTypicalCredentialStore() {
         CredentialStore cs = new CredentialStore();

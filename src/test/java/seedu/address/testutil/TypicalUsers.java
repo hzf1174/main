@@ -21,6 +21,9 @@ public class TypicalUsers {
 
     private TypicalUsers(){}
 
+    /**
+     * Returns a {@code List<User>} with all the typical users.
+     */
     public List<User> getTypicalUsers(){
         return new ArrayList<>(Arrays.asList(STUDENT_MAX, STUDENT_SEB));
     }
