@@ -14,8 +14,8 @@ import seedu.address.commons.events.model.CredentialStoreChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.credential.ReadOnlyCredentialStore;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.credential.ReadOnlyCredentialStore;
 
 /**
  * Manages storage of AddressBook data in local storage.
@@ -109,7 +109,8 @@ public class StorageManager extends ComponentManager implements Storage {
     }
 
     @Override
-    public Optional<ReadOnlyCredentialStore> readCredentialStore(Path filePath) throws DataConversionException, IOException {
+    public Optional<ReadOnlyCredentialStore> readCredentialStore(Path filePath)
+        throws DataConversionException, IOException {
         logger.fine("Attempting to read data from file: " + filePath);
         return credentialStoreStorage.readCredentialStore();
     }
@@ -130,8 +131,8 @@ public class StorageManager extends ComponentManager implements Storage {
     @Override
     @Subscribe
     public void handleCredentialStoreChangedEvent(CredentialStoreChangedEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Credential " +
-            "Store changed. Saving to file"));
+        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Credential "
+            + "Store changed. Saving to file"));
         try {
             saveCredentialStore(event.data);
         } catch (IOException e) {

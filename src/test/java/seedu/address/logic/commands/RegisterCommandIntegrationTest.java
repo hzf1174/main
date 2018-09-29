@@ -30,10 +30,11 @@ public class RegisterCommandIntegrationTest {
     public void setUp() {
         model = new ModelManager(new AddressBook(), new UserPrefs(),
             getTypicalCredentialStore());
+        model.setCurrentUser(new StudentBuilder().build());
     }
 
     @Test
-    public void execute_newCredential_success() {
+    public void executeNewCredentialSuccess() {
         Credential validCredential = new Credential("u", "p", "k");
         User dummyUser = new StudentBuilder().build();
 
@@ -48,7 +49,7 @@ public class RegisterCommandIntegrationTest {
     }
 
     @Test
-    public void execute_duplicateCredential_throwsCommandException() {
+    public void executeDuplicateCredentialThrowsCommandException() {
         assertCommandFailure(new RegisterCommand(CREDENTIAL_STUDENT_MAX, model.getCurrentUser()),
             model,
             commandHistory,

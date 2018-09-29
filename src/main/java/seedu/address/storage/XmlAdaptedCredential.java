@@ -12,8 +12,8 @@ import seedu.address.model.credential.Credential;
  */
 public class XmlAdaptedCredential {
 
-    public static final String MISSING_FIELD_MESSAGE_FORMAT = "Credential's " +
-        "%s field is missing!";
+    public static final String MISSING_FIELD_MESSAGE_FORMAT = "Credential's "
+        + "%s field is missing!";
 
     @XmlElement(required = true)
     private String username;

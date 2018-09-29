@@ -8,9 +8,9 @@ import java.util.List;
  */
 public class Student extends User {
 
-    private final String enrollmentDate;
-    private final List<String> major;
-    private final List<String> minor;
+    protected String enrollmentDate;
+    protected List<String> major;
+    protected List<String> minor;
     /**
      * Constructor method of User
      *
@@ -29,11 +29,6 @@ public class Student extends User {
     }
 
     @Override
-    public void updatePassword(String newPassword) {
-        //TODO
-    }
-
-    @Override
     public void updateName(String newName) {
         //TODO
     }
@@ -45,6 +40,18 @@ public class Student extends User {
 
     @Override
     public void deleteUser(User userToDelete) {
+        //TODO
+    }
 
+    public void updateEnrollmentDate(String enrollmentDate) {
+        this.enrollmentDate = enrollmentDate;
+    }
+
+    public void updateMajors(List<String> newMajors) {
+        this.major = newMajors;
+    }
+
+    public void updateMinors(List<String> newMinors) {
+        this.minor = newMinors;
     }
 }

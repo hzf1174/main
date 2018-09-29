@@ -18,7 +18,8 @@ public class RedoCommandTest {
 
     private final Model model = new ModelManager(getTypicalAddressBook(),
         new UserPrefs() , new CredentialStore());
-    private final Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new CredentialStore());
+    private final Model expectedModel = new ModelManager(getTypicalAddressBook(),
+        new UserPrefs(), new CredentialStore());
     private final CommandHistory commandHistory = new CommandHistory();
 
     @Before

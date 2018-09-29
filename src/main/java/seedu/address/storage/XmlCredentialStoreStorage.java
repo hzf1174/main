@@ -12,17 +12,19 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
-import seedu.address.model.credential.CredentialStore;
 import seedu.address.model.credential.ReadOnlyCredentialStore;
 
-
+/**
+ * A class to access CredentialStore data stored as an xml file on the hard
+ * disk.
+ */
 public class XmlCredentialStoreStorage implements CredentialStoreStorage {
 
     private static final Logger logger = LogsCenter.getLogger(XmlCredentialStoreStorage.class);
 
     private Path filePath;
 
-    public XmlCredentialStoreStorage(Path filePath){
+    public XmlCredentialStoreStorage(Path filePath) {
         this.filePath = filePath;
     }
 
@@ -37,7 +39,14 @@ public class XmlCredentialStoreStorage implements CredentialStoreStorage {
         return readCredentialStore(filePath);
     }
 
-    public Optional<ReadOnlyCredentialStore> readCredentialStore(Path filePath) throws DataConversionException, IOException {
+    /**
+     * Similar to {@link #readCredentialStore()}
+     *
+     * @param filePath location of the data. Cannot be null
+     * @throws DataConversionException if the file is not in the correct format.
+     */
+    public Optional<ReadOnlyCredentialStore> readCredentialStore(Path filePath)
+        throws DataConversionException, IOException {
         requireNonNull(filePath);
 
         if (!Files.exists(filePath)) {
@@ -62,7 +71,7 @@ public class XmlCredentialStoreStorage implements CredentialStoreStorage {
 
     @Override
     public void saveCredentialStore(ReadOnlyCredentialStore credentialStore,
-                               Path filePath) throws IOException {
+                                    Path filePath) throws IOException {
         requireNonNull(credentialStore);
         requireNonNull(filePath);
 

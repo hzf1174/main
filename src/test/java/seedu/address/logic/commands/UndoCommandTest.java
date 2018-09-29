@@ -16,8 +16,10 @@ import seedu.address.model.credential.CredentialStore;
 
 public class UndoCommandTest {
 
-    private final Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new CredentialStore());
-    private final Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new CredentialStore());
+    private final Model model = new ModelManager(getTypicalAddressBook(),
+        new UserPrefs(), new CredentialStore());
+    private final Model expectedModel = new ModelManager(getTypicalAddressBook(),
+        new UserPrefs(), new CredentialStore());
     private final CommandHistory commandHistory = new CommandHistory();
 
     @Before

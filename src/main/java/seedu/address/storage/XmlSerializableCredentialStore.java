@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.credential.ReadOnlyCredentialStore;
-import seedu.address.model.credential.CredentialStore;
 import seedu.address.model.credential.Credential;
+import seedu.address.model.credential.CredentialStore;
+import seedu.address.model.credential.ReadOnlyCredentialStore;
 
 
 /**
@@ -19,8 +19,8 @@ import seedu.address.model.credential.Credential;
 @XmlRootElement(name = "credentialstore")
 public class XmlSerializableCredentialStore {
 
-    public static final String MESSAGE_DUPLICATE_PERSON = "Credential Store " +
-        "contains duplicate user(s).";
+    public static final String MESSAGE_DUPLICATE_PERSON = "Credential Store "
+        + "contains duplicate user(s).";
 
     @XmlElement
     private List<XmlAdaptedCredential> credentials;
@@ -35,11 +35,13 @@ public class XmlSerializableCredentialStore {
 
     /**
      * Conversion
-     * @param src
      */
     public XmlSerializableCredentialStore(ReadOnlyCredentialStore src) {
         this();
-        credentials.addAll(src.getCredentials().stream().map(XmlAdaptedCredential::new).collect(Collectors.toList()));
+        credentials.addAll(src.getCredentials()
+            .stream()
+            .map(XmlAdaptedCredential::new)
+            .collect(Collectors.toList()));
     }
 
     /**
@@ -47,7 +49,7 @@ public class XmlSerializableCredentialStore {
      * object.
      *
      * @throws IllegalValueException if there were any data constraints violated or duplicates in the
-     * {@code XmlAdaptedUserCredentials}.
+     *                               {@code XmlAdaptedUserCredentials}.
      */
     public CredentialStore toModelType() throws IllegalValueException {
         CredentialStore credentialStore = new CredentialStore();

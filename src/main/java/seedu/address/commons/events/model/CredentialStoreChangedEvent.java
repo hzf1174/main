@@ -4,7 +4,7 @@ import seedu.address.commons.events.BaseEvent;
 import seedu.address.model.credential.ReadOnlyCredentialStore;
 
 /** Indicates the CredentialStore in the model has changed*/
-public class CredentialStoreChangedEvent extends BaseEvent{
+public class CredentialStoreChangedEvent extends BaseEvent {
 
     public final ReadOnlyCredentialStore data;
 

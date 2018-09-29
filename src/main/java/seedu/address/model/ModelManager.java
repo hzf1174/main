@@ -25,10 +25,10 @@ import seedu.address.model.user.User;
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
+    private static User currentUser = null;
     private final VersionedAddressBook versionedAddressBook;
     private final FilteredList<Person> filteredPersons;
     private final CredentialStore credentialStore;
-    private static User currentUser = null;
     //private final ModuleList
     //private final User
 
@@ -39,7 +39,7 @@ public class ModelManager extends ComponentManager implements Model {
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
     public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs,
-     ReadOnlyCredentialStore credentialStore ) {
+                        ReadOnlyCredentialStore credentialStore) {
         super();
         requireAllNonNull(addressBook, userPrefs, credentialStore);
 
@@ -65,7 +65,9 @@ public class ModelManager extends ComponentManager implements Model {
         return versionedAddressBook;
     }
 
-    /** Raises an event to indicate the model has changed */
+    /**
+     * Raises an event to indicate the model has changed
+     */
     private void indicateAddressBookChanged() {
         raise(new AddressBookChangedEvent(versionedAddressBook));
     }
@@ -158,37 +160,39 @@ public class ModelManager extends ComponentManager implements Model {
         // state check
         ModelManager other = (ModelManager) obj;
         return versionedAddressBook.equals(other.versionedAddressBook)
-                && filteredPersons.equals(other.filteredPersons)
-                && credentialStore.equals(other.credentialStore);
+            && filteredPersons.equals(other.filteredPersons)
+            && credentialStore.equals(other.credentialStore);
     }
 
     //============ Credential Store Methods ====================================
 
-    /** Raise an event indicating that credential store has change*/
+    /**
+     * Raise an event indicating that credential store has change
+     */
     private void indicateCredentialStoreChanged() {
         raise(new CredentialStoreChangedEvent(credentialStore));
     }
 
     @Override
-    public void addCredential(Credential credential){
+    public void addCredential(Credential credential) {
         credentialStore.addCredential(credential);
         indicateCredentialStoreChanged();
     }
 
     @Override
-    public boolean hasCredential(Credential credential){
+    public boolean hasCredential(Credential credential) {
         return credentialStore.hasCredential(credential);
     }
 
     @Override
-    public ReadOnlyCredentialStore getCredentialStore(){
+    public ReadOnlyCredentialStore getCredentialStore() {
         return credentialStore;
     }
 
     //============= User Account Management Methods ============================
 
     @Override
-    public void setCurrentUser(User user){
+    public void setCurrentUser(User user) {
         requireNonNull(user);
         currentUser = user;
     }

@@ -4,6 +4,11 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Objects;
 
+/**
+ * Represents a Credential in the credential store.
+ * Guarantees: details are present and not null, no duplicates in credential
+ * store.
+ */
 public class Credential {
 
     // Identity Field
@@ -31,7 +36,9 @@ public class Credential {
         return password;
     }
 
-    public String getKey() { return key; }
+    public String getKey() {
+        return key;
+    }
 
     /**
      * Returns true if both persons of the same name have at least one other identity field that is the same.

@@ -28,7 +28,8 @@ public class TypicalCredentials {
             .withKey("randomKeySebestian5")
             .build();
 
-    private TypicalCredentials(){}
+    private TypicalCredentials() {
+    }
 
     /**
      * Returns a {@code CredentialStore} with all the typical credentials.
@@ -41,7 +42,7 @@ public class TypicalCredentials {
         return cs;
     }
 
-    private static List<Credential> getTypicalCredentials(){
+    private static List<Credential> getTypicalCredentials() {
         return new ArrayList<>(Arrays.asList(CREDENTIAL_STUDENT_MAX, CREDENTIAL_STUDENT_SEB));
     }
 }

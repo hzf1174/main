@@ -7,6 +7,10 @@ import java.util.List;
 import seedu.address.model.user.Student;
 import seedu.address.model.user.User;
 
+/**
+ * A utility class containing a list of {@code User} objects to be used in
+ * tests.
+ */
 public class TypicalUsers {
 
     public static final Student STUDENT_MAX = new StudentBuilder().build();
@@ -15,16 +19,17 @@ public class TypicalUsers {
         .withUsername("vettel5")
         .withProfilePicFilePath("ferrari")
         .withEnrollmentDate("17/06/2007")
-        .withMajor(Arrays.asList("CS","BA"))
-        .withMinor(Arrays.asList("IS","MA")).build();
+        .withMajor(Arrays.asList("CS", "BA"))
+        .withMinor(Arrays.asList("IS", "MA")).build();
     // private static final User ADMIN_TOTO = new AdminBuilder().build();
 
-    private TypicalUsers(){}
+    private TypicalUsers() {
+    }
 
     /**
      * Returns a {@code List<User>} with all the typical users.
      */
-    public List<User> getTypicalUsers(){
+    public List<User> getTypicalUsers() {
         return new ArrayList<>(Arrays.asList(STUDENT_MAX, STUDENT_SEB));
     }
 }

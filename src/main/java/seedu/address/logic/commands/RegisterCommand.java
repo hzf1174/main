@@ -2,14 +2,13 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_USERNAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PASSWORD;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PASSWORD;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PATH_TO_PIC;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_ENROLLMENT_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_MAJOR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_MINOR;
-
+import static seedu.address.logic.parser.CliSyntax.PREFIX_USERNAME;
 
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -21,7 +20,7 @@ import seedu.address.model.user.User;
 /**
  * Adds a new Credential to the Credential Store.
  */
-public class RegisterCommand extends Command{
+public class RegisterCommand extends Command {
 
     public static final String COMMAND_WORD = "register";
 
@@ -32,13 +31,13 @@ public class RegisterCommand extends Command{
         + PREFIX_NAME + "NAME "
         + PREFIX_PATH_TO_PIC + "PATH "
         + PREFIX_STUDENT_ENROLLMENT_DATE + "DD/MM/YY "
-        + PREFIX_STUDENT_MAJOR + "MAJORCODE_1 " + PREFIX_STUDENT_MAJOR +
-        "MAJORCODE_2 "
-        + PREFIX_STUDENT_MINOR + "MINORCODE_1 " + PREFIX_STUDENT_MINOR +
-        "MINORCODE_2";
+        + PREFIX_STUDENT_MAJOR + "MAJORCODE_1 "
+        + PREFIX_STUDENT_MAJOR + "MAJORCODE_2 "
+        + PREFIX_STUDENT_MINOR + "MINORCODE_1 "
+        + PREFIX_STUDENT_MINOR + "MINORCODE_2";
 
-    public static final String MESSAGE_SUCCESS = "New Account created added: " +
-        "%1$s";
+    public static final String MESSAGE_SUCCESS = "New Account created added: "
+        + "%1$s";
     public static final String MESSAGE_DUPLICATE_USERNAME = "This username already exists in the database";
 
     private final Credential toRegister;

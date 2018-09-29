@@ -12,8 +12,8 @@ public abstract class User {
     /**
      * Constructor method of User
      *
-     * @param name The name of the user.
-     * @param role The role of the user.
+     * @param name             The name of the user.
+     * @param role             The role of the user.
      * @param pathToProfilePic The path to the image to be used as profile picture.
      */
     public User(String username, String name, Role role,
@@ -23,10 +23,14 @@ public abstract class User {
         this.role = role;
         this.pathToProfilePic = pathToProfilePic;
     }
-    public abstract void updatePassword (String newPassword);
-    public abstract void updateName (String newName);
-    public abstract void updateProfilePic (String newPath);
+
+    public abstract void updateName(String newName);
+
+    public abstract void updateProfilePic(String newPath);
+
     public abstract void deleteUser(User userToDelete);
 
-    public String getUsername() { return this.username; }
+    public String getUsername() {
+        return this.username;
+    }
 }

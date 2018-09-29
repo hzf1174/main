@@ -12,28 +12,23 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import seedu.address.logic.CommandHistory;
 import seedu.address.model.credential.Credential;
 import seedu.address.model.user.User;
 import seedu.address.testutil.CredentialBuilder;
 
 public class RegisterCommandTest {
 
-    private static final CommandHistory EMPTY_COMMAND_HISTORY = new CommandHistory();
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    private CommandHistory commandHistory = new CommandHistory();
-
     @Test
-    public void constructor_nullCredential_throwsNullPointerException() {
+    public void constructorNullCredentialThrowsNullPointerException() {
         thrown.expect(NullPointerException.class);
         new RegisterCommand(null, STUDENT_MAX);
     }
 
     @Test
-    public void constructor_nullUser_throwsNullPointerException() {
+    public void constructorNullUserThrowsNullPointerException() {
         thrown.expect(NullPointerException.class);
         new RegisterCommand(new CredentialBuilder().build(), null);
     }

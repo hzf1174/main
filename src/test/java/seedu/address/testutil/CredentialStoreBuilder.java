@@ -6,14 +6,14 @@ import seedu.address.model.credential.CredentialStore;
 /**
  * A utility class to help with building CredentialStore objects.
  * Example usage: <br>
- *     {@code CredentialStore cs = new CredentialStoreBuilder()
- *     .withCredential(newCredential).build();}
+ * {@code CredentialStore cs = new CredentialStoreBuilder()
+ * .withCredential(newCredential).build();}
  */
 public class CredentialStoreBuilder {
 
     private CredentialStore credentialStore;
 
-    public CredentialStoreBuilder(){
+    public CredentialStoreBuilder() {
         credentialStore = new CredentialStore();
     }
 

@@ -2,7 +2,6 @@ package seedu.address.model.credential;
 
 import static java.util.Objects.requireNonNull;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,8 +15,6 @@ public class CredentialStore implements ReadOnlyCredentialStore {
 
     private final HashMap<String, String> credentialStore = new HashMap<>();
     private final HashMap<String, String> keyMap = new HashMap<>();
-
-    public CredentialStore() {}
 
     /**
      * Returns true if a credential with the same parameters as {@code

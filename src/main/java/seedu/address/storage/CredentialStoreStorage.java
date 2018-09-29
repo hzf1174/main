@@ -19,9 +19,10 @@ public interface CredentialStoreStorage {
 
     /**
      * Returns CredentialStore data as a {@link CredentialStore}.
-     *   Returns {@code Optional.empty()} if storage file is not found.
+     * Returns {@code Optional.empty()} if storage file is not found.
+     *
      * @throws DataConversionException if the data in storage is not in the expected format.
-     * @throws IOException if there was any problem when reading from the storage.
+     * @throws IOException             if there was any problem when reading from the storage.
      */
     Optional<ReadOnlyCredentialStore> readCredentialStore() throws DataConversionException,
         IOException;
@@ -29,11 +30,12 @@ public interface CredentialStoreStorage {
     /**
      * @see #getCredentialStoreFilePath()
      */
-    Optional<ReadOnlyCredentialStore> readCredentialStore(Path filePath) throws DataConversionException
-        , IOException;
+    Optional<ReadOnlyCredentialStore> readCredentialStore(Path filePath)
+        throws DataConversionException, IOException;
 
     /**
      * Saves the given {@link CredentialStore} to the storage.
+     *
      * @param credentialStore cannot be null.
      * @throws IOException if there was any problem writing to the file.
      */

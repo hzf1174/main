@@ -1,9 +1,14 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.*;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PASSWORD;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PATH_TO_PIC;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_ENROLLMENT_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_MAJOR;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_MINOR;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_USERNAME;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -22,6 +27,7 @@ public class RegisterCommandParser implements Parser<RegisterCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the
      * RegisterCommand and returns an RegisterCommand object for execution.
+     *
      * @throws ParseException if the user input does not conform the expected format
      */
     public RegisterCommand parse(String userInput) throws ParseException {
@@ -30,8 +36,8 @@ public class RegisterCommandParser implements Parser<RegisterCommand> {
                 PREFIX_PASSWORD, PREFIX_NAME, PREFIX_PATH_TO_PIC,
                 PREFIX_STUDENT_ENROLLMENT_DATE, PREFIX_STUDENT_MAJOR, PREFIX_STUDENT_MINOR);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_USERNAME, PREFIX_PASSWORD
-            , PREFIX_NAME, PREFIX_PATH_TO_PIC)
+        if (!arePrefixesPresent(argMultimap, PREFIX_USERNAME, PREFIX_PASSWORD,
+            PREFIX_NAME, PREFIX_PATH_TO_PIC)
             || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RegisterCommand.MESSAGE_USAGE));
         }
