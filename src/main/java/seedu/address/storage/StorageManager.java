@@ -13,6 +13,7 @@ import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyModuleList;
 import seedu.address.model.UserPrefs;
 
 /**
@@ -23,10 +24,13 @@ public class StorageManager extends ComponentManager implements Storage {
     private static final Logger logger = LogsCenter.getLogger(StorageManager.class);
     private AddressBookStorage addressBookStorage;
     private UserPrefsStorage userPrefsStorage;
+    private ModuleListStorage moduleListStorage;
 
 
-    public StorageManager(AddressBookStorage addressBookStorage, UserPrefsStorage userPrefsStorage) {
+    public StorageManager(ModuleListStorage moduleListStorage, AddressBookStorage addressBookStorage,
+                          UserPrefsStorage userPrefsStorage) {
         super();
+        this.moduleListStorage = moduleListStorage;
         this.addressBookStorage = addressBookStorage;
         this.userPrefsStorage = userPrefsStorage;
     }
@@ -48,6 +52,23 @@ public class StorageManager extends ComponentManager implements Storage {
         userPrefsStorage.saveUserPrefs(userPrefs);
     }
 
+    // ================ Module methods ==============================
+
+    @Override
+    public Path getModuleFilePath() {
+        return moduleListStorage.getModuleFilePath();
+    }
+
+    @Override
+    public Optional<ReadOnlyModuleList> readModuleList() throws DataConversionException, IOException {
+        return readModuleList(moduleListStorage.getModuleFilePath());
+    }
+
+    @Override
+    public Optional<ReadOnlyModuleList> readModuleList(Path filePath) throws DataConversionException, IOException {
+        logger.fine("Attempting to read data from file: " + filePath);
+        return moduleListStorage.readModuleList(filePath);
+    }
 
     // ================ AddressBook methods ==============================
 
