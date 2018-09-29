@@ -36,4 +36,17 @@ public class XmlFileStorage {
         }
     }
 
+    /**
+     * Returns module list in the file
+     */
+    public static XmlSerializableModuleList loadModuleListFromSaveFile(Path file) throws
+            DataConversionException,
+            FileNotFoundException {
+        try {
+            return XmlUtil.getDataFromFile(file, XmlSerializableModuleList.class);
+        } catch (JAXBException e) {
+            throw new DataConversionException(e);
+        }
+    }
+
 }
