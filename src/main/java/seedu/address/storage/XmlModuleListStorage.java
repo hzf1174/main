@@ -17,7 +17,6 @@ public class XmlModuleStorage implements ModuleStorage {
         this.filePath = filePath;
     }
 
-    @Override
     public Path getAddressBookFilePath() {
         return null;
     }
