@@ -18,6 +18,8 @@ import seedu.address.model.module.Module;
 @XmlRootElement(name = "ModuleList")
 public class XmlSerializableModuleList {
 
+    public static final String MESSAGE_DUPLICATE_MODULE = "Module list contains duplicate module(s).";
+
     @XmlElement
     private List<XmlAdaptedModule> modules;
 
@@ -47,6 +49,10 @@ public class XmlSerializableModuleList {
         ModuleList moduleList = new ModuleList();
         for (XmlAdaptedModule m : modules) {
             Module module = m.toModelType();
+            if (moduleList.hasModule(module)) {
+                throw new IllegalValueException(MESSAGE_DUPLICATE_MODULE);
+            }
+            moduleList.addModule(module);
         }
         return moduleList;
     }
