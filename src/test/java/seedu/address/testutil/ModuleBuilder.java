@@ -66,8 +66,8 @@ public class ModuleBuilder {
     /**
      * Sets the code of the {@code Module} that we are building.
      */
-    public ModuleBuilder withName(String name) {
-        this.code = name;
+    public ModuleBuilder withCode(String code) {
+        this.code = code;
         return this;
     }
 
