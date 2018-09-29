@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.commons.util.FileUtil;
 import seedu.address.model.ReadOnlyModuleList;
 
 
@@ -57,5 +58,23 @@ public class XmlModuleListStorage implements ModuleListStorage {
             logger.info("Illegal values found in " + filePath + ": " + ive.getMessage());
             throw new DataConversionException(ive);
         }
+    }
+
+    @Override
+    public void saveModuleList(ReadOnlyModuleList moduleList) throws IOException {
+        saveModuleList(moduleList, filePath);
+    }
+
+    /**
+     * Similar to {@link #saveModuleList(ReadOnlyModuleList, Path)}
+     * @param filePath location of the data. Cannot be null
+     */
+    @Override
+    public void saveModuleList(ReadOnlyModuleList moduleList, Path filePath) throws IOException {
+        requireNonNull(moduleList);
+        requireNonNull(filePath);
+
+        FileUtil.createIfMissing(filePath);
+        XmlFileStorage.saveDataToFile(filePath, new XmlSerializableModuleList(moduleList));
     }
 }

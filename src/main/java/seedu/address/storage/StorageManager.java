@@ -70,6 +70,17 @@ public class StorageManager extends ComponentManager implements Storage {
         return moduleListStorage.readModuleList(filePath);
     }
 
+    @Override
+    public void saveModuleList(ReadOnlyModuleList moduleList) throws IOException {
+        saveModuleList(moduleList, moduleListStorage.getModuleFilePath());
+    }
+
+    @Override
+    public void saveModuleList(ReadOnlyModuleList moduleList, Path filePath) throws IOException {
+        logger.fine("Attempting to write to data file: " + filePath);
+        moduleListStorage.saveModuleList(moduleList, filePath);
+    }
+
     // ================ AddressBook methods ==============================
 
     @Override

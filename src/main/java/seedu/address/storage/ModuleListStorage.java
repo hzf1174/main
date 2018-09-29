@@ -30,4 +30,16 @@ public interface ModuleListStorage {
      */
     Optional<ReadOnlyModuleList> readModuleList(Path filePath) throws DataConversionException, IOException;
 
+    /**
+     * Saves the given {@link ReadOnlyModuleList} to the storage.
+     * @param moduleList cannot be null.
+     * @throws IOException if there was any problem writing to the file.
+     */
+    void saveModuleList(ReadOnlyModuleList moduleList) throws IOException;
+
+    /**
+     * @see #saveModuleList(ReadOnlyModuleList, Path)
+     */
+    void saveModuleList(ReadOnlyModuleList moduleList, Path filePath) throws IOException;
+
 }
