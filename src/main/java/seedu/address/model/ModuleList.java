@@ -98,7 +98,9 @@ public class ModuleList implements ReadOnlyModuleList {
     }
 
     @Override
-    public ObservableList<Module> getModuleList() { return modules.asUnmodifiableObservableList(); }
+    public ObservableList<Module> getModuleList() {
+        return modules.asUnmodifiableObservableList();
+    }
 
     @Override
     public boolean equals(Object other) {

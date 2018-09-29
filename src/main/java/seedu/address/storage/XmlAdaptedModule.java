@@ -74,8 +74,8 @@ public class XmlAdaptedModule {
      * Converts this jaxb-friendly adapted module object into the model's Module object.
      */
     public Module toModelType() {
-       return new Module(code, department, title, description, credit, isAvailableInSem1, isAvailableInSem2,
-               isAvailableInSpecialTerm1, isAvailableInSpecialTerm2);
+        return new Module(code, department, title, description, credit, isAvailableInSem1, isAvailableInSem2,
+            isAvailableInSpecialTerm1, isAvailableInSpecialTerm2);
     }
 
     @Override

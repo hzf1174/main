@@ -1,9 +1,12 @@
 package seedu.address.model.module;
 
-import java.util.Objects;
-
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Objects;
+
+/**
+ * Class to encapsulate all data fields relating to a Module.
+ */
 public class Module {
 
     // Information fields
@@ -20,7 +23,9 @@ public class Module {
     /**
      * Every field must be present and not null.
      */
-    public Module(String code, String department, String title, String description, int credit, boolean isAvailableInSem1, boolean isAvailableInSem2, boolean isAvailableInSpecialTerm1, boolean isAvailableInSpecialTerm2) {
+    public Module(String code, String department, String title, String description, int credit,
+                  boolean isAvailableInSem1, boolean isAvailableInSem2, boolean isAvailableInSpecialTerm1,
+                  boolean isAvailableInSpecialTerm2) {
         requireAllNonNull(code, department, title, description, credit, isAvailableInSem1,
                 isAvailableInSem2, isAvailableInSpecialTerm1, isAvailableInSpecialTerm2);
         this.code = code;
