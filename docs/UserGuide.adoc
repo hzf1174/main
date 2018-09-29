@@ -116,6 +116,11 @@ Loads the configuration file `module-configuration.json` into modsUni.
 Generate a module plan based on added modules invoked by the add or load command. +
 Format: `generate`
 
+=== Register a Student Account : `register`
+
+Register a Student Account with the input parameters. +
+Format: `register user/[USERNAME] pass/[PASSWORD] pic/[PATH_TO_PIC] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
+
 === Encryption: `no-encrypt`
 
 Encryption of information is enabled by default. If users wish to store the saved configuration in plaintext, they are required to explicitly disable this feature. +
@@ -168,4 +173,5 @@ Examples:
 * *Save* : `save [FILE_NAME]`
 * *Load* : `load [FILE_NAME]`
 * *Generate* : `generate`
+* *Register* : `register user/[USERNAME] pass/[PASSWORD] pic/[PATH_TO_PIC] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
 * *Encryption* : `no-encrypt`
