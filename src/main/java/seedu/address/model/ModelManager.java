@@ -20,24 +20,27 @@ import seedu.address.model.person.Person;
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
+    private final ReadOnlyModuleList moduleList;
     private final VersionedAddressBook versionedAddressBook;
     private final FilteredList<Person> filteredPersons;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs) {
+    public ModelManager(ReadOnlyModuleList moduleList, ReadOnlyAddressBook addressBook, UserPrefs userPrefs) {
         super();
-        requireAllNonNull(addressBook, userPrefs);
+        requireAllNonNull(moduleList, addressBook, userPrefs);
 
-        logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
+        logger.fine("Initializing with modulelist: " + moduleList + " address book: " + addressBook
+                + " and user prefs " + userPrefs);
 
+        this.moduleList = moduleList;
         versionedAddressBook = new VersionedAddressBook(addressBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs());
+        this(new ModuleList(), new AddressBook(), new UserPrefs());
     }
 
     @Override
