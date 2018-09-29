@@ -34,6 +34,21 @@ public class Credential {
     public String getKey() { return key; }
 
     /**
+     * Returns true if both persons of the same name have at least one other identity field that is the same.
+     * This defines a weaker notion of equality between two persons.
+     */
+    public boolean isSameCredential(Credential otherCredential) {
+        if (otherCredential == this) {
+            return true;
+        }
+
+        return otherCredential != null
+            && otherCredential.getUsername().equals(getUsername())
+            && otherCredential.getPassword().equals(getPassword())
+            && otherCredential.getKey().equals(getKey());
+    }
+
+    /**
      * Returns true if both persons have the same identity and data fields.
      * This defines a stronger notion of equality between two persons.
      */

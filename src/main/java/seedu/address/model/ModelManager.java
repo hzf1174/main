@@ -180,11 +180,21 @@ public class ModelManager extends ComponentManager implements Model {
         return credentialStore.hasCredential(credential);
     }
 
+    @Override
+    public ReadOnlyCredentialStore getCredentialStore(){
+        return credentialStore;
+    }
+
     //============= User Account Management Methods ============================
 
     @Override
     public void setCurrentUser(User user){
         requireNonNull(user);
         currentUser = user;
+    }
+
+    @Override
+    public User getCurrentUser() {
+        return currentUser;
     }
 }

@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_USERNAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PASSWORD;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -37,7 +38,7 @@ public class RegisterCommand extends Command{
         "MINORCODE_2";
 
     public static final String MESSAGE_SUCCESS = "New Account created added: " +
-        "%1$s\nCurrently Logged-in as: %1$s";
+        "%1$s";
     public static final String MESSAGE_DUPLICATE_USERNAME = "This username already exists in the database";
 
     private final Credential toRegister;
@@ -47,7 +48,7 @@ public class RegisterCommand extends Command{
      * Creates an AddCommand to add the specified {@code Person}
      */
     public RegisterCommand(Credential newCredential, User newUser) {
-        requireNonNull(newCredential);
+        requireAllNonNull(newCredential, newUser);
         toRegister = newCredential;
         user = newUser;
     }
@@ -62,8 +63,15 @@ public class RegisterCommand extends Command{
 
         model.addCredential(toRegister);
         model.setCurrentUser(user);
-        return new CommandResult(String.format(MESSAGE_SUCCESS,
-            toRegister.getUsername()));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toRegister));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+            || (other instanceof RegisterCommand // instanceof handles nulls
+            && toRegister.equals(((RegisterCommand) other).toRegister))
+            && user.equals(((RegisterCommand) other).user);
     }
 
 }

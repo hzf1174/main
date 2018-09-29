@@ -17,6 +17,8 @@ public class CredentialStore implements ReadOnlyCredentialStore {
     private final HashMap<String, String> userCredentials = new HashMap<>();
     private final HashMap<String, String> keyMap = new HashMap<>();
 
+    public CredentialStore() {}
+
     public boolean hasCredential(Credential credential) {
         requireNonNull(credential);
         return userCredentials.containsKey(credential.getUsername());
@@ -37,5 +39,23 @@ public class CredentialStore implements ReadOnlyCredentialStore {
             credentials.add(account);
         }
         return credentials;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // short circuit if same object
+        if (obj == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(obj instanceof CredentialStore)) {
+            return false;
+        }
+
+        // state check
+        CredentialStore other = (CredentialStore) obj;
+        return userCredentials.equals(other.userCredentials)
+            && keyMap.equals(other.keyMap);
     }
 }

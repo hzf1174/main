@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.model.credential.Credential;
+import seedu.address.model.credential.ReadOnlyCredentialStore;
 import seedu.address.model.person.Person;
 import seedu.address.model.user.User;
 
@@ -90,5 +91,19 @@ public interface Model {
      */
     boolean hasCredential(Credential credential);
 
+    /**
+     * Returns the CredentialStore
+     */
+    ReadOnlyCredentialStore getCredentialStore();
+
+    /**
+     * Sets the given user as the currentUser.
+     * @param user
+     */
     void setCurrentUser(User user);
+
+    /**
+     * Returns the currentUser.
+     */
+    User getCurrentUser();
 }
