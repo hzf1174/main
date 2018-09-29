@@ -98,14 +98,12 @@ public class ModuleList implements ReadOnlyModuleList {
     }
 
     @Override
-    public ObservableList<Module> getModuleList() {
-        return null;
-    }
+    public ObservableList<Module> getModuleList() { return modules.asUnmodifiableObservableList(); }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof AddressBook // instanceof handles nulls
+                || (other instanceof ModuleList // instanceof handles nulls
                 && modules.equals(((ModuleList) other).modules));
     }
 
