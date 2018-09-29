@@ -1,6 +1,6 @@
 package seedu.address.testutil;
 
-import seedu.address.model.Module;
+import seedu.address.model.module.Module;
 import seedu.address.model.ModuleList;
 
 /**
