@@ -33,7 +33,7 @@ public class ConfigBuilder {
     }
 
     /**
-     * Sets the {@code Name} of the {@code Person} that we are building.
+     * Sets the {@code data} of the {@code Config} that we are building.
      */
     public ConfigBuilder withData(byte[] data) {
         this.data = data;
