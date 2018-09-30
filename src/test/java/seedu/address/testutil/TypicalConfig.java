@@ -16,9 +16,7 @@ public class TypicalConfig {
      * Returns an {@code ConfigStore} with all the typical Config.
      */
     public static ConfigStore getTypicalConfigStore() {
-        ConfigStore cs = new ConfigStore();
-        cs = getTypicalConfigStore();
-        return cs;
+        return getTypicalConfigStore();
     }
 
     public static Config getTypicalConfig() {
