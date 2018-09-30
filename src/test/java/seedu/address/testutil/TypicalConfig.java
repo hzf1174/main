@@ -8,7 +8,7 @@ import seedu.address.model.ConfigStore;
  */
 public class TypicalConfig {
 
-    public static final Config data = new ConfigBuilder().withData("data1".getBytes()).build();
+    public static final Config DATA = new ConfigBuilder().withData("data1".getBytes()).build();
 
     private TypicalConfig() {} // prevents instantiation
 
@@ -20,6 +20,6 @@ public class TypicalConfig {
     }
 
     public static Config getTypicalConfig() {
-        return new Config(data.getConfigData());
+        return new Config(DATA.getConfigData());
     }
 }

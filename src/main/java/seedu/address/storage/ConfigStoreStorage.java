@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.ConfigStore;
-import seedu.address.model.ReadOnlyAddressBook;
 
 /**
  * Represents a storage for {@link seedu.address.model.ConfigStore}.
