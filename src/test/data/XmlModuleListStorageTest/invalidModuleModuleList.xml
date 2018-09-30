@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ModuleList>
+    <modules>
+        <code>ACC1002</code>
+        <department>Accounting</department>
+        <title>Financial Accounting</title>
+        <prerequisite></prerequisite>
+        <preclusion>Students who have passed FNA1002 are not allowed to take ACC1002.</preclusion>
+        <description>The course provides an introduction to financial accounting. It examines accounting from an external user's perspective: an external user being an investor or a creditor. Such users would need to understand financial accounting in order to make investing or lending decisions. However, to attain a good understanding, it is also necessary to be familiar with how the information is derived. Therefore, students would learn how to prepare the reports or statements resulting from financial accounting and how to use them for decision-making.</description>
+        <credit>Four</credit>
+        <isAvailableInSem1>true</isAvailableInSem1>
+        <isAvailableInSem2>false</isAvailableInSem2>
+        <isAvailableInSpecialTerm1>false</isAvailableInSpecialTerm1>
+        <isAvailableInSpecialTerm2>false</isAvailableInSpecialTerm2>
+        <parsedPrereq/>
+        <lockedModules>ACC1006</lockedModules>
+        <lockedModules>ACC2002</lockedModules>
+        <lockedModules>ACC3603</lockedModules>
+        <lockedModules>ACC3605</lockedModules>
+        <lockedModules>ACC3616</lockedModules>
+        <lockedModules>FIN2004</lockedModules>
+        <lockedModules>FIN2004X</lockedModules>
+        <lockedModules>FIN3113</lockedModules>
+        <lockedModules>FIN3130</lockedModules>
+        <lockedModules>FIN3132</lockedModules>
+        <lockedModules>FIN4115</lockedModules>
+        <lockedModules>ACC3601</lockedModules>
+    </modules>
+    <modules>
+        <code>ACC1002X</code>
+        <department>Accounting</department>
+        <title>Financial Accounting</title>
+        <prerequisite></prerequisite>
+        <preclusion>Students who have passed CS1304 or EC3212 or BK1003 or BZ1002 or BH1002 or BZ1002E or BH1002E or FNA1002E or FNA1002X are not allowed to take ACC1002X.</preclusion>
+        <description>The course provides an introduction to financial accounting. It examines accounting from an external user's perspective: an external user being an investor or a creditor. Such users would need to understand financial accounting in order to make investing or lending decisions. However, to attain a good understanding, it is also necessary to be familiar with how the information are derived. Therefore, students would learn how to prepare the reports or statements resulting from financial accounting and how to use them for decision-making.</description>
+        <credit>4</credit>
+        <isAvailableInSem1>maybe</isAvailableInSem1>
+        <isAvailableInSem2>false</isAvailableInSem2>
+        <isAvailableInSpecialTerm1>false</isAvailableInSpecialTerm1>
+        <isAvailableInSpecialTerm2>false</isAvailableInSpecialTerm2>
+        <parsedPrereq/>
+        <lockedModules>ACC2002</lockedModules>
+        <lockedModules>ACC2707</lockedModules>
+        <lockedModules>FIN2004</lockedModules>
+        <lockedModules>FIN2004X</lockedModules>
+        <lockedModules>FIN3113</lockedModules>
+    </modules>
+</ModuleList>

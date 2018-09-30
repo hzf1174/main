@@ -10,6 +10,7 @@ import com.google.common.eventbus.Subscribe;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.ModuleListChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -79,6 +80,17 @@ public class StorageManager extends ComponentManager implements Storage {
     public void saveModuleList(ReadOnlyModuleList moduleList, Path filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
         moduleListStorage.saveModuleList(moduleList, filePath);
+    }
+
+    @Override
+    @Subscribe
+    public void handleModuleListChangedEvent(ModuleListChangedEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event, "ModuleList data changed, saving to file"));
+        try {
+            saveModuleList(event.data);
+        } catch (IOException e) {
+            raise(new DataSavingExceptionEvent(e));
+        }
     }
 
     // ================ AddressBook methods ==============================

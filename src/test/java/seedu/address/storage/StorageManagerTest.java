@@ -3,6 +3,7 @@ package seedu.address.storage;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static seedu.address.testutil.TypicalModules.getTypicalModuleList;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.IOException;
@@ -15,8 +16,10 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.ModuleListChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.model.AddressBook;
+import seedu.address.model.ModuleList;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyModuleList;
 import seedu.address.model.UserPrefs;
@@ -86,6 +89,34 @@ public class StorageManagerTest {
         assertTrue(eventsCollectorRule.eventsCollector.getMostRecent() instanceof DataSavingExceptionEvent);
     }
 
+    @Test
+    public void moduleListReadSave() throws Exception {
+        /*
+         * Note: This is an integration test that verifies the StorageManager is properly wired to the
+         * {@link XmlModuleListStorage} class.
+         * More extensive testing of UserPref saving/reading is done in {@link XmlModuleListStorageTest}
+         * class.
+         */
+        ModuleList original = getTypicalModuleList();
+        storageManager.saveModuleList(original);
+        ReadOnlyModuleList retrieved = storageManager.readModuleList().get();
+        assertEquals(original, new ModuleList(retrieved));
+    }
+
+    @Test
+    public void getModuleListFilePath() {
+        assertNotNull(storageManager.getModuleFilePath());
+    }
+
+    @Test
+    public void handleModuleListChangedEvent_exceptionThrown_eventRaised() {
+        // Create a StorageManager while injecting a stub that  throws an exception when the save method is called
+        Storage storage = new StorageManager(new XmlModuleListStorageExceptionThrowingStub(Paths.get
+                ("dummy")), new XmlAddressBookStorageExceptionThrowingStub(Paths.get("dummy")),
+                new JsonUserPrefsStorage(Paths.get("dummy")));
+        storage.handleModuleListChangedEvent(new ModuleListChangedEvent(new ModuleList()));
+        assertTrue(eventsCollectorRule.eventsCollector.getMostRecent() instanceof DataSavingExceptionEvent);
+    }
 
     /**
      * A Stub class to throw an exception when the save method is called
