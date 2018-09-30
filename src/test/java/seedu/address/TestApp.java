@@ -28,12 +28,15 @@ import systemtests.ModelHelper;
 public class TestApp extends MainApp {
 
     public static final Path SAVE_LOCATION_FOR_TESTING = TestUtil.getFilePathInSandboxFolder("sampleData.xml");
+    public static final Path SAVE_LOCATION_FOR_MODULELIST_TESTING = TestUtil.getFilePathInSandboxFolder
+            ("sampleModuleListData.xml");
     public static final String APP_TITLE = "Test App";
 
     protected static final Path DEFAULT_PREF_FILE_LOCATION_FOR_TESTING =
             TestUtil.getFilePathInSandboxFolder("pref_testing.json");
     protected Supplier<ReadOnlyAddressBook> initialDataSupplier = () -> null;
     protected Path saveFileLocation = SAVE_LOCATION_FOR_TESTING;
+    protected Path saveModuleListFileLocation = SAVE_LOCATION_FOR_MODULELIST_TESTING;
 
     public TestApp() {
     }
@@ -65,6 +68,7 @@ public class TestApp extends MainApp {
         double y = Screen.getPrimary().getVisualBounds().getMinY();
         userPrefs.updateLastUsedGuiSetting(new GuiSettings(600.0, 600.0, (int) x, (int) y));
         userPrefs.setAddressBookFilePath(saveFileLocation);
+        userPrefs.setModuleFilePath(saveModuleListFileLocation);
         return userPrefs;
     }
 
