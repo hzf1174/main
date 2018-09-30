@@ -3,7 +3,7 @@ package seedu.address.commons.events.model;
 import seedu.address.commons.events.BaseEvent;
 import seedu.address.model.ConfigStore;
 
-/** Indicates the CredentialStore in the model has changed*/
+/** Indicates the ConfigStore in the model has changed*/
 public class ConfigStoreChangedEvent extends BaseEvent {
     public final ConfigStore data;
 

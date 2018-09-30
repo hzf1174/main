@@ -16,7 +16,7 @@ import seedu.address.commons.util.FileUtil;
 import seedu.address.model.ConfigStore;
 
 /**
- * A class to access AddressBook data stored as an xml file on the hard disk.
+ * A class to access ConfigStore data stored as an xml file on the hard disk.
  */
 public class XmlConfigStoreStorage implements ConfigStoreStorage {
 

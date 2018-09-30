@@ -19,7 +19,7 @@ public interface ConfigStoreStorage {
     Path getConfigStoreStorageFilePath();
 
     /**
-    * Returns AddressBook data as a {@link ReadOnlyAddressBook}.
+    * Returns ConfigStore data as a {@link ConfigStore}.
     *   Returns {@code Optional.empty()} if storage file is not found.
     * @throws DataConversionException if the data in storage is not in the expected format.
     * @throws IOException if there was any problem when reading from the storage.
@@ -32,15 +32,15 @@ public interface ConfigStoreStorage {
     Optional<ConfigStore> readConfigStore(Path filePath) throws DataConversionException, IOException;
 
     /**
-    * Saves the given {@link ReadOnlyAddressBook} to the storage.
-    * @param addressBook cannot be null.
+    * Saves the given {@link ConfigStore} to the storage.
+    * @param configStore cannot be null.
     * @throws IOException if there was any problem writing to the file.
     */
-    void saveConfigStore(ConfigStore addressBook) throws IOException;
+    void saveConfigStore(ConfigStore configStore) throws IOException;
 
     /**
     * @see #saveConfigStore(ConfigStore)
     */
-    void saveConfigStore(ConfigStore addressBook, Path filePath) throws IOException;
+    void saveConfigStore(ConfigStore configStore, Path filePath) throws IOException;
 
 }

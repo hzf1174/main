@@ -6,44 +6,42 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.Config;
 
 /**
- * JAXB-friendly version of the Person.
+ * JAXB-friendly version of the Config.
  */
 public class XmlAdaptedConfig {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Config %s field is missing!";
 
-    //  @XmlElement(required = true)
-    //  private String name;
     @XmlElement(required = true)
     private byte[] data;
 
 
     /**
-    * Constructs an XmlAdaptedPerson.
+    * Constructs an XmlAdaptedConfig.
     * This is the no-arg constructor that is required by JAXB.
     */
     public XmlAdaptedConfig() {}
 
     /**
-    * Constructs an {@code XmlAdaptedPerson} with the given person details.
+    * Constructs an {@code XmlAdaptedConfig} with the given data.
     */
     public XmlAdaptedConfig(byte[] data) {
         this.data = data;
     }
 
     /**
-    * Converts a given Person into this class for JAXB use.
+    * Converts a given Config into this class for JAXB use.
     *
-    * @param source future changes to this will not affect the created XmlAdaptedPerson
+    * @param source future changes to this will not affect the created XmlAdaptedConfig
     */
     public XmlAdaptedConfig(Config source) {
         data = source.getConfigData();
     }
 
     /**
-    * Converts this jaxb-friendly adapted person object into the model's Person object.
+    * Converts this jaxb-friendly adapted config object into the model's Config object.
     *
-    * @throws IllegalValueException if there were any data constraints violated in the adapted person
+    * @throws IllegalValueException if there were any data constraints violated in the adapted config
     */
     public Config toModelType() throws IllegalValueException {
         if (data == null) {

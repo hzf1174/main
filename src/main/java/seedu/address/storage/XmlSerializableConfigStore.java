@@ -11,7 +11,7 @@ import seedu.address.model.Config;
 import seedu.address.model.ConfigStore;
 
 /**
- * An Immutable AddressBook that is serializable to XML format
+ * An Immutable ConfigStore that is serializable to XML format
  */
 @XmlRootElement(name = "configstore")
 public class XmlSerializableConfigStore {
@@ -20,7 +20,7 @@ public class XmlSerializableConfigStore {
     private List<XmlAdaptedConfig> configDatas;
 
     /**
-    * Creates an empty XmlSerializableAddressBook.
+    * Creates an empty XmlSerializableConfigStore.
     * This empty constructor is required for marshalling.
     */
     public XmlSerializableConfigStore() {
@@ -37,10 +37,10 @@ public class XmlSerializableConfigStore {
     }
 
     /**
-    * Converts this addressbook into the model's {@code AddressBook} object.
+    * Converts this configstore into the model's {@code ConfigStore} object.
     *l
     * @throws IllegalValueException if there were any data constraints violated or duplicates in the
-    * {@code XmlAdaptedPerson}.
+    * {@code XmlAdaptedConfig}.
     */
     public ConfigStore toModelType() throws IllegalValueException {
         ConfigStore configStore = new ConfigStore();

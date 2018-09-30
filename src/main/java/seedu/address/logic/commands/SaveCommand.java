@@ -7,7 +7,7 @@ import seedu.address.model.Config;
 import seedu.address.model.Model;
 
 /**
- * Clears the address book.
+ * Saves the module configuration.
  */
 public class SaveCommand extends Command {
 
@@ -25,11 +25,8 @@ public class SaveCommand extends Command {
     @Override
     public CommandResult execute(Model model, CommandHistory history) {
         requireNonNull(model);
-        System.out.println("execute 1");
         model.saveConfigFile(toSaveConfig);
-        System.out.println("execute 2");
         model.commitAddressBook();
-        System.out.println("execute 3");
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }

@@ -26,7 +26,7 @@ public class ModelManager extends ComponentManager implements Model {
     private final ConfigStore configStore;
 
     /**
-     * Initializes a ModelManager with the given addressBook and userPrefs.
+     * Initializes a ModelManager with the given addressBook, userPrefs and configStore.
      */
     public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs, ConfigStore configStore) {
         super();

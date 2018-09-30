@@ -38,5 +38,10 @@ public interface Storage extends AddressBookStorage, UserPrefsStorage, ConfigSto
      */
     void handleAddressBookChangedEvent(AddressBookChangedEvent abce);
 
+    /**
+     * Saves the current module configuration data to the hard disk.
+     *   Creates the data file if it is missing.
+     * Raises {@link DataSavingExceptionEvent} if there was an error during saving.
+     */
     void handleConfigStoreChangedEvent(ConfigStoreChangedEvent csce);
 }
