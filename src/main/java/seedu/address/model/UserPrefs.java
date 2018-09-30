@@ -13,7 +13,7 @@ public class UserPrefs {
 
     private GuiSettings guiSettings;
     private Path addressBookFilePath = Paths.get("data" , "addressbook.xml");
-    private Path moduleFilePath = Paths.get("data", "modules.xml");
+    private Path moduleFilePath = Paths.get("data", "moduleList.xml.xml");
 
     public UserPrefs() {
         setGuiSettings(500, 500, 0, 0);
@@ -73,6 +73,7 @@ public class UserPrefs {
         StringBuilder sb = new StringBuilder();
         sb.append("Gui Settings : " + guiSettings.toString());
         sb.append("\nLocal data file location : " + addressBookFilePath);
+        sb.append("\nLocal module list data file location : " + moduleFilePath);
         return sb.toString();
     }
 
