@@ -30,7 +30,7 @@ public class SaveCommandTest {
 
     @Test
     public void equals() {
-        Config config = new ConfigBuilder().withData("hello".getBytes()).build();
+        Config config = new ConfigBuilder().withData("Some data".getBytes()).build();
         SaveCommand configSaveCommand = new SaveCommand(config);
 
         // same object -> returns true
