@@ -2,7 +2,6 @@ package seedu.address.logic.commands;
 
 import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.logic.commands.GenerateCommand.MESSAGE_SUCCESS;
 import static seedu.address.logic.commands.HelpCommand.SHOWING_HELP_MESSAGE;
 
 import org.junit.Rule;
@@ -24,7 +23,7 @@ public class HelpCommandTest {
 
     @Test
     public void execute_help_success() {
-        assertCommandSuccess(new HelpCommand(), model, commandHistory, MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new HelpCommand(), model, commandHistory, SHOWING_HELP_MESSAGE, expectedModel);
         assertTrue(eventsCollectorRule.eventsCollector.getMostRecent() instanceof ShowHelpRequestEvent);
         assertTrue(eventsCollectorRule.eventsCollector.getSize() == 1);
     }
