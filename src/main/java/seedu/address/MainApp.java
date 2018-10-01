@@ -107,8 +107,7 @@ public class MainApp extends Application {
             if (!credentialStoreOptional.isPresent()) {
                 logger.info("Credential Store file not found. Will be starting with a sample Credential Store");
             }
-            credentialStore =
-                credentialStoreOptional.orElse(new CredentialStore());
+            initialCredentialStore = credentialStoreOptional.orElse(new CredentialStore());
             // initModuleList
             moduleListOptional = storage.readModuleList();
             if (!moduleListOptional.isPresent()) {
