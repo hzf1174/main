@@ -13,13 +13,15 @@ import seedu.address.logic.CommandHistory;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.credential.CredentialStore;
 
 public class RedoCommandTest {
 
+
     private final Model model = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(),
-            new UserPrefs());
+            new UserPrefs(), new CredentialStore());
     private final Model expectedModel = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(),
-            new UserPrefs());
+            new UserPrefs(), new CredentialStore());
     private final CommandHistory commandHistory = new CommandHistory();
 
     @Before

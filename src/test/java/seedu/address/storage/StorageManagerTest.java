@@ -39,7 +39,7 @@ public class StorageManagerTest {
         XmlModuleListStorage moduleListStorage = new XmlModuleListStorage(getTempFilePath("modulelist"));
         XmlAddressBookStorage addressBookStorage = new XmlAddressBookStorage(getTempFilePath("ab"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getTempFilePath("prefs"));
-        storageManager = new StorageManager(moduleListStorage, addressBookStorage, userPrefsStorage);
+        storageManager = new StorageManager(moduleListStorage, addressBookStorage, userPrefsStorage, credentialStoreStorage);
     }
 
     private Path getTempFilePath(String fileName) {
@@ -82,9 +82,12 @@ public class StorageManagerTest {
     @Test
     public void handleAddressBookChangedEvent_exceptionThrown_eventRaised() {
         // Create a StorageManager while injecting a stub that  throws an exception when the save method is called
-        Storage storage = new StorageManager(new XmlModuleListStorageExceptionThrowingStub(Paths.get
-                ("dummy")), new XmlAddressBookStorageExceptionThrowingStub(Paths.get("dummy")),
-                new JsonUserPrefsStorage(Paths.get("dummy")));
+        Storage storage = new StorageManager(
+                new XmlModuleListStorageExceptionThrowingStub(Paths.get("dummy")),
+                new XmlAddressBookStorageExceptionThrowingStub(Paths.get("dummy")),
+                new JsonUserPrefsStorage(Paths.get("dummy")),
+                new XmlCredentialStoreStorage(Paths.get("dummy")));
+
         storage.handleAddressBookChangedEvent(new AddressBookChangedEvent(new AddressBook()));
         assertTrue(eventsCollectorRule.eventsCollector.getMostRecent() instanceof DataSavingExceptionEvent);
     }

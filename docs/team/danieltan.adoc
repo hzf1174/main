@@ -1,0 +1,53 @@
+= Daniel Tan - Project Portfolio
+:site-section: AboutUs
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: modsUni
+
+---
+
+== Overview
+
+modsUni is a desktop timetable management application created by students for students. It incorporates a simple GUI with majority of its user interactions occuring in its in-built CLI.
+
+== Summary of contributions
+
+* *Major enhancement*: added *User Account Feature*
+** What it does: Allows users to interact with user-specific settings and configurations.
+** Justification: This feature enhances the general user experience, allowing users to set preferences and configurations for the application.
+** Highlights: This enhancement will give users the necessary control over their personal preferences and configurations in the application.
+
+* *Minor enhancement(s)*:
+
+* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]]
+
+* *Other contributions*:
+
+** Project management:
+
+** Enhancements to existing features:
+
+** Documentation:
+** Community:
+*** PRs reviewed (with non-trivial review comments):
+*** Contributed to forum discussions (examples:  https://github.com[1], https://github.com[2], https://github.com[3], https://github.com[4])
+*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3])
+
+
+== Contributions to the User Guide
+
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+//TODO: include::../UserGuide.adoc[tag=useraccountmanagement]
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+// TODO: include::../DeveloperGuide.adoc[tag=useraccountmanagement]

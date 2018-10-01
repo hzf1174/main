@@ -13,6 +13,7 @@ import seedu.address.logic.CommandHistory;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.credential.CredentialStore;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for ListCommand.
@@ -25,8 +26,10 @@ public class ListCommandTest {
 
     @Before
     public void setUp() {
-        model = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(), new UserPrefs());
-        expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(), new UserPrefs());
+        model = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(), new UserPrefs(),
+                                new CredentialStore());
+        expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(), new UserPrefs(),
+                                        new CredentialStore());
     }
 
     @Test

@@ -27,6 +27,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ModuleList;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.credential.CredentialStore;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
@@ -36,7 +37,9 @@ import seedu.address.testutil.PersonBuilder;
  */
 public class EditCommandTest {
 
-    private Model model = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(), new UserPrefs());
+
+    private Model model = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(), new UserPrefs()
+                                          , nee CredentialStore());
     private CommandHistory commandHistory = new CommandHistory();
 
     @Test
@@ -46,9 +49,9 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedPerson);
+        ModelManager expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(),
+                new UserPrefs(), new CredentialStore());
 
-        Model expectedModel = new ModelManager(new ModuleList(model.getModuleList()), new AddressBook(model
-                .getAddressBook()), new UserPrefs());
         expectedModel.updatePerson(model.getFilteredPersonList().get(0), editedPerson);
         expectedModel.commitAddressBook();
 
@@ -69,9 +72,8 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(indexLastPerson, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedPerson);
-
-        Model expectedModel = new ModelManager(new ModuleList(model.getModuleList()),
-                new AddressBook(model.getAddressBook()), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(),
+                new UserPrefs(), new CredentialStore());
         expectedModel.updatePerson(lastPerson, editedPerson);
         expectedModel.commitAddressBook();
 
@@ -84,9 +86,8 @@ public class EditCommandTest {
         Person editedPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedPerson);
-
-        Model expectedModel = new ModelManager(new ModuleList(model.getModuleList()), new AddressBook(model
-                .getAddressBook()), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(),
+                new UserPrefs(), new CredentialStore());
         expectedModel.commitAddressBook();
 
         assertCommandSuccess(editCommand, model, commandHistory, expectedMessage, expectedModel);
@@ -102,9 +103,8 @@ public class EditCommandTest {
                 new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedPerson);
-
-        Model expectedModel = new ModelManager(new ModuleList(model.getModuleList()), new AddressBook(model
-                .getAddressBook()), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(),
+                new UserPrefs(), new CredentialStore());
         expectedModel.updatePerson(model.getFilteredPersonList().get(0), editedPerson);
         expectedModel.commitAddressBook();
 
@@ -164,8 +164,8 @@ public class EditCommandTest {
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
-        Model expectedModel = new ModelManager(new ModuleList(model.getModuleList()), new AddressBook(model
-                .getAddressBook()), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(),
+                new UserPrefs(), new CredentialStore());
         expectedModel.updatePerson(personToEdit, editedPerson);
         expectedModel.commitAddressBook();
 
@@ -207,8 +207,8 @@ public class EditCommandTest {
         Person editedPerson = new PersonBuilder().build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
-        Model expectedModel = new ModelManager(new ModuleList(model.getModuleList()), new AddressBook(model
-                .getAddressBook()), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(),
+                new UserPrefs(), new CredentialStore());
 
         showPersonAtIndex(model, INDEX_SECOND_PERSON);
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
