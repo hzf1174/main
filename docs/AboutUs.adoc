@@ -11,7 +11,7 @@ We are a team based in the http://www.comp.nus.edu.sg[School of Computing, Natio
 == Project Team
 
 === Daniel Tan Jia Wang
-image::CrimsonJacket.jpg[width="150", align="left"]
+image::crimsonjacket.png[width="150", align="left"]
 {empty}[https://github.com/CrimsonJacket[github]] [<<danieltan#, portfolio>>]
 
 Role: Team Lead
@@ -19,7 +19,7 @@ Role: Team Lead
 '''
 
 === Edric Teo Jin Kai
-image::etjk.jpg[width="150", align="left"]
+image::etjk.png[width="150", align="left"]
 {empty}[http://github.com/etjk[github]] [<<edricteo#, portfolio>>]
 
 Role: Documentation
@@ -27,7 +27,7 @@ Role: Documentation
 '''
 
 === He ZhenFeng
-image::hzf1174.jpg[width="150", align="left"]
+image::hzf1174.png[width="150", align="left"]
 {empty}[http://github.com/hzf1174[github]] [<<zhenfeng#, portfolio>>]
 
 Role: Testing
@@ -35,7 +35,7 @@ Role: Testing
 '''
 
 === Lin Deming
-image::deming16.jpg[width="150", align="left"]
+image::deming16.png[width="150", align="left"]
 {empty}[http://github.com/deming16[github]] [<<deming#, portfolio>>]
 
 Role: Integration
@@ -43,7 +43,7 @@ Role: Integration
 '''
 
 === Reuben Tan Jun Liang
-image::RTJL.jpg[width="150", align="left"]
+image::rtjl.png[width="150", align="left"]
 {empty}[http://github.com/RTJL[github]] [<<reubentan#, portfolio>>]
 
 Role: Code Quality
