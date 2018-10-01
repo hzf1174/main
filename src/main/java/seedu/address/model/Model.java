@@ -6,7 +6,9 @@ import javafx.collections.ObservableList;
 import seedu.address.model.credential.Credential;
 import seedu.address.model.credential.ReadOnlyCredentialStore;
 import seedu.address.model.person.Person;
+import seedu.address.model.user.Admin;
 import seedu.address.model.user.User;
+
 
 /**
  * The API of the Model component.
@@ -40,6 +42,17 @@ public interface Model {
      * {@code person} must not already exist in the address book.
      */
     void addPerson(Person person);
+
+    /**
+     * Adds the given admin.
+     * {@code admin} must not already exist in the address book.
+     */
+    void addAdmin(Admin admin);
+
+    /**
+     * Check if the user is a admin..
+     */
+    boolean isAdmin();
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.

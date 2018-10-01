@@ -17,8 +17,14 @@ public class CredentialStore implements ReadOnlyCredentialStore {
     private final HashMap<String, String> keyMap = new HashMap<>();
 
     /**
+<<<<<<< HEAD
      * Returns true if a credential with the same parameters as {@code
      * credential} exists in the credential store.
+=======
+     *
+     * @param credential
+     * @return
+>>>>>>> 124020da086a70cd48dacd11050d497e5dc039f1
      */
     public boolean hasCredential(Credential credential) {
         requireNonNull(credential);
@@ -26,8 +32,13 @@ public class CredentialStore implements ReadOnlyCredentialStore {
     }
 
     /**
+<<<<<<< HEAD
      * Adds a credential to the credential store.
      * The person must not already exist in the credential store.
+=======
+     *
+     * @param credential
+>>>>>>> 124020da086a70cd48dacd11050d497e5dc039f1
      */
     public void addCredential(Credential credential) {
         credentialStore.put(credential.getUsername(),

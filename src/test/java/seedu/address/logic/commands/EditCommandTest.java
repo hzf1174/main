@@ -35,7 +35,6 @@ import seedu.address.testutil.PersonBuilder;
  */
 public class EditCommandTest {
 
-
     private Model model = new ModelManager(
         getTypicalModuleList(),
         getTypicalAddressBook(),
@@ -75,6 +74,7 @@ public class EditCommandTest {
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedPerson);
         ModelManager expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(),
                 new UserPrefs(), new CredentialStore());
+
         expectedModel.updatePerson(lastPerson, editedPerson);
         expectedModel.commitAddressBook();
 
@@ -89,6 +89,7 @@ public class EditCommandTest {
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedPerson);
         ModelManager expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(),
                 new UserPrefs(), new CredentialStore());
+
         expectedModel.commitAddressBook();
 
         assertCommandSuccess(editCommand, model, commandHistory, expectedMessage, expectedModel);

@@ -23,6 +23,7 @@ import seedu.address.model.ReadOnlyModuleList;
 import seedu.address.model.credential.Credential;
 import seedu.address.model.credential.ReadOnlyCredentialStore;
 import seedu.address.model.person.Person;
+import seedu.address.model.user.Admin;
 import seedu.address.model.user.User;
 import seedu.address.testutil.PersonBuilder;
 
@@ -165,10 +166,21 @@ public class AddCommandTest {
         @Override
         public void addCredential(Credential credential) {
             throw new AssertionError("This method should not be called.");
+
+        }
+
+        @Override
+        public void addAdmin(Admin admin) {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public boolean hasCredential(Credential credential) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean isAdmin() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -179,15 +191,16 @@ public class AddCommandTest {
         }
 
         @Override
-        public void setCurrentUser(User user) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public User getCurrentUser() {
             throw new AssertionError("This method should not be called.");
 
         }
+
+        @Override
+        public void setCurrentUser(User user) {
+            throw new AssertionError("This method should not be called.");
+        }
+
     }
 
     /**

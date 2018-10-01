@@ -66,7 +66,6 @@ public class ModelManagerTest {
         // same values -> returns true
         modelManager = new ModelManager(moduleList, addressBook, userPrefs, credentialStore);
         ModelManager modelManagerCopy = new ModelManager(moduleList, addressBook, userPrefs, credentialStore);
-
         assertTrue(modelManager.equals(modelManagerCopy));
 
         // same object -> returns true
@@ -82,7 +81,6 @@ public class ModelManagerTest {
         assertFalse(modelManager.equals(new ModelManager(moduleList, differentAddressBook, userPrefs,
                                                         differentCredentialStore)));
 
-
         // different filteredList -> returns false
         String[] keywords = ALICE.getName().fullName.split("\\s+");
         modelManager.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
@@ -95,7 +93,6 @@ public class ModelManagerTest {
         // different userPrefs -> returns true
         UserPrefs differentUserPrefs = new UserPrefs();
         differentUserPrefs.setAddressBookFilePath(Paths.get("differentFilePath"));
-
         assertTrue(modelManager.equals(new ModelManager(moduleList, addressBook, differentUserPrefs, credentialStore)));
     }
 }

@@ -41,7 +41,7 @@ public class XmlFileStorage {
      */
     public static void saveDataToFile(Path file,
                                       XmlSerializableCredentialStore credentialStore)
-        throws FileNotFoundException {
+            throws FileNotFoundException {
         try {
             XmlUtil.saveDataToFile(file, credentialStore);
         } catch (JAXBException e) {
@@ -53,7 +53,7 @@ public class XmlFileStorage {
      * Returns address book in the file or an empty address book
      */
     public static XmlSerializableAddressBook loadDataFromSaveFile(Path file) throws DataConversionException,
-        FileNotFoundException {
+                                                                            FileNotFoundException {
         try {
             return XmlUtil.getDataFromFile(file, XmlSerializableAddressBook.class);
         } catch (JAXBException e) {

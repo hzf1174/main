@@ -50,7 +50,6 @@ public class RegisterCommandParser implements Parser<RegisterCommand> {
             argMultimap.getValue(PREFIX_STUDENT_ENROLLMENT_DATE).get();
         List<String> majors = argMultimap.getAllValues(PREFIX_STUDENT_MAJOR);
         List<String> minors = argMultimap.getAllValues(PREFIX_STUDENT_MINOR);
-
         User newUser = new Student(username, name, Role.STUDENT, pathToPic,
             enrollmentDate, majors, minors);
 

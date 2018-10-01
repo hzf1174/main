@@ -17,6 +17,8 @@ import seedu.address.model.credential.Credential;
 import seedu.address.model.credential.CredentialStore;
 import seedu.address.model.credential.ReadOnlyCredentialStore;
 import seedu.address.model.person.Person;
+import seedu.address.model.user.Admin;
+import seedu.address.model.user.Role;
 import seedu.address.model.user.User;
 
 /**
@@ -30,12 +32,13 @@ public class ModelManager extends ComponentManager implements Model {
     private final FilteredList<Person> filteredPersons;
     private final CredentialStore credentialStore;
 
+
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
     public ModelManager(ReadOnlyModuleList moduleList, ReadOnlyAddressBook addressBook, UserPrefs userPrefs,
                         ReadOnlyCredentialStore credentialStore) {
-        super();
+
         requireAllNonNull(moduleList, addressBook, userPrefs, credentialStore);
 
         logger.fine("Initializing with modulelist: " + moduleList + " address book: " + addressBook
@@ -99,6 +102,20 @@ public class ModelManager extends ComponentManager implements Model {
 
         versionedAddressBook.updatePerson(target, editedPerson);
         indicateAddressBookChanged();
+    }
+
+    //=========== Admin Account Management =============================================================
+
+    @Override
+    public void addAdmin(Admin admin) {
+        requireNonNull(admin);
+        //TODO: Save Admin to user config
+
+    }
+
+    @Override
+    public boolean isAdmin() {
+        return currentUser.getRole() == Role.ADMIN;
     }
 
     //=========== Filtered Person List Accessors =============================================================

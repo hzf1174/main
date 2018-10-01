@@ -33,4 +33,19 @@ public abstract class User {
     public String getUsername() {
         return this.username;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public String getPathToProfilePic() {
+        return pathToProfilePic;
+    }
+
+    public abstract void updatePassword (String newPassword);
+
 }

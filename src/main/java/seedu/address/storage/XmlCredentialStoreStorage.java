@@ -15,8 +15,12 @@ import seedu.address.commons.util.FileUtil;
 import seedu.address.model.credential.ReadOnlyCredentialStore;
 
 /**
+<<<<<<< HEAD
  * A class to access CredentialStore data stored as an xml file on the hard
  * disk.
+=======
+ *
+>>>>>>> 124020da086a70cd48dacd11050d497e5dc039f1
  */
 public class XmlCredentialStoreStorage implements CredentialStoreStorage {
 
@@ -40,10 +44,13 @@ public class XmlCredentialStoreStorage implements CredentialStoreStorage {
     }
 
     /**
+
      * Similar to {@link #readCredentialStore()}
      *
-     * @param filePath location of the data. Cannot be null
-     * @throws DataConversionException if the file is not in the correct format.
+     * @param filePath
+     * @return
+     * @throws DataConversionException
+     * @throws IOException
      */
     public Optional<ReadOnlyCredentialStore> readCredentialStore(Path filePath)
         throws DataConversionException, IOException {

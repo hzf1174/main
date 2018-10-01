@@ -93,7 +93,6 @@ public class StorageManagerTest {
                 new XmlAddressBookStorageExceptionThrowingStub(Paths.get("dummy")),
                 new JsonUserPrefsStorage(Paths.get("dummy")),
                 new XmlCredentialStoreStorage(Paths.get("dummy")));
-
         storage.handleAddressBookChangedEvent(new AddressBookChangedEvent(new AddressBook()));
         assertTrue(eventsCollectorRule.eventsCollector.getMostRecent() instanceof DataSavingExceptionEvent);
     }

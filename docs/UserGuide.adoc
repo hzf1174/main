@@ -159,6 +159,15 @@ Examples:
 
 * `set-theme <FIILE_NAME>`
 
+=== Add Admin: `addAdmin`
+
+Create and add a new Admin account. +
+Format: `addAdmin user\[USERNAME] pass\[PASSWORD] n\[NAME] ptp\[PATH_TO_PIC] salary\[SALARY] date\[EMPLOYMENTDATE]`
+
+Examples:
+
+* `addAdmin user\master pass\myPass n\John Doe ptp\johnDoe.img salary\4000 date\1/1/2018`
+
 == FAQ
 
 *Q*: How do I transfer my data to another Computer? +
@@ -175,3 +184,5 @@ Examples:
 * *Generate* : `generate`
 * *Register* : `register user/[USERNAME] pass/[PASSWORD] pic/[PATH_TO_PIC] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
 * *Encryption* : `no-encrypt`
+* *Add Admin* : `addAdmin user\[USERNAME] pass\[PASSWORD] n\[NAME] ptp\[PATH_TO_PIC] salary\[SALARY]
+date\[EMPLOYMENTDATE]`

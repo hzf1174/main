@@ -17,7 +17,6 @@ import seedu.address.model.credential.CredentialStore;
 
 public class RedoCommandTest {
 
-
     private final Model model = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(),
             new UserPrefs(), new CredentialStore());
     private final Model expectedModel = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(),

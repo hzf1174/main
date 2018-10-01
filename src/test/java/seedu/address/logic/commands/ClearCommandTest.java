@@ -33,7 +33,6 @@ public class ClearCommandTest {
 
     @Test
     public void execute_nonEmptyAddressBook_success() {
-
         Model model = new ModelManager(
             getTypicalModuleList(),
             getTypicalAddressBook(),
@@ -44,7 +43,6 @@ public class ClearCommandTest {
             getTypicalAddressBook(),
             new UserPrefs(),
             new CredentialStore());
-
         expectedModel.resetData(new AddressBook());
         expectedModel.commitAddressBook();
 
