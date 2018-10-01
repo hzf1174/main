@@ -1,12 +1,9 @@
 package seedu.address.testutil;
-
 import seedu.address.model.module.Module;
-
 /**
  * A utility class to help with building Module objects.
  */
 public class ModuleBuilder {
-
     public static final String DEFAULT_CODE = "CS1010";
     public static final String DEFAULT_DEPARTMENT = "Computer Science";
     public static final String DEFAULT_TITLE = "Programming Methodology";
@@ -25,7 +22,6 @@ public class ModuleBuilder {
     public static final boolean DEFAULT_ISAVAILABLEINSEM2 = true;
     public static final boolean DEFAULT_ISAVAILABLEINSPECIALTERM1 = false;
     public static final boolean DEFAULT_ISAVAILABLEINSPECIALTERM2 = false;
-
     private String code;
     private String department;
     private String title;
@@ -35,7 +31,6 @@ public class ModuleBuilder {
     private boolean isAvailableInSem2;
     private boolean isAvailableInSpecialTerm1;
     private boolean isAvailableInSpecialTerm2;
-
     public ModuleBuilder() {
         code = DEFAULT_CODE;
         department = DEFAULT_DEPARTMENT;
@@ -47,7 +42,6 @@ public class ModuleBuilder {
         isAvailableInSpecialTerm1 = DEFAULT_ISAVAILABLEINSPECIALTERM1;
         isAvailableInSpecialTerm2 = DEFAULT_ISAVAILABLEINSPECIALTERM2;
     }
-
     /**
      * Initializes the ModuleBuilder with the data of {@code moduleToCopy}.
      */
@@ -62,7 +56,6 @@ public class ModuleBuilder {
         isAvailableInSpecialTerm1 = moduleToCopy.isAvailableInSpecialTerm1();
         isAvailableInSpecialTerm2 = moduleToCopy.isAvailableInSpecialTerm2();
     }
-
     /**
      * Sets the code of the {@code Module} that we are building.
      */
@@ -70,7 +63,6 @@ public class ModuleBuilder {
         this.code = code;
         return this;
     }
-
     /**
      * Sets the department of the {@code Module} that we are building.
      */
@@ -78,7 +70,6 @@ public class ModuleBuilder {
         this.department = department;
         return this;
     }
-
     /**
      * Sets the title of the {@code Module} that we are building.
      */
@@ -86,7 +77,6 @@ public class ModuleBuilder {
         this.title = title;
         return this;
     }
-
     /**
      * Sets the description of the {@code Module} that we are building.
      */
@@ -94,7 +84,6 @@ public class ModuleBuilder {
         this.description = description;
         return this;
     }
-
     /**
      * Sets the credit of the {@code Module} that we are building.
      */
@@ -102,7 +91,6 @@ public class ModuleBuilder {
         this.credit = credit;
         return this;
     }
-
     /**
      * Sets isAvailableInSem1 of the {@code Module} that we are building.
      */
@@ -110,7 +98,6 @@ public class ModuleBuilder {
         this.isAvailableInSem1 = isAvailableInSem1;
         return this;
     }
-
     /**
      * Sets isAvailableInSem2 of the {@code Module} that we are building.
      */
@@ -118,7 +105,6 @@ public class ModuleBuilder {
         this.isAvailableInSem2 = isAvailableInSem2;
         return this;
     }
-
     /**
      * Sets isAvailableInSpecialTerm1 of the {@code Module} that we are building.
      */
@@ -126,7 +112,6 @@ public class ModuleBuilder {
         this.isAvailableInSpecialTerm1 = isAvailableInSpecialTerm1;
         return this;
     }
-
     /**
      * Sets isAvailableInSpecialTerm2 of the {@code Module} that we are building.
      */
@@ -134,7 +119,6 @@ public class ModuleBuilder {
         this.isAvailableInSpecialTerm2 = isAvailableInSpecialTerm2;
         return this;
     }
-
     /**
      * Creates a module object.
      */
@@ -142,5 +126,4 @@ public class ModuleBuilder {
         return new Module(code, department, title, description, credit, isAvailableInSem1,
                 isAvailableInSem2, isAvailableInSpecialTerm1, isAvailableInSpecialTerm2);
     }
-
 }

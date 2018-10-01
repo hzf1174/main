@@ -74,16 +74,11 @@ public class TestApp extends MainApp {
         return userPrefs;
     }
 
-
-
-
     /**
      * Returns a defensive copy of the address book data stored inside the storage file.
      */
-
     public AddressBook readStorageAddressBook() {
         try {
-
             return new AddressBook(storage.readAddressBook().get());
         } catch (DataConversionException dce) {
             throw new AssertionError("Data is not in the AddressBook format.", dce);

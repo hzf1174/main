@@ -63,9 +63,7 @@ public class TypicalModules {
         }
         return moduleList;
     }
-
     public static List<Module> getTypicalModules() {
         return new ArrayList<>(Arrays.asList(ACC1002, ACC1002X));
     }
-
 }

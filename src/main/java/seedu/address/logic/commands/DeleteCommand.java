@@ -53,3 +53,4 @@ public class DeleteCommand extends Command {
                 && targetIndex.equals(((DeleteCommand) other).targetIndex)); // state check
     }
 }
+

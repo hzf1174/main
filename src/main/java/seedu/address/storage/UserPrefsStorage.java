@@ -30,6 +30,6 @@ public interface UserPrefsStorage {
      * @param userPrefs cannot be null.
      * @throws IOException if there was any problem writing to the file.
      */
-    void saveUserPrefs(UserPrefs userPrefs) throws IOException;
+    void saveUserPrefs(UserPrefs userPrefs) throws IOException, IOException;
 
 }

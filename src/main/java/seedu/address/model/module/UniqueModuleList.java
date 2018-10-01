@@ -1,10 +1,11 @@
 package seedu.address.model.module;
-
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +22,7 @@ import seedu.address.model.module.exceptions.ModuleNotFoundException;
  * Supports a minimal set of list operations.
  *
  * @see Module#isSameModule(Module)
+ * @see Module#isPrefixModule(Module)
  */
 public class UniqueModuleList implements Iterable<Module> {
 
@@ -32,6 +34,30 @@ public class UniqueModuleList implements Iterable<Module> {
     public boolean contains(Module toCheck) {
         requireNonNull(toCheck);
         return internalList.stream().anyMatch(toCheck::isSameModule);
+    }
+
+    /**
+     * Returns the Optional of the Module.
+     */
+    public Optional<Module> search(Module toSearch) {
+        requireNonNull(toSearch);
+        for (Module module : internalList) {
+            if (module.getCode().equals(toSearch.getCode())) {
+                return Optional.of(module);
+            }
+        }
+        return Optional.empty();
+//        return internalList.stream().filter(toSearch::isSameModule).findFirst();
+    }
+
+    /**
+     * Returns the List of Modules start with the keyword
+     */
+    public List<Module> searchKeyword(Module keyword) {
+        requireNonNull(keyword);
+        Object[] objectsArray = internalList.stream().filter(keyword::isPrefixModule).toArray();
+        Module[] modulesArray = Arrays.copyOf(objectsArray, objectsArray.length, Module[].class);
+        return Arrays.asList(modulesArray);
     }
 
     /**
@@ -63,7 +89,6 @@ public class UniqueModuleList implements Iterable<Module> {
         if (!target.isSameModule(editedModule) && contains(editedModule)) {
             throw new DuplicateModuleException();
         }
-
         internalList.set(index, editedModule);
     }
 
@@ -92,7 +117,6 @@ public class UniqueModuleList implements Iterable<Module> {
         if (!modulesAreUnique(modules)) {
             throw new DuplicateModuleException();
         }
-
         internalList.setAll(modules);
     }
 

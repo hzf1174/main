@@ -1,12 +1,7 @@
 package seedu.address.logic.commands;
 
-import static java.util.Objects.requireNonNull;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -16,11 +11,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import javafx.collections.ObservableList;
+import seedu.address.commons.core.Messages;
 import seedu.address.logic.CommandHistory;
-import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.AddressBook;
 import seedu.address.model.Config;
 import seedu.address.model.Model;
+import seedu.address.model.ModuleList;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyModuleList;
 import seedu.address.model.credential.Credential;
@@ -29,68 +24,43 @@ import seedu.address.model.module.Module;
 import seedu.address.model.person.Person;
 import seedu.address.model.user.Admin;
 import seedu.address.model.user.User;
-import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.TypicalModules;
 
-public class AddCommandTest {
-
+public class SearchCommandTest {
     private static final CommandHistory EMPTY_COMMAND_HISTORY = new CommandHistory();
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
+    private Model model;
     private CommandHistory commandHistory = new CommandHistory();
 
     @Test
-    public void constructor_nullPerson_throwsNullPointerException() {
+    public void constructor_nullModule_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
-        new AddCommand(null);
+        new SearchCommand(null);
     }
 
     @Test
-    public void execute_personAcceptedByModel_addSuccessful() throws Exception {
-        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
-        Person validPerson = new PersonBuilder().build();
+    public void execute_moduleSearched_successful() throws Exception {
+        Module validModule = new Module("ACC", " ", " ", " ", 0, false,
+                false, false, false);
+        SearchCommandTest.ModelStubForTest modelStub = new SearchCommandTest.ModelStubForTest();
 
-        CommandResult commandResult = new AddCommand(validPerson).execute(modelStub, commandHistory);
+        CommandResult commandResult = new SearchCommand(validModule).execute(modelStub, commandHistory);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, validPerson), commandResult.feedbackToUser);
-        assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
-        assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
+        assertEquals(String.format(Messages.MESSAGE_MODULE_LISTED_OVERVIEW, 2), commandResult.feedbackToUser);
     }
 
     @Test
-    public void execute_duplicateModule_throwsCommandException() throws Exception {
-        Person validPerson = new PersonBuilder().build();
-        AddCommand addCommand = new AddCommand(validPerson);
-        ModelStub modelStub = new ModelStubWithPerson(validPerson);
+    public void execute_moduleNotFound() throws Exception {
+        Module validModule = new Module("GEH", " ", " ", " ", 0, false,
+                false, false, false);
+        SearchCommandTest.ModelStubForTest modelStub = new SearchCommandTest.ModelStubForTest();
 
-        thrown.expect(CommandException.class);
-        thrown.expectMessage(AddCommand.MESSAGE_DUPLICATE_PERSON);
-        addCommand.execute(modelStub, commandHistory);
-    }
+        CommandResult commandResult = new SearchCommand(validModule).execute(modelStub, commandHistory);
 
-    @Test
-    public void equals() {
-        Person alice = new PersonBuilder().withName("Alice").build();
-        Person bob = new PersonBuilder().withName("Bob").build();
-        AddCommand addAliceCommand = new AddCommand(alice);
-        AddCommand addBobCommand = new AddCommand(bob);
-
-        // same object -> returns true
-        assertTrue(addAliceCommand.equals(addAliceCommand));
-
-        // same values -> returns true
-        AddCommand addAliceCommandCopy = new AddCommand(alice);
-        assertTrue(addAliceCommand.equals(addAliceCommandCopy));
-
-        // different types -> returns false
-        assertFalse(addAliceCommand.equals(1));
-
-        // null -> returns false
-        assertFalse(addAliceCommand.equals(null));
-
-        // different person -> returns false
-        assertFalse(addAliceCommand.equals(addBobCommand));
+        assertEquals(String.format(Messages.MESSAGE_MODULE_LISTED_OVERVIEW, 0), commandResult.feedbackToUser);
     }
 
     /**
@@ -99,6 +69,16 @@ public class AddCommandTest {
     private class ModelStub implements Model {
         @Override
         public void addPerson(Person person) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addAdmin(Admin admin) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean isAdmin() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -185,12 +165,6 @@ public class AddCommandTest {
         @Override
         public void addCredential(Credential credential) {
             throw new AssertionError("This method should not be called.");
-
-        }
-
-        @Override
-        public void addAdmin(Admin admin) {
-            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -199,24 +173,17 @@ public class AddCommandTest {
         }
 
         @Override
-        public boolean isAdmin() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public ReadOnlyCredentialStore getCredentialStore() {
             throw new AssertionError("This method should not be called.");
-
-        }
-
-        @Override
-        public User getCurrentUser() {
-            throw new AssertionError("This method should not be called.");
-
         }
 
         @Override
         public void setCurrentUser(User user) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public User getCurrentUser() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -234,44 +201,13 @@ public class AddCommandTest {
         public List<Module> searchKeyWordInModuleList(Module keyword) {
             throw new AssertionError("This method should not be called.");
         }
-
     }
 
     /**
-     * A Model stub that contains a single person.
+     * A Model stub that always accept the person being removed.
      */
-    private class ModelStubWithPerson extends ModelStub {
-        private final Person person;
-
-        ModelStubWithPerson(Person person) {
-            requireNonNull(person);
-            this.person = person;
-        }
-
-        @Override
-        public boolean hasPerson(Person person) {
-            requireNonNull(person);
-            return this.person.isSamePerson(person);
-        }
-    }
-
-    /**
-     * A Model stub that always accept the person being added.
-     */
-    private class ModelStubAcceptingPersonAdded extends ModelStub {
-        final ArrayList<Person> personsAdded = new ArrayList<>();
-
-        @Override
-        public boolean hasPerson(Person person) {
-            requireNonNull(person);
-            return personsAdded.stream().anyMatch(person::isSamePerson);
-        }
-
-        @Override
-        public void addPerson(Person person) {
-            requireNonNull(person);
-            personsAdded.add(person);
-        }
+    private class ModelStubForTest extends SearchCommandTest.ModelStub {
+        final ModuleList moduleList = TypicalModules.getTypicalModuleList();
 
         @Override
         public void commitAddressBook() {
@@ -279,9 +215,10 @@ public class AddCommandTest {
         }
 
         @Override
-        public ReadOnlyAddressBook getAddressBook() {
-            return new AddressBook();
+        public List<Module> searchKeyWordInModuleList(Module keyword) {
+            return moduleList.searchKeyword(keyword);
         }
+
     }
 
 }

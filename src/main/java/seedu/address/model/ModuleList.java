@@ -3,6 +3,7 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Optional;
 
 import javafx.collections.ObservableList;
 import seedu.address.model.module.Module;
@@ -82,6 +83,14 @@ public class ModuleList implements ReadOnlyModuleList {
 
     //// util methods
 
+    public Optional<Module> getModuleInformation(Module target) {
+        return modules.search(target);
+    }
+
+    public List<Module> searchKeyword(Module keyword) {
+        return modules.searchKeyword(keyword);
+    }
+    //// util methods
     @Override
     public String toString() {
         return modules.asUnmodifiableObservableList().size() + " modules";

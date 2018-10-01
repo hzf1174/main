@@ -89,6 +89,17 @@ public class Module {
     }
 
     /**
+     * Returns true if this module's code is the prefix of the other module's code.
+     */
+    public boolean isPrefixModule(Module otherModule) {
+        if (otherModule == this) {
+            return true;
+        }
+        return otherModule != null
+            && otherModule.getCode().startsWith(getCode());
+    }
+
+    /**
      * Returns true if both modules have the same identity and data fields.
      * This defines a stronger notion of equality between two modules.
      */

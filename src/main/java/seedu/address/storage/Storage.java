@@ -60,7 +60,6 @@ public interface Storage extends ModuleListStorage, AddressBookStorage,
      */
     void handleCredentialStoreChangedEvent(CredentialStoreChangedEvent csce);
 
-
     /**
      * Saves the current module configuration data to the hard disk.
      *   Creates the data file if it is missing.

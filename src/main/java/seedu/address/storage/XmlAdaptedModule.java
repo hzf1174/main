@@ -83,11 +83,9 @@ public class XmlAdaptedModule {
         if (other == this) {
             return true;
         }
-
         if (!(other instanceof XmlAdaptedPerson)) {
             return false;
         }
-
         XmlAdaptedModule otherModule = (XmlAdaptedModule) other;
         return Objects.equals(code, otherModule.code)
                 && Objects.equals(department, otherModule.department)
