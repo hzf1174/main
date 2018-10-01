@@ -47,7 +47,6 @@ public class UniqueModuleList implements Iterable<Module> {
             }
         }
         return Optional.empty();
-//        return internalList.stream().filter(toSearch::isSameModule).findFirst();
     }
 
     /**
