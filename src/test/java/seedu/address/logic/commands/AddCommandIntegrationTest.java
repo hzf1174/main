@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.testutil.TypicalModules.getTypicalModuleList;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.Before;
@@ -25,16 +26,15 @@ public class AddCommandIntegrationTest {
 
     @Before
     public void setUp() {
-        model = new ModelManager(getTypicalAddressBook(), new UserPrefs(),
-            new CredentialStore());
+        model = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(), new UserPrefs()
+                                , new CredentialStore());
     }
 
     @Test
     public void execute_newPerson_success() {
         Person validPerson = new PersonBuilder().build();
-
-        Model expectedModel = new ModelManager(model.getAddressBook(),
-            new UserPrefs(), new CredentialStore());
+        Model expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(),
+                new UserPrefs(), new CredentialStore());
         expectedModel.addPerson(validPerson);
         expectedModel.commitAddressBook();
 

@@ -24,34 +24,31 @@ import seedu.address.model.user.User;
  */
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
-
+    private final ReadOnlyModuleList moduleList;
     private static User currentUser = null;
     private final VersionedAddressBook versionedAddressBook;
     private final FilteredList<Person> filteredPersons;
     private final CredentialStore credentialStore;
-    //private final ModuleList
-    //private final User
-
-    // User(..,...,..,List<Module> stageModules)
-    // private final User currentUser;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs,
+    public ModelManager(ReadOnlyModuleList moduleList, ReadOnlyAddressBook addressBook, UserPrefs userPrefs, 
                         ReadOnlyCredentialStore credentialStore) {
         super();
-        requireAllNonNull(addressBook, userPrefs, credentialStore);
+        requireAllNonNull(moduleList, addressBook, userPrefs, credentialStore);
 
-        logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
+        logger.fine("Initializing with modulelist: " + moduleList + " address book: " + addressBook
+                + " and user prefs " + userPrefs);
 
+        this.moduleList = moduleList;
         versionedAddressBook = new VersionedAddressBook(addressBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
         this.credentialStore = (CredentialStore) credentialStore;
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs(), new CredentialStore());
+        this(new ModuleList(), new AddressBook(), new UserPrefs(), new CredentialStore());
     }
 
     @Override
@@ -63,6 +60,11 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public ReadOnlyAddressBook getAddressBook() {
         return versionedAddressBook;
+    }
+
+    @Override
+    public ReadOnlyModuleList getModuleList() {
+        return moduleList;
     }
 
     /**

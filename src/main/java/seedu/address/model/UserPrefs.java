@@ -13,6 +13,7 @@ public class UserPrefs {
 
     private GuiSettings guiSettings;
     private Path addressBookFilePath = Paths.get("data" , "addressbook.xml");
+    private Path moduleFilePath = Paths.get("data", "moduleList.xml.xml");
     private Path credentialStoreFilePath = Paths.get("data" , "credentialstore.xml");
 
     public UserPrefs() {
@@ -47,6 +48,14 @@ public class UserPrefs {
         this.addressBookFilePath = addressBookFilePath;
     }
 
+    public Path getModuleFilePath() {
+        return moduleFilePath;
+    }
+
+    public void setModuleFilePath(Path moduleFilePath) {
+        this.moduleFilePath = moduleFilePath;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -59,7 +68,8 @@ public class UserPrefs {
         UserPrefs o = (UserPrefs) other;
 
         return Objects.equals(guiSettings, o.guiSettings)
-                && Objects.equals(addressBookFilePath, o.addressBookFilePath);
+                && Objects.equals(addressBookFilePath, o.addressBookFilePath)
+                && Objects.equals(moduleFilePath, o.moduleFilePath);
     }
 
     @Override
@@ -72,6 +82,7 @@ public class UserPrefs {
         StringBuilder sb = new StringBuilder();
         sb.append("Gui Settings : " + guiSettings.toString());
         sb.append("\nLocal data file location : " + addressBookFilePath);
+        sb.append("\nLocal module list data file location : " + moduleFilePath);
         sb.append("\nLocal Credential Store File Location : " + credentialStoreFilePath);
         return sb.toString();
     }

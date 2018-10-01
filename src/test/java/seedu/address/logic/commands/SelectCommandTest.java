@@ -9,6 +9,7 @@ import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
+import static seedu.address.testutil.TypicalModules.getTypicalModuleList;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.Rule;
@@ -31,10 +32,10 @@ public class SelectCommandTest {
     @Rule
     public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
 
-    private Model model = new ModelManager(getTypicalAddressBook(),
-        new UserPrefs(), new CredentialStore());
-    private Model expectedModel = new ModelManager(getTypicalAddressBook(),
-        new UserPrefs(), new CredentialStore());
+    private final Model model = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(),
+            new UserPrefs(), new CredentialStore());
+    private final Model expectedModel = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(),
+            new UserPrefs(), new CredentialStore());
     private CommandHistory commandHistory = new CommandHistory();
 
     @Test

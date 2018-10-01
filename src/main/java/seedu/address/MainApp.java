@@ -23,7 +23,9 @@ import seedu.address.logic.LogicManager;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
+import seedu.address.model.ModuleList;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyModuleList;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.credential.CredentialStore;
 import seedu.address.model.credential.ReadOnlyCredentialStore;
@@ -31,10 +33,12 @@ import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.AddressBookStorage;
 import seedu.address.storage.CredentialStoreStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
+import seedu.address.storage.ModuleListStorage;
 import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.storage.XmlAddressBookStorage;
+import seedu.address.storage.XmlModuleListStorage;
 import seedu.address.storage.XmlCredentialStoreStorage;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
@@ -69,8 +73,8 @@ public class MainApp extends Application {
         CredentialStoreStorage credentialStoreStorage =
             new XmlCredentialStoreStorage(userPrefs.getCredentialStoreFilePath());
         AddressBookStorage addressBookStorage = new XmlAddressBookStorage(userPrefs.getAddressBookFilePath());
-        storage = new StorageManager(addressBookStorage, userPrefsStorage,
-            credentialStoreStorage);
+        ModuleListStorage moduleListStorage = new XmlModuleListStorage(userPrefs.getModuleFilePath());
+        storage = new StorageManager(moduleListStorage, addressBookStorage, userPrefsStorage, credentialStoreStorage);
 
         initLogging(config);
 
@@ -89,28 +93,29 @@ public class MainApp extends Application {
      * or an empty address book will be used instead if errors occur when reading {@code storage}'s address book.
      */
     private Model initModelManager(Storage storage, UserPrefs userPrefs) {
+
+        Optional<ReadOnlyModuleList> moduleListOptional;
         Optional<ReadOnlyCredentialStore> credentialStoreOptional;
-        ReadOnlyCredentialStore credentialStore;
-
-        try {
-            credentialStoreOptional = storage.readCredentialStore();
-            if (!credentialStoreOptional.isPresent()) {
-                logger.info("Data file not found. Will be starting with a sample AddressBook");
-            }
-            credentialStore =
-                credentialStoreOptional.orElse(new CredentialStore());
-        } catch (DataConversionException e) {
-            logger.warning("Data file not in the correct format. Will be "
-                + "starting with an empty CredentialStore");
-            credentialStore = new CredentialStore();
-        } catch (IOException e) {
-            logger.warning("Problem while reading from the file. Will be starting with an empty AddressBook");
-            credentialStore = new CredentialStore();
-        }
-
         Optional<ReadOnlyAddressBook> addressBookOptional;
         ReadOnlyAddressBook initialData;
+        ReadOnlyModuleList initialModuleListData;
+        ReadOnlyCredentialStore initialCredentialStore;
+      
         try {
+            // initCredentialStore
+            credentialStoreOptional = storage.readCredentialStore();
+            if (!credentialStoreOptional.isPresent()) {
+                logger.info("Credential Store file not found. Will be starting with a sample Credential Store");
+            }
+            initialCredentialStore = credentialStoreOptional.orElse(new CredentialStore());
+            // initModuleList
+            moduleListOptional = storage.readModuleList();
+            if (!moduleListOptional.isPresent()) {
+                logger.info("Module List data file not found. Will be starting with a sample module list "
+                        + "data");
+            }
+            initialModuleListData = moduleListOptional.orElseGet(SampleDataUtil::getSampleModuleList);
+            // initAddressBook
             addressBookOptional = storage.readAddressBook();
             if (!addressBookOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample AddressBook");
@@ -119,12 +124,16 @@ public class MainApp extends Application {
         } catch (DataConversionException e) {
             logger.warning("Data file not in the correct format. Will be starting with an empty AddressBook");
             initialData = new AddressBook();
+            initialCredentialStore = new CredentialStore();
+            initialModuleListData = new ModuleList();
         } catch (IOException e) {
             logger.warning("Problem while reading from the file. Will be starting with an empty AddressBook");
             initialData = new AddressBook();
+            initialCredentialStore = new CredentialStore();
+            initialModuleListData = new ModuleList();
         }
 
-        return new ModelManager(initialData, userPrefs, credentialStore);
+        return new ModelManager(initialModuleListData, initialData, userPrefs, initialCredentialStore);
     }
 
     private void initLogging(Config config) {
