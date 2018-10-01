@@ -57,15 +57,17 @@ public class ModelManagerTest {
         AddressBook addressBook = new AddressBookBuilder().withPerson(ALICE).withPerson(BENSON).build();
         AddressBook differentAddressBook = new AddressBook();
         UserPrefs userPrefs = new UserPrefs();
-
+        ConfigStore configStore = new ConfigStore();
         CredentialStore credentialStore = new CredentialStoreBuilder()
             .withCredentials(CREDENTIAL_STUDENT_MAX)
             .withCredentials(CREDENTIAL_STUDENT_SEB).build();
         CredentialStore differentCredentialStore = new CredentialStore();
 
         // same values -> returns true
-        modelManager = new ModelManager(moduleList, addressBook, userPrefs, credentialStore);
-        ModelManager modelManagerCopy = new ModelManager(moduleList, addressBook, userPrefs, credentialStore);
+        modelManager = new ModelManager(moduleList, addressBook, userPrefs,
+            credentialStore, configStore);
+        ModelManager modelManagerCopy = new ModelManager(moduleList,
+            addressBook, userPrefs, credentialStore, configStore);
         assertTrue(modelManager.equals(modelManagerCopy));
 
         // same object -> returns true
@@ -79,13 +81,13 @@ public class ModelManagerTest {
 
         // different addressBook -> returns false
         assertFalse(modelManager.equals(new ModelManager(moduleList, differentAddressBook, userPrefs,
-                                                        differentCredentialStore)));
+                                                        differentCredentialStore, configStore)));
 
         // different filteredList -> returns false
         String[] keywords = ALICE.getName().fullName.split("\\s+");
         modelManager.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
         assertFalse(modelManager.equals(new ModelManager(moduleList, addressBook, userPrefs,
-                                                        credentialStore)));
+                                                        credentialStore, configStore)));
 
         // resets modelManager to initial state for upcoming tests
         modelManager.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
@@ -93,6 +95,7 @@ public class ModelManagerTest {
         // different userPrefs -> returns true
         UserPrefs differentUserPrefs = new UserPrefs();
         differentUserPrefs.setAddressBookFilePath(Paths.get("differentFilePath"));
-        assertTrue(modelManager.equals(new ModelManager(moduleList, addressBook, differentUserPrefs, credentialStore)));
+        assertTrue(modelManager.equals(new ModelManager(moduleList,
+            addressBook, differentUserPrefs, credentialStore, configStore)));
     }
 }

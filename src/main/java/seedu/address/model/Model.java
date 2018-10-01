@@ -122,4 +122,9 @@ public interface Model {
      * Returns the currentUser.
      */
     User getCurrentUser();
+
+    /**
+     * Saves the current configuration.
+     */
+    void saveConfigFile(Config c);
 }

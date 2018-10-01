@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.ConfigStoreChangedEvent;
 import seedu.address.commons.events.model.CredentialStoreChangedEvent;
 import seedu.address.model.credential.Credential;
 import seedu.address.model.credential.CredentialStore;
@@ -31,13 +32,14 @@ public class ModelManager extends ComponentManager implements Model {
     private final VersionedAddressBook versionedAddressBook;
     private final FilteredList<Person> filteredPersons;
     private final CredentialStore credentialStore;
-
+    private final ConfigStore configStore;
 
     /**
-     * Initializes a ModelManager with the given addressBook and userPrefs.
+     * Initializes a ModelManager with the given addressBook, userPrefs.
      */
     public ModelManager(ReadOnlyModuleList moduleList, ReadOnlyAddressBook addressBook, UserPrefs userPrefs,
-                        ReadOnlyCredentialStore credentialStore) {
+                        ReadOnlyCredentialStore credentialStore,
+                        ConfigStore configStore) {
 
         requireAllNonNull(moduleList, addressBook, userPrefs, credentialStore);
 
@@ -48,10 +50,12 @@ public class ModelManager extends ComponentManager implements Model {
         versionedAddressBook = new VersionedAddressBook(addressBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
         this.credentialStore = (CredentialStore) credentialStore;
+        this.configStore = configStore;
     }
 
     public ModelManager() {
-        this(new ModuleList(), new AddressBook(), new UserPrefs(), new CredentialStore());
+        this(new ModuleList(), new AddressBook(), new UserPrefs(),
+            new CredentialStore(), new ConfigStore());
     }
 
     @Override
@@ -162,6 +166,18 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void commitAddressBook() {
         versionedAddressBook.commit();
+    }
+
+    //=========== Save Config file ==========================================================================
+    @Override
+    public void saveConfigFile(Config c) {
+        configStore.addConfigData(c);
+        triggerFileSaveConfig();
+    }
+
+    /** Raises an event to trigger the save */
+    private void triggerFileSaveConfig() {
+        raise(new ConfigStoreChangedEvent(configStore));
     }
 
     @Override

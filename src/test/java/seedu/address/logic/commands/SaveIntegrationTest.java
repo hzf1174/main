@@ -8,16 +8,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 import seedu.address.logic.CommandHistory;
+import seedu.address.model.Config;
 import seedu.address.model.ConfigStore;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.credential.Credential;
 import seedu.address.model.credential.CredentialStore;
-import seedu.address.model.user.Admin;
-import seedu.address.testutil.AdminBuilder;
+import seedu.address.testutil.ConfigBuilder;
 
-public class AddAdminCommandIntegrationTest {
+/**
+ * Contains integration tests (interaction with the Model) for {@code SaveCommand}.
+ */
+public class SaveIntegrationTest {
 
     private Model model;
     private CommandHistory commandHistory = new CommandHistory();
@@ -33,9 +35,8 @@ public class AddAdminCommandIntegrationTest {
     }
 
     @Test
-    public void execute_newAdmin_success() {
-        Admin validAdmin = new AdminBuilder().build();
-        Credential validCredential = new Credential("u", "p", "k");
+    public void execute_saveConfig_success() {
+        Config validConfig = new ConfigBuilder().build();
 
         Model expectedModel = new ModelManager(
             model.getModuleList(),
@@ -43,12 +44,11 @@ public class AddAdminCommandIntegrationTest {
             new UserPrefs(),
             new CredentialStore(),
             new ConfigStore());
-        expectedModel.addAdmin(validAdmin);
-        expectedModel.addCredential(validCredential);
+        expectedModel.saveConfigFile(validConfig);
+        expectedModel.commitAddressBook();
 
-        model.setCurrentUser(new AdminBuilder().build());
-
-        assertCommandSuccess(new AddAdminCommand(validAdmin, new Credential("u", "p", "k")), model, commandHistory,
-                String.format(AddAdminCommand.MESSAGE_SUCCESS, validAdmin), expectedModel);
+        assertCommandSuccess(new SaveCommand(validConfig), model, commandHistory,
+                String.format(SaveCommand.MESSAGE_SUCCESS, validConfig), expectedModel);
     }
+
 }

@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import seedu.address.logic.CommandHistory;
+import seedu.address.model.ConfigStore;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -18,9 +19,9 @@ import seedu.address.model.credential.CredentialStore;
 public class RedoCommandTest {
 
     private final Model model = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(),
-            new UserPrefs(), new CredentialStore());
+            new UserPrefs(), new CredentialStore(), new ConfigStore());
     private final Model expectedModel = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(),
-            new UserPrefs(), new CredentialStore());
+            new UserPrefs(), new CredentialStore(), new ConfigStore());
     private final CommandHistory commandHistory = new CommandHistory();
 
     @Before

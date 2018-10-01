@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import seedu.address.logic.CommandHistory;
 import seedu.address.model.AddressBook;
+import seedu.address.model.ConfigStore;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -37,12 +38,14 @@ public class ClearCommandTest {
             getTypicalModuleList(),
             getTypicalAddressBook(),
             new UserPrefs(),
-            new CredentialStore());
+            new CredentialStore(),
+            new ConfigStore());
         Model expectedModel = new ModelManager(
             getTypicalModuleList(),
             getTypicalAddressBook(),
             new UserPrefs(),
-            new CredentialStore());
+            new CredentialStore(),
+            new ConfigStore());
         expectedModel.resetData(new AddressBook());
         expectedModel.commitAddressBook();
 

@@ -21,6 +21,7 @@ import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
 import seedu.address.logic.LogicManager;
 import seedu.address.model.AddressBook;
+import seedu.address.model.ConfigStore;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ModuleList;
@@ -31,6 +32,7 @@ import seedu.address.model.credential.CredentialStore;
 import seedu.address.model.credential.ReadOnlyCredentialStore;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.AddressBookStorage;
+import seedu.address.storage.ConfigStoreStorage;
 import seedu.address.storage.CredentialStoreStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.ModuleListStorage;
@@ -38,6 +40,7 @@ import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.storage.XmlAddressBookStorage;
+import seedu.address.storage.XmlConfigStoreStorage;
 import seedu.address.storage.XmlCredentialStoreStorage;
 import seedu.address.storage.XmlModuleListStorage;
 import seedu.address.ui.Ui;
@@ -74,7 +77,11 @@ public class MainApp extends Application {
             new XmlCredentialStoreStorage(userPrefs.getCredentialStoreFilePath());
         AddressBookStorage addressBookStorage = new XmlAddressBookStorage(userPrefs.getAddressBookFilePath());
         ModuleListStorage moduleListStorage = new XmlModuleListStorage(userPrefs.getModuleFilePath());
-        storage = new StorageManager(moduleListStorage, addressBookStorage, userPrefsStorage, credentialStoreStorage);
+        ConfigStoreStorage configStoreStorage =
+            new XmlConfigStoreStorage(userPrefs.getUserConfigFilePath());
+        storage = new StorageManager(moduleListStorage, addressBookStorage,
+            userPrefsStorage, credentialStoreStorage, configStoreStorage);
+
 
         initLogging(config);
 
@@ -97,9 +104,12 @@ public class MainApp extends Application {
         Optional<ReadOnlyModuleList> moduleListOptional;
         Optional<ReadOnlyCredentialStore> credentialStoreOptional;
         Optional<ReadOnlyAddressBook> addressBookOptional;
+        Optional<ConfigStore> configStoreOptional;
+
         ReadOnlyAddressBook initialData;
         ReadOnlyModuleList initialModuleListData;
         ReadOnlyCredentialStore initialCredentialStore;
+        ConfigStore initialConfigStore;
 
         try {
             // initCredentialStore
@@ -120,20 +130,29 @@ public class MainApp extends Application {
             if (!addressBookOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample AddressBook");
             }
+            // initConfigStore
+            configStoreOptional = storage.readConfigStore();
+            if (!configStoreOptional.isPresent()) {
+                logger.info("Data file not found. Will be starting with a sample AddressBook");
+            }
+            initialConfigStore = configStoreOptional.orElse(new ConfigStore());
             initialData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
         } catch (DataConversionException e) {
             logger.warning("Data file not in the correct format. Will be starting with an empty AddressBook");
             initialData = new AddressBook();
             initialCredentialStore = new CredentialStore();
             initialModuleListData = new ModuleList();
+            initialConfigStore = new ConfigStore();
         } catch (IOException e) {
             logger.warning("Problem while reading from the file. Will be starting with an empty AddressBook");
             initialData = new AddressBook();
             initialCredentialStore = new CredentialStore();
             initialModuleListData = new ModuleList();
+            initialConfigStore = new ConfigStore();
         }
 
-        return new ModelManager(initialModuleListData, initialData, userPrefs, initialCredentialStore);
+        return new ModelManager(initialModuleListData, initialData, userPrefs,
+            initialCredentialStore, initialConfigStore);
     }
 
     private void initLogging(Config config) {

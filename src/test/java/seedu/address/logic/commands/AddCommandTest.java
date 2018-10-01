@@ -17,6 +17,7 @@ import javafx.collections.ObservableList;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
+import seedu.address.model.Config;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyModuleList;
@@ -198,6 +199,11 @@ public class AddCommandTest {
 
         @Override
         public void setCurrentUser(User user) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void saveConfigFile(Config c) {
             throw new AssertionError("This method should not be called.");
         }
 

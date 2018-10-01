@@ -50,6 +50,17 @@ public class XmlFileStorage {
     }
 
     /**
+     * Saves the given credential store data to the specified file.
+     */
+    public static void saveDataToFile(Path file, XmlSerializableConfigStore configStore) throws FileNotFoundException {
+        try {
+            XmlUtil.saveDataToFile(file, configStore);
+        } catch (JAXBException e) {
+            throw new AssertionError("Unexpected exception " + e.getMessage(), e);
+        }
+    }
+
+    /**
      * Returns address book in the file or an empty address book
      */
     public static XmlSerializableAddressBook loadDataFromSaveFile(Path file) throws DataConversionException,
@@ -87,5 +98,19 @@ public class XmlFileStorage {
             throw new DataConversionException(e);
         }
     }
+
+    /**
+     * Returns CredentialStore in the file or an empty usercredentials
+     */
+    public static XmlSerializableConfigStore loadConfigStoreDataFromSaveFile(Path file) throws DataConversionException,
+
+            FileNotFoundException {
+        try {
+            return XmlUtil.getDataFromFile(file, XmlSerializableConfigStore.class);
+        } catch (JAXBException e) {
+            throw new DataConversionException(e);
+        }
+    }
+
 
 }

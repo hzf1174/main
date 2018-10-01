@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import seedu.address.logic.CommandHistory;
 import seedu.address.model.AddressBook;
+import seedu.address.model.ConfigStore;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ModuleList;
@@ -29,9 +30,12 @@ public class RegisterCommandIntegrationTest {
 
     @Before
     public void setUp() {
-        model = new ModelManager(new ModuleList(), new AddressBook(),
-        new UserPrefs(),
-            getTypicalCredentialStore());
+        model = new ModelManager(
+            new ModuleList(),
+            new AddressBook(),
+            new UserPrefs(),
+            getTypicalCredentialStore(),
+            new ConfigStore());
         model.setCurrentUser(new StudentBuilder().build());
     }
 
@@ -40,8 +44,12 @@ public class RegisterCommandIntegrationTest {
         Credential validCredential = new Credential("u", "p", "k");
         User dummyUser = new StudentBuilder().build();
 
-        Model expectedModel = new ModelManager(new ModuleList(),
-            new AddressBook(), new UserPrefs(), getTypicalCredentialStore());
+        Model expectedModel = new ModelManager(
+            new ModuleList(),
+            new AddressBook(),
+            new UserPrefs(),
+            getTypicalCredentialStore(),
+            new ConfigStore());
         expectedModel.addCredential(validCredential);
 
         assertCommandSuccess(new RegisterCommand(validCredential, dummyUser), model,

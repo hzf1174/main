@@ -17,6 +17,7 @@ import java.util.Collections;
 import org.junit.Test;
 
 import seedu.address.logic.CommandHistory;
+import seedu.address.model.ConfigStore;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -31,9 +32,10 @@ public class FindCommandTest {
         getTypicalModuleList(),
         getTypicalAddressBook(),
         new UserPrefs(),
-        new CredentialStore());
+        new CredentialStore(),
+        new ConfigStore());
     private Model expectedModel = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(), new
-            UserPrefs(), new CredentialStore());
+            UserPrefs(), new CredentialStore(), new ConfigStore());
     private CommandHistory commandHistory = new CommandHistory();
 
     @Test
