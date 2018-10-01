@@ -26,8 +26,11 @@ public class AddCommandIntegrationTest {
 
     @Before
     public void setUp() {
-        model = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(), new UserPrefs()
-                                , new CredentialStore());
+        model = new ModelManager(
+            getTypicalModuleList(),
+            getTypicalAddressBook(),
+            new UserPrefs(),
+            new CredentialStore());
     }
 
     @Test

@@ -23,21 +23,37 @@ public class ClearCommandTest {
         Model expectedModel = new ModelManager();
         expectedModel.commitAddressBook();
 
-        assertCommandSuccess(new ClearCommand(), model, commandHistory, ClearCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(
+            new ClearCommand(),
+            model,
+            commandHistory,
+            ClearCommand.MESSAGE_SUCCESS,
+            expectedModel);
     }
 
     @Test
     public void execute_nonEmptyAddressBook_success() {
 
-        Model model = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(), 
-                                       new UserPrefs(), new CredentialStore());
-        Model expectedModel = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(),
-                new UserPrefs(), new CredentialStore());
+        Model model = new ModelManager(
+            getTypicalModuleList(),
+            getTypicalAddressBook(),
+            new UserPrefs(),
+            new CredentialStore());
+        Model expectedModel = new ModelManager(
+            getTypicalModuleList(),
+            getTypicalAddressBook(),
+            new UserPrefs(),
+            new CredentialStore());
 
         expectedModel.resetData(new AddressBook());
         expectedModel.commitAddressBook();
 
-        assertCommandSuccess(new ClearCommand(), model, commandHistory, ClearCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(
+            new ClearCommand(),
+            model,
+            commandHistory,
+            ClearCommand.MESSAGE_SUCCESS,
+            expectedModel);
     }
 
 }

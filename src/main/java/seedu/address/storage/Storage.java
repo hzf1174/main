@@ -52,7 +52,7 @@ public interface Storage extends ModuleListStorage, AddressBookStorage, UserPref
      */
     void handleModuleListChangedEvent(ModuleListChangedEvent abce);
 
-    /** 
+    /**
      * Saves the current version of the Credential Store to the hard disks.
      *   Creates the data file it it is missing.
      * Raises {@link DataSavingExceptionEvent} if there was an error during saving.

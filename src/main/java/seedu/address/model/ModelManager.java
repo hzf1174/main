@@ -24,8 +24,8 @@ import seedu.address.model.user.User;
  */
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
-    private final ReadOnlyModuleList moduleList;
     private static User currentUser = null;
+    private final ReadOnlyModuleList moduleList;
     private final VersionedAddressBook versionedAddressBook;
     private final FilteredList<Person> filteredPersons;
     private final CredentialStore credentialStore;
@@ -33,7 +33,7 @@ public class ModelManager extends ComponentManager implements Model {
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyModuleList moduleList, ReadOnlyAddressBook addressBook, UserPrefs userPrefs, 
+    public ModelManager(ReadOnlyModuleList moduleList, ReadOnlyAddressBook addressBook, UserPrefs userPrefs,
                         ReadOnlyCredentialStore credentialStore) {
         super();
         requireAllNonNull(moduleList, addressBook, userPrefs, credentialStore);

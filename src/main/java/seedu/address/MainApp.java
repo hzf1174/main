@@ -38,8 +38,8 @@ import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.storage.XmlAddressBookStorage;
-import seedu.address.storage.XmlModuleListStorage;
 import seedu.address.storage.XmlCredentialStoreStorage;
+import seedu.address.storage.XmlModuleListStorage;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
 
@@ -100,7 +100,7 @@ public class MainApp extends Application {
         ReadOnlyAddressBook initialData;
         ReadOnlyModuleList initialModuleListData;
         ReadOnlyCredentialStore initialCredentialStore;
-      
+
         try {
             // initCredentialStore
             credentialStoreOptional = storage.readCredentialStore();

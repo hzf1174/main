@@ -35,7 +35,7 @@ public class XmlFileStorage {
             throw new AssertionError("Unexpected exception " + e.getMessage(), e);
         }
     }
-  
+
     /**
      * Saves the given credential store data to the specified file.
      */
