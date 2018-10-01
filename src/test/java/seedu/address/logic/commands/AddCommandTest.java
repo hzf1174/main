@@ -19,7 +19,10 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.credential.Credential;
+import seedu.address.model.credential.ReadOnlyCredentialStore;
 import seedu.address.model.person.Person;
+import seedu.address.model.user.User;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -151,6 +154,33 @@ public class AddCommandTest {
         @Override
         public void commitAddressBook() {
             throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addCredential(Credential credential) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasCredential(Credential credential) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ReadOnlyCredentialStore getCredentialStore() {
+            throw new AssertionError("This method should not be called.");
+
+        }
+
+        @Override
+        public void setCurrentUser(User user) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public User getCurrentUser() {
+            throw new AssertionError("This method should not be called.");
+
         }
     }
 

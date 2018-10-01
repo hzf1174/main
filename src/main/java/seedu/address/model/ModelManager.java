@@ -12,7 +12,12 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.CredentialStoreChangedEvent;
+import seedu.address.model.credential.Credential;
+import seedu.address.model.credential.CredentialStore;
+import seedu.address.model.credential.ReadOnlyCredentialStore;
 import seedu.address.model.person.Person;
+import seedu.address.model.user.User;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -20,24 +25,33 @@ import seedu.address.model.person.Person;
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
+    private static User currentUser = null;
     private final VersionedAddressBook versionedAddressBook;
     private final FilteredList<Person> filteredPersons;
+    private final CredentialStore credentialStore;
+    //private final ModuleList
+    //private final User
+
+    // User(..,...,..,List<Module> stageModules)
+    // private final User currentUser;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs) {
+    public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs,
+                        ReadOnlyCredentialStore credentialStore) {
         super();
-        requireAllNonNull(addressBook, userPrefs);
+        requireAllNonNull(addressBook, userPrefs, credentialStore);
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
         versionedAddressBook = new VersionedAddressBook(addressBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
+        this.credentialStore = (CredentialStore) credentialStore;
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs());
+        this(new AddressBook(), new UserPrefs(), new CredentialStore());
     }
 
     @Override
@@ -51,7 +65,9 @@ public class ModelManager extends ComponentManager implements Model {
         return versionedAddressBook;
     }
 
-    /** Raises an event to indicate the model has changed */
+    /**
+     * Raises an event to indicate the model has changed
+     */
     private void indicateAddressBookChanged() {
         raise(new AddressBookChangedEvent(versionedAddressBook));
     }
@@ -144,7 +160,45 @@ public class ModelManager extends ComponentManager implements Model {
         // state check
         ModelManager other = (ModelManager) obj;
         return versionedAddressBook.equals(other.versionedAddressBook)
-                && filteredPersons.equals(other.filteredPersons);
+            && filteredPersons.equals(other.filteredPersons)
+            && credentialStore.equals(other.credentialStore);
     }
 
+    //============ Credential Store Methods ====================================
+
+    /**
+     * Raise an event indicating that credential store has change
+     */
+    private void indicateCredentialStoreChanged() {
+        raise(new CredentialStoreChangedEvent(credentialStore));
+    }
+
+    @Override
+    public void addCredential(Credential credential) {
+        credentialStore.addCredential(credential);
+        indicateCredentialStoreChanged();
+    }
+
+    @Override
+    public boolean hasCredential(Credential credential) {
+        return credentialStore.hasCredential(credential);
+    }
+
+    @Override
+    public ReadOnlyCredentialStore getCredentialStore() {
+        return credentialStore;
+    }
+
+    //============= User Account Management Methods ============================
+
+    @Override
+    public void setCurrentUser(User user) {
+        requireNonNull(user);
+        currentUser = user;
+    }
+
+    @Override
+    public User getCurrentUser() {
+        return currentUser;
+    }
 }

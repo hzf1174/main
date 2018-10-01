@@ -3,7 +3,10 @@ package seedu.address.model;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.credential.Credential;
+import seedu.address.model.credential.ReadOnlyCredentialStore;
 import seedu.address.model.person.Person;
+import seedu.address.model.user.User;
 
 /**
  * The API of the Model component.
@@ -75,4 +78,32 @@ public interface Model {
      * Saves the current address book state for undo/redo.
      */
     void commitAddressBook();
+
+    /**
+     * Adds the given credential.
+     * {@code credential} must not already exist in the credential store.
+     */
+    void addCredential(Credential credential);
+
+    /**
+     * Returns true if credential with the same username already exists in
+     * the credential store.
+     */
+    boolean hasCredential(Credential credential);
+
+    /**
+     * Returns the CredentialStore
+     */
+    ReadOnlyCredentialStore getCredentialStore();
+
+    /**
+     * Sets the given user as the currentUser.
+     * @param user
+     */
+    void setCurrentUser(User user);
+
+    /**
+     * Returns the currentUser.
+     */
+    User getCurrentUser();
 }

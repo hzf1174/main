@@ -21,6 +21,7 @@ import seedu.address.logic.CommandHistory;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.credential.CredentialStore;
 import seedu.address.ui.testutil.EventsCollectorRule;
 
 /**
@@ -30,8 +31,10 @@ public class SelectCommandTest {
     @Rule
     public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-    private Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBook(),
+        new UserPrefs(), new CredentialStore());
+    private Model expectedModel = new ModelManager(getTypicalAddressBook(),
+        new UserPrefs(), new CredentialStore());
     private CommandHistory commandHistory = new CommandHistory();
 
     @Test
