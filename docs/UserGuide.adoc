@@ -110,7 +110,7 @@ Examples:
 Loads the configuration file `module-configuration.json` into modsUni.
 
 
-=== Generate module plan : `generate`
+=== Generate module plan : `generate`[coming in v1.2]`
 
 Generate a module plan based on added modules invoked by the add or load command. +
 Format: `generate`
