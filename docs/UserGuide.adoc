@@ -159,14 +159,43 @@ Examples:
 
 * `set-theme <FIILE_NAME>`
 
-=== Add Admin: `addAdmin`
+=== Add a new administrator account: `addAdmin` `[coming in v2.0]`
 
-Create and add a new Admin account. +
+Create and add a new adminstrator account. +
 Format: `addAdmin user\[USERNAME] pass\[PASSWORD] n\[NAME] ptp\[PATH_TO_PIC] salary\[SALARY] date\[EMPLOYMENTDATE]`
 
 Examples:
 
 * `addAdmin user\master pass\myPass n\John Doe ptp\johnDoe.img salary\4000 date\1/1/2018`
+
+=== Remove a existing administrator account: `removeAdmin` `[coming in v2.0]`
+
+Remove a currently existing administrator account. +
+Format: `removeAdmin <USERNAME`
+
+Examples:
+
+* `removeAdmin user\adminUsername` +
+Removes a administrator account with username "adminUsername" if it exists.
+
+=== Add a new module to database: `addModuleDB` `[coming in v2.0]`
+
+Creates a new module and add it to the module database. +
+Format: `createModuleDB code\[MODULE_CODE] department\[DEPARTMENT] title\[TITLE] credit\[CREDIT] available\[SEM1][SEM2][SPECIAL_TERM1][SPECIAL_TERM2] description\[DESCRIPTION] `
+
+Examples:
+
+* `createModuleDB code\CS2109 department\Computing title\The New Module credit\4 available\yynn description\This course is newly offered by the school of computing. Visit the module website for more details`
+
+=== Remove a existing module from database: `removeModuleDB` `[coming in v2.0]`
+
+Removes a existing module from the module database. +
+Format: `removeModuleDB <MODULE_CODE>`
+
+Examples:
+
+* `removeModuleDB CS2109` +
+Removes a module with module code "CS2109" if it exists.
 
 == FAQ
 
