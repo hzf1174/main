@@ -91,25 +91,24 @@ Returns the same result as above.
 === Saving module configurations: `save`
 
 Save current module configurations for future usage. +
-Format: `save [FILE_NAME]`
+Format: `save`
 
 Examples:
 
 * `save` +
-Saves the current module configuration to the file name `dd-mm-yy-time.json`
+Saves the current module configuration to the file name `userconfig.xml`
 
-* `save module-configuration.json` +
-Saves the current module configuration to the file name `module-configuration.json`
 
-=== Loading module configurations: `load`
+=== Loading module configurations: `load` `[coming in v2.0]`
 
-Load saved module configurations. The loaded file must be in json format. +
+Load saved module configurations. The loaded file must be in xml format. +
 Format: `load [FILE_NAME]` +
 
 Examples:
 
 * `load module-configuration.json` +
 Loads the configuration file `module-configuration.json` into modsUni.
+
 
 === Generate module plan : `generate`
 
@@ -121,7 +120,7 @@ Format: `generate`
 Register a Student Account with the input parameters. +
 Format: `register user/[USERNAME] pass/[PASSWORD] pic/[PATH_TO_PIC] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
 
-=== Encryption: `no-encrypt`
+=== Encryption: `no-encrypt` `[coming in v2.0]`
 
 Encryption of information is enabled by default. If users wish to store the saved configuration in plaintext, they are required to explicitly disable this feature. +
 Format: `no-encrypt`
