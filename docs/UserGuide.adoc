@@ -115,10 +115,29 @@ Loads the configuration file `module-configuration.json` into modsUni.
 Generate a module plan based on added modules invoked by the add or load command. +
 Format: `generate`
 
+=== Login to User Account : `login` `[coming in v2.0]`
+
+Login to the User Account with the corresponding username. +
+Format: `login user/[USERNAME] pass/[PASSWORD] userData/[PATH_TO_DATA_FILE]`
+
 === Register a Student Account : `register`
 
 Register a Student Account with the input parameters. +
-Format: `register user/[USERNAME] pass/[PASSWORD] pic/[PATH_TO_PIC] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
+Format: `register user/[USERNAME] pass/[PASSWORD] name/[NAME] pic/[PATH_TO_PIC] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
+
+=== Edit Student Account : `editStudent` `[coming in v2.0]`
+
+Edits the Student specific information as specified in the input parameters. +
+Format: `editStudent [OPTION]/[INPUT]...` +
+
+Available Options:
+
+* Edit Name : `name/[NAME]`
+* Edit Profile Picture: `pic/[PATH_TO_PIC]`
+* Edit Enrollment Date: `enroll/[ENROLLMENT_DATE]`
+* Edit Major : `maj/[MAJOR_CODE]`
+* Edit Minor : `min/[MINOR_CODE]`
+* Edit Modules Taken : `modules/[MODULE_CODE]`
 
 === Encryption: `no-encrypt` `[coming in v2.0]`
 
@@ -181,7 +200,9 @@ Examples:
 * *Save* : `save [FILE_NAME]`
 * *Load* : `load [FILE_NAME]`
 * *Generate* : `generate`
-* *Register* : `register user/[USERNAME] pass/[PASSWORD] pic/[PATH_TO_PIC] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
+* *Login* : `login user/[USERNAME] pass/[PASSWORD] userData/[PATH_TO_DATA_FILE]`
+* *Register* : `register user/[USERNAME] pass/[PASSWORD] name/[NAME] pic/[PATH_TO_PIC] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
+* *Edit Student* : `editStudent [OPTION]/[INPUT]...`
 * *Encryption* : `no-encrypt`
 * *Add Admin* : `addAdmin user\[USERNAME] pass\[PASSWORD] n\[NAME] ptp\[PATH_TO_PIC] salary\[SALARY]
 date\[EMPLOYMENTDATE]`
