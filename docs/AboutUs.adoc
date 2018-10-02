@@ -15,6 +15,7 @@ image::crimsonjacket.png[width="150", align="left"]
 {empty}[https://github.com/CrimsonJacket[github]] [<<danieltan#, portfolio>>]
 
 Role: Team Lead
+Responsibility: In charge of project management and ensures that the team is moving in the right direction.
 
 '''
 
@@ -22,7 +23,8 @@ Role: Team Lead
 image::etjk.png[width="150", align="left"]
 {empty}[http://github.com/etjk[github]] [<<edricteo#, portfolio>>]
 
-Role: Documentation
+Role: Developer
+Responsibility: In charge of project documentation and ensures that all documentations are in place and updated.
 
 '''
 
@@ -30,7 +32,8 @@ Role: Documentation
 image::hzf1174.png[width="150", align="left"]
 {empty}[http://github.com/hzf1174[github]] [<<zhenfeng#, portfolio>>]
 
-Role: Testing
+Role: Developer
+Responsibility: In charge of project testing and ensures that application pass test cases locally and remotely.
 
 '''
 
@@ -38,7 +41,8 @@ Role: Testing
 image::deming16.png[width="150", align="left"]
 {empty}[http://github.com/deming16[github]] [<<deming#, portfolio>>]
 
-Role: Integration
+Role: Developer
+Responsibility: In charge of integration and ensures that the different features are well integrated.
 
 '''
 
@@ -46,6 +50,7 @@ Role: Integration
 image::rtjl.png[width="150", align="left"]
 {empty}[http://github.com/RTJL[github]] [<<reubentan#, portfolio>>]
 
-Role: Code Quality
+Role: Developer
+Responsibility: In charge of project code quality and ensures that the codebase is seamless.
 
 '''
