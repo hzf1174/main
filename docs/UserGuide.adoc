@@ -181,7 +181,7 @@ Removes a administrator account with username "adminUsername" if it exists.
 === Add a new module to database: `addModuleDB` `[coming in v2.0]`
 
 Creates a new module and add it to the module database. +
-Format: `createModuleDB code\[MODULE_CODE] department\[DEPARTMENT] title\[TITLE] credit\[CREDIT] available\[SEM1][SEM2][SPECIAL_TERM1][SPECIAL_TERM2] description\[DESCRIPTION] `
+Format: `createModuleDB code\[MODULE_CODE] department\[DEPARTMENT] title\[TITLE] credit\[CREDIT] available\[SEM1][SEM2][SPECIAL_TERM1][SPECIAL_TERM2] description\[DESCRIPTION]`
 
 Examples:
 
