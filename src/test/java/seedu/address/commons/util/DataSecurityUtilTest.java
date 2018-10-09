@@ -1,8 +1,6 @@
 package seedu.address.commons.util;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -74,7 +72,7 @@ public class DataSecurityUtilTest {
     public void testDecryptingBytesWrongPassword() throws CorruptedFileException, InvalidPasswordException {
         DataSecurityUtil.decrypt(TEST_DATA_DECRYPTION, WRONG_PASSWORD);
     }
-
+    
     public static String convertByteArrayToHexString(byte[] data) {
         return DatatypeConverter.printHexBinary(data);
     }
