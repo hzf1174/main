@@ -1,8 +1,12 @@
 package seedu.address.commons.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
@@ -28,6 +32,14 @@ public class DataSecurityUtil {
     private static final String INVALID_PASSWORD_MESSAGE = "Invalid Password";
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
+    public static void encryptFile(File file, String password) throws IOException {
+        byte[] fileContent = Files.readAllBytes(file.toPath());
+        byte[] encryptedFileContent = encrypt(fileContent, password);
+
+        Files.write(file.toPath(), encryptedFileContent);
+
+    }
+
 
     /**
      * Encrypts the given data using a password
@@ -43,9 +55,7 @@ public class DataSecurityUtil {
             Cipher aesCipher = Cipher.getInstance(CIPHER_INSTANCE);
             aesCipher.init(Cipher.ENCRYPT_MODE, secretKey);
 
-            byte[] encryptedText = aesCipher.doFinal(data);
-
-            return encryptedText;
+            return aesCipher.doFinal(data);
 
         } catch (NoSuchAlgorithmException | IllegalBlockSizeException | NoSuchPaddingException | InvalidKeyException | BadPaddingException e) {
             e.printStackTrace();
@@ -102,13 +112,15 @@ public class DataSecurityUtil {
     public static void main(String[] args) {
         byte[] data = "hello".getBytes();
         try {
+            File file = new File("hello.xml");
+            encryptFile(file, "peter");
 
-            byte[] encrypted = DataSecurityUtil.encrypt(data, "910");
-            System.out.println(new String(encrypted, CHARSET));
-
-
-            byte[] decrypted = DataSecurityUtil.decrypt(encrypted, "910");
-            System.out.println(new String(decrypted, CHARSET));
+//            byte[] encrypted = DataSecurityUtil.encrypt(data, "910");
+//            System.out.println(new String(encrypted, CHARSET));
+//
+//
+//            byte[] decrypted = DataSecurityUtil.decrypt(encrypted, "910");
+//            System.out.println(new String(decrypted, CHARSET));
 
 
             } catch (Exception e) {
