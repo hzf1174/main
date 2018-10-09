@@ -1,12 +1,12 @@
 package seedu.address.commons.util;
 
+import static java.util.Objects.requireNonNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
@@ -32,20 +32,34 @@ public class DataSecurityUtil {
     private static final String INVALID_PASSWORD_MESSAGE = "Invalid Password";
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
+    /**
+     * Encrypts the given file using a password and overwrites the original plaintext file
+     *
+     * @param file The file to be encrypted
+     * @param password Used to encrypt file
+     */
     public static void encryptFile(File file, String password) throws IOException {
-        byte[] fileContent = Files.readAllBytes(file.toPath());
+        requireNonNull(file);
+        requireNonNull(password);
+        byte[] fileContent = convertFileToByteArray(file);
         byte[] encryptedFileContent = encrypt(fileContent, password);
 
-        Files.write(file.toPath(), encryptedFileContent);
-
+        writeByteArrayToFile(file, encryptedFileContent);
     }
 
+    /**
+     * Decrypts the given file using a password and overwrites the original encrypted file
+     *
+     * @param file The file to be decrypted
+     * @param password Used to decrypt file
+     */
     public static void decryptFile(File file, String password) throws IOException, InvalidPasswordException {
-        byte[] fileContent = Files.readAllBytes(file.toPath());
+        requireNonNull(file);
+        requireNonNull(password);
+        byte[] fileContent = convertFileToByteArray(file);
         byte[] decryptedFileContent = decrypt(fileContent, password);
 
-        Files.write(file.toPath(), decryptedFileContent);
-
+        writeByteArrayToFile(file, decryptedFileContent);
     }
 
 
@@ -57,20 +71,18 @@ public class DataSecurityUtil {
      * @return byte[] of the encrypted data
      */
     public static byte[] encrypt(byte[] data, String password) {
+        requireNonNull(data);
+        requireNonNull(password);
         try {
             Key secretKey = generateSecretKey(password);
-
             Cipher aesCipher = Cipher.getInstance(CIPHER_INSTANCE);
             aesCipher.init(Cipher.ENCRYPT_MODE, secretKey);
-
             return aesCipher.doFinal(data);
-
         } catch (NoSuchAlgorithmException | IllegalBlockSizeException | NoSuchPaddingException | InvalidKeyException | BadPaddingException e) {
             e.printStackTrace();
         }
 
-        return null;
-
+        return new byte[0];
     }
 
     /**
@@ -82,60 +94,80 @@ public class DataSecurityUtil {
      * @throws InvalidPasswordException if an invalid password is supplied
      */
     public static byte[] decrypt(byte[] data, String password) throws InvalidPasswordException {
+        requireNonNull(data);
+        requireNonNull(password);
         try {
             Key secretKey = generateSecretKey(password);
             Cipher aesCipher = Cipher.getInstance(CIPHER_INSTANCE);
             aesCipher.init(Cipher.DECRYPT_MODE, secretKey);
-            byte[] decryptedText = aesCipher.doFinal(data);
-
-            return decryptedText;
-
-
+            return aesCipher.doFinal(data);
         } catch (NoSuchAlgorithmException | IllegalBlockSizeException | NoSuchPaddingException | InvalidKeyException e) {
             e.printStackTrace();
         } catch (BadPaddingException e){
             handleBadPaddingException();
         }
 
-        return null;
-
+        return new byte[0];
     }
 
+    /**
+     * Writes byte array to file
+     *
+     * @param file The file to be written
+     * @param data The data to be written into file
+     * @throws IOException if file do not exist
+     */
+    private static void writeByteArrayToFile(File file, byte[] data) throws IOException {
+        Files.write(file.toPath(), data);
+    }
+
+    /**
+     * Converts a file to byte array
+     *
+     * @param file The file to be converted
+     * @return file in byte array
+     * @throws IOException if file do not exist
+     */
+    private static byte[] convertFileToByteArray(File file) throws IOException {
+        return Files.readAllBytes(file.toPath());
+    }
+
+    /**
+     * Generates a key
+     *
+     * @param password The password to generate the key
+     * @return A secret key
+     */
     private static Key generateSecretKey(String password){
         return new SecretKeySpec(getFirst16Bytes(hash(password).getBytes()), ALGORITHM);
     }
 
+    /**
+     * Handles BadPaddingException
+     *
+     * @throws InvalidPasswordException if an invalid password is supplied
+     */
     private static void handleBadPaddingException() throws InvalidPasswordException {
             throw new InvalidPasswordException(INVALID_PASSWORD_MESSAGE);
     }
 
+    /**
+     * Generates a SHA-1 hash using a string
+     *
+     * @param password The string to be hashed
+     * @return
+     */
     private static String hash(String password) {
         return Hashing.sha1().hashString(password, CHARSET).toString();
     }
 
+    /**
+     * Gets the first 16 bytes of a byte array
+     *
+     * @param password The string to be hashed
+     * @return first 16 bytes of a byte array
+     */
     private static byte[] getFirst16Bytes(byte[] password){
         return Arrays.copyOf(password, 16);
     }
-
-    public static void main(String[] args) {
-        byte[] data = "hello".getBytes();
-        try {
-            File file = new File("hello.xml");
-//            encryptFile(file, "peter");
-            decryptFile(file, "peter1");
-
-//            byte[] encrypted = DataSecurityUtil.encrypt(data, "910");
-//            System.out.println(new String(encrypted, CHARSET));
-//
-//
-//            byte[] decrypted = DataSecurityUtil.decrypt(encrypted, "910");
-//            System.out.println(new String(decrypted, CHARSET));
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-    }
 }
-
