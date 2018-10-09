@@ -40,6 +40,14 @@ public class DataSecurityUtil {
 
     }
 
+    public static void decryptFile(File file, String password) throws IOException, InvalidPasswordException {
+        byte[] fileContent = Files.readAllBytes(file.toPath());
+        byte[] decryptedFileContent = decrypt(fileContent, password);
+
+        Files.write(file.toPath(), decryptedFileContent);
+
+    }
+
 
     /**
      * Encrypts the given data using a password
@@ -113,7 +121,8 @@ public class DataSecurityUtil {
         byte[] data = "hello".getBytes();
         try {
             File file = new File("hello.xml");
-            encryptFile(file, "peter");
+//            encryptFile(file, "peter");
+            decryptFile(file, "peter1");
 
 //            byte[] encrypted = DataSecurityUtil.encrypt(data, "910");
 //            System.out.println(new String(encrypted, CHARSET));
