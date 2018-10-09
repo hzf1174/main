@@ -55,7 +55,8 @@ public class DataSecurityUtil {
      * @param file The file to be decrypted
      * @param password Used to decrypt file
      */
-    public static void decryptFile(File file, String password) throws IOException, InvalidPasswordException, CorruptedFileException {
+    public static void decryptFile(File file, String password) throws IOException,
+            InvalidPasswordException, CorruptedFileException {
         requireNonNull(file);
         requireNonNull(password);
         byte[] fileContent = convertFileToByteArray(file);
@@ -80,7 +81,8 @@ public class DataSecurityUtil {
             Cipher aesCipher = Cipher.getInstance(CIPHER_INSTANCE);
             aesCipher.init(Cipher.ENCRYPT_MODE, secretKey);
             return aesCipher.doFinal(data);
-        } catch (NoSuchAlgorithmException | IllegalBlockSizeException | NoSuchPaddingException | InvalidKeyException | BadPaddingException e) {
+        } catch (NoSuchAlgorithmException | IllegalBlockSizeException | NoSuchPaddingException
+                | InvalidKeyException | BadPaddingException e) {
             e.printStackTrace();
         }
 
@@ -105,9 +107,9 @@ public class DataSecurityUtil {
             return aesCipher.doFinal(data);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException e) {
             e.printStackTrace();
-        } catch (BadPaddingException e){
+        } catch (BadPaddingException e) {
             handleBadPaddingException();
-        } catch (IllegalBlockSizeException e){
+        } catch (IllegalBlockSizeException e) {
             handleIllegalBlockSizeException();
         }
 
@@ -122,6 +124,8 @@ public class DataSecurityUtil {
      * @throws IOException if file do not exist
      */
     private static void writeByteArrayToFile(File file, byte[] data) throws IOException {
+        requireNonNull(file);
+        requireNonNull(data);
         Files.write(file.toPath(), data);
     }
 
@@ -133,6 +137,7 @@ public class DataSecurityUtil {
      * @throws IOException if file do not exist
      */
     private static byte[] convertFileToByteArray(File file) throws IOException {
+        requireNonNull(file);
         return Files.readAllBytes(file.toPath());
     }
 
@@ -142,7 +147,8 @@ public class DataSecurityUtil {
      * @param password The password to generate the key
      * @return A secret key
      */
-    private static Key generateSecretKey(String password){
+    private static Key generateSecretKey(String password) {
+        requireNonNull(password);
         return new SecretKeySpec(getFirst16Bytes(hash(password).getBytes()), ALGORITHM);
     }
 
@@ -152,7 +158,7 @@ public class DataSecurityUtil {
      * @throws InvalidPasswordException if an invalid password is supplied
      */
     private static void handleBadPaddingException() throws InvalidPasswordException {
-            throw new InvalidPasswordException(INVALID_PASSWORD_MESSAGE);
+        throw new InvalidPasswordException(INVALID_PASSWORD_MESSAGE);
     }
 
     /**
@@ -171,6 +177,7 @@ public class DataSecurityUtil {
      * @return
      */
     private static String hash(String password) {
+        requireNonNull(password);
         return Hashing.sha1().hashString(password, CHARSET).toString();
     }
 
@@ -180,7 +187,8 @@ public class DataSecurityUtil {
      * @param password The string to be hashed
      * @return first 16 bytes of a byte array
      */
-    private static byte[] getFirst16Bytes(byte[] password){
+    private static byte[] getFirst16Bytes(byte[] password) {
+        requireNonNull(password);
         return Arrays.copyOf(password, 16);
     }
 }
