@@ -20,6 +20,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import com.google.common.hash.Hashing;
 
+import seedu.address.commons.exceptions.CorruptedFileException;
 import seedu.address.commons.exceptions.InvalidPasswordException;
 
 /**
@@ -30,6 +31,7 @@ public class DataSecurityUtil {
     private static final String ALGORITHM = "AES";
     private static final String CIPHER_INSTANCE = "AES/ECB/PKCS5Padding";
     private static final String INVALID_PASSWORD_MESSAGE = "Invalid Password";
+    private static final String CORRUPTED_FILE_MESSAGE = "The encrypted file may be corrupted. Decryption failed.";
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
     /**
@@ -53,7 +55,7 @@ public class DataSecurityUtil {
      * @param file The file to be decrypted
      * @param password Used to decrypt file
      */
-    public static void decryptFile(File file, String password) throws IOException, InvalidPasswordException {
+    public static void decryptFile(File file, String password) throws IOException, InvalidPasswordException, CorruptedFileException {
         requireNonNull(file);
         requireNonNull(password);
         byte[] fileContent = convertFileToByteArray(file);
@@ -93,7 +95,7 @@ public class DataSecurityUtil {
      * @return byte[] of the decrypted data
      * @throws InvalidPasswordException if an invalid password is supplied
      */
-    public static byte[] decrypt(byte[] data, String password) throws InvalidPasswordException {
+    public static byte[] decrypt(byte[] data, String password) throws InvalidPasswordException, CorruptedFileException {
         requireNonNull(data);
         requireNonNull(password);
         try {
@@ -101,10 +103,12 @@ public class DataSecurityUtil {
             Cipher aesCipher = Cipher.getInstance(CIPHER_INSTANCE);
             aesCipher.init(Cipher.DECRYPT_MODE, secretKey);
             return aesCipher.doFinal(data);
-        } catch (NoSuchAlgorithmException | IllegalBlockSizeException | NoSuchPaddingException | InvalidKeyException e) {
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException e) {
             e.printStackTrace();
         } catch (BadPaddingException e){
             handleBadPaddingException();
+        } catch (IllegalBlockSizeException e){
+            handleIllegalBlockSizeException();
         }
 
         return new byte[0];
@@ -149,6 +153,15 @@ public class DataSecurityUtil {
      */
     private static void handleBadPaddingException() throws InvalidPasswordException {
             throw new InvalidPasswordException(INVALID_PASSWORD_MESSAGE);
+    }
+
+    /**
+     * Handles IllegalBlockSizeException
+     *
+     * @throws CorruptedFileException if an encrypted file is corrupted
+     */
+    private static void handleIllegalBlockSizeException() throws CorruptedFileException {
+        throw new CorruptedFileException(CORRUPTED_FILE_MESSAGE);
     }
 
     /**
