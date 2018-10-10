@@ -151,12 +151,14 @@ public class DataSecurityUtilTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void testFileDecryptingNullFileValidPassword() throws IOException, CorruptedFileException, InvalidPasswordException {
+    public void testFileDecryptingNullFileValidPassword() throws IOException,
+            CorruptedFileException, InvalidPasswordException {
         DataSecurityUtil.decryptFile(null, PASSWORD);
     }
 
     @Test(expected = NullPointerException.class)
-    public void testFileDecryptingValidFileNullPassword() throws IOException, CorruptedFileException, InvalidPasswordException {
+    public void testFileDecryptingValidFileNullPassword() throws IOException,
+            CorruptedFileException, InvalidPasswordException {
         File file = File.createTempFile(TEST_FILE_PREFIX, TEST_FILE_EXTENSION, new File(TEST_FILE_PATH));
         Files.write(file.toPath(), TEST_DATA_ENCRYPTION);
 
@@ -168,12 +170,14 @@ public class DataSecurityUtilTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void testFileDecryptingNullFileNullPassword() throws IOException, CorruptedFileException, InvalidPasswordException {
+    public void testFileDecryptingNullFileNullPassword() throws IOException,
+            CorruptedFileException, InvalidPasswordException {
         DataSecurityUtil.decryptFile(null, null);
     }
 
     @Test(expected = InvalidPasswordException.class)
-    public void testFileDecryptingWrongPassword() throws IOException, CorruptedFileException, InvalidPasswordException {
+    public void testFileDecryptingWrongPassword() throws IOException,
+            CorruptedFileException, InvalidPasswordException {
 
         // Create and write TEST_DATA_ENCRYPTION to file
         File file = File.createTempFile(TEST_FILE_PREFIX, TEST_FILE_EXTENSION, new File(TEST_FILE_PATH));
@@ -192,7 +196,8 @@ public class DataSecurityUtilTest {
     }
 
     @Test(expected = CorruptedFileException.class)
-    public void testFileDecryptingCorruptedFile() throws IOException, CorruptedFileException, InvalidPasswordException {
+    public void testFileDecryptingCorruptedFile() throws IOException,
+            CorruptedFileException, InvalidPasswordException {
 
         // Create and write TEST_DATA_ENCRYPTION to file
         File file = File.createTempFile(TEST_FILE_PREFIX, TEST_FILE_EXTENSION, new File(TEST_FILE_PATH));
