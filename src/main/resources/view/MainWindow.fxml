@@ -75,26 +75,34 @@
                                 <!-- Staged Tab -->
                                 <Tab fx:id="modulesStagedTab" closable="false" text="Staged">
                                     <content>
-                                        <VBox fx:id="moduleList" minWidth="340" prefWidth="340">
+                                        <VBox fx:id="stagedModuleList" minWidth="340" prefWidth="340">
                                             <padding>
                                                 <Insets top="10" right="10" bottom="10" left="10"/>
                                             </padding>
-                                            <StackPane fx:id="moduleListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+                                            <StackPane fx:id="stagedModuleListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
                                         </VBox>
                                     </content>
                                 </Tab>
                                 <!-- Taken Tab -->
                                 <Tab fx:id="modulesTakenTab" text="Taken">
                                     <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-                                                    prefWidth="300.0"/>
+                                        <VBox fx:id="takenModuleList" minWidth="340" prefWidth="340">
+                                            <padding>
+                                                <Insets top="10" right="10" bottom="10" left="10"/>
+                                            </padding>
+                                            <StackPane fx:id="takenModuleListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+                                        </VBox>
                                     </content>
                                 </Tab>
                                 <!-- Database Tab -->
                                 <Tab fx:id="databaseTab" text="Database">
                                     <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-                                                    prefWidth="300.0"/>
+                                        <VBox fx:id="databaseModuleList" minWidth="340" prefWidth="340">
+                                            <padding>
+                                                <Insets top="10" right="10" bottom="10" left="10"/>
+                                            </padding>
+                                            <StackPane fx:id="databaseModuleListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+                                        </VBox>
                                     </content>
                                 </Tab>
                             </tabs>
