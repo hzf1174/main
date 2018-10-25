@@ -6,12 +6,12 @@ import seedu.modsuni.model.module.Module;
 /**
  * Represents a selection change in the Module List Panel
  */
-public class TakenModulePanelSelectionChangedEvent extends BaseEvent {
+public class DatabaseModulePanelSelectionChangedEvent extends BaseEvent {
 
 
     private final Module newSelection;
 
-    public TakenModulePanelSelectionChangedEvent(Module newSelection) {
+    public DatabaseModulePanelSelectionChangedEvent(Module newSelection) {
         this.newSelection = newSelection;
     }
 
