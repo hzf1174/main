@@ -24,8 +24,14 @@ public interface Logic {
     /** Returns an unmodifiable view of the filtered list of persons */
     ObservableList<Person> getFilteredPersonList();
 
-    /** Returns an unmodifiable view of the filtered list of modules */
-    ObservableList<Module> getFilteredModuleList();
+    /** Returns an unmodifiable view of the filtered database list of modules */
+    ObservableList<Module> getFilteredDatabaseModuleList();
+
+    /** Returns an unmodifiable view of the filtered staged list of modules */
+    ObservableList<Module> getFilteredStagedModuleList();
+
+    /** Returns an unmodifiable view of the filtered taken list of modules */
+    ObservableList<Module> getFilteredTakenModuleList();
 
     /** Returns a view of the current user */
     User getCurrentUser();

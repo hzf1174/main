@@ -5,6 +5,8 @@ import static java.util.Objects.requireNonNull;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import seedu.modsuni.commons.core.EventsCenter;
+import seedu.modsuni.commons.events.ui.ShowTakenTabRequestEvent;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -85,6 +87,8 @@ public class AddModuleToStudentTakenCommand extends Command {
             model.addModuleTaken(toAdd);
             addSuccessCode = addSuccessCode.concat(" " + module.getCode().toString());
         }
+
+        EventsCenter.getInstance().post(new ShowTakenTabRequestEvent());
 
         return new CommandResult(notExistCode + '\n'
                 + duplicateCode + '\n' + addSuccessCode);

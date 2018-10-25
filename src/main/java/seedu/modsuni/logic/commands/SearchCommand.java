@@ -2,7 +2,9 @@ package seedu.modsuni.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import seedu.modsuni.commons.core.EventsCenter;
 import seedu.modsuni.commons.core.Messages;
+import seedu.modsuni.commons.events.ui.ShowDatabaseTabRequestEvent;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.module.CodeStartsKeywordsPredicate;
@@ -30,9 +32,12 @@ public class SearchCommand extends Command {
     @Override
     public CommandResult execute(Model model, CommandHistory history) {
         requireNonNull(model);
-        model.updateFilteredModuleList(predicate);
+        model.updateFilteredDatabaseModuleList(predicate);
+
+        EventsCenter.getInstance().post(new ShowDatabaseTabRequestEvent());
+
         return new CommandResult(
-                String.format(Messages.MESSAGE_MODULE_LISTED_OVERVIEW, model.getFilteredModuleList().size()));
+                String.format(Messages.MESSAGE_MODULE_LISTED_OVERVIEW, model.getFilteredDatabaseModuleList().size()));
     }
 
     @Override
