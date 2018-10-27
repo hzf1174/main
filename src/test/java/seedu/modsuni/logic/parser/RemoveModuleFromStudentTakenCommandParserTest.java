@@ -6,13 +6,12 @@ import static seedu.modsuni.logic.parser.CommandParserTestUtil.assertParseSucces
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 import org.junit.Test;
 
 import seedu.modsuni.logic.commands.RemoveModuleFromStudentTakenCommand;
 import seedu.modsuni.model.module.Code;
-import seedu.modsuni.model.module.Module;
-import seedu.modsuni.model.module.Prereq;
 
 public class RemoveModuleFromStudentTakenCommandParserTest {
     private RemoveModuleFromStudentTakenCommandParser parser = new RemoveModuleFromStudentTakenCommandParser();
@@ -26,19 +25,29 @@ public class RemoveModuleFromStudentTakenCommandParserTest {
 
     @Test
     public void parse_multiCode_success() {
-        Module cs1010 = new Module(new Code("CS1010"), "", "", "",
-                0, false, false, false, false, new ArrayList<Code>(), new Prereq());
-        Module cs2103T = new Module(new Code("CS2103T"), "", "", "",
-                0, false, false, false, false, new ArrayList<Code>(), new Prereq());
-        ArrayList<Module> expectedModuleList = new ArrayList<>(Arrays.asList(cs1010, cs2103T));
-        assertParseSuccess(parser, "CS1010 CS2103T", new RemoveModuleFromStudentTakenCommand(expectedModuleList));
+        Code cs1010 = new Code("CS1010");
+        Code cs2103T = new Code("CS2103T");
+        ArrayList<Code> expectedModuleList = new ArrayList<>(Arrays.asList(cs1010, cs2103T));
+        assertParseSuccess(parser, "CS1010 CS2103T",
+                new RemoveModuleFromStudentTakenCommand(expectedModuleList, new HashSet<>()));
     }
 
     @Test
     public void parse_caseInsensitive_success() {
-        Module cs1010 = new Module(new Code("CS1010"), "", "", "",
-                0, false, false, false, false, new ArrayList<Code>(), new Prereq());
-        ArrayList<Module> expectedModuleList = new ArrayList<>(Arrays.asList(cs1010));
-        assertParseSuccess(parser, "cs1010", new RemoveModuleFromStudentTakenCommand(expectedModuleList));
+        Code cs1010 = new Code("CS1010");
+        ArrayList<Code> expectedModuleList = new ArrayList<>(Arrays.asList(cs1010));
+        assertParseSuccess(parser, "cs1010",
+                new RemoveModuleFromStudentTakenCommand(expectedModuleList, new HashSet<>()));
+    }
+
+    @Test
+    public void parse_duplicateCode_success() {
+        Code cs1010 = new Code("CS1010");
+        Code cs2103T = new Code("CS2103T");
+        ArrayList<Code> expectedModuleList = new ArrayList<>(Arrays.asList(cs1010, cs2103T));
+        HashSet<String> expectedHashSet = new HashSet<>();
+        expectedHashSet.add("CS1010");
+        assertParseSuccess(parser, "CS1010 CS2103T CS1010 CS1010",
+                new RemoveModuleFromStudentTakenCommand(expectedModuleList, expectedHashSet));
     }
 }
