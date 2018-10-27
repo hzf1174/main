@@ -4,14 +4,14 @@ import static seedu.modsuni.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.modsuni.logic.commands.AddModuleToStudentStagedCommand;
 import seedu.modsuni.logic.parser.exceptions.ParseException;
 import seedu.modsuni.model.module.Code;
-import seedu.modsuni.model.module.Module;
-import seedu.modsuni.model.module.Prereq;
 
 /**
  * Parses input arguments and creates a new AddModuleToStudentTakenCommand object
@@ -32,12 +32,15 @@ public class AddModuleToStudentStagedCommandParser implements Parser<AddModuleTo
         }
 
         String[] searchList = inputModuleCode.split(" ");
-        Stream<String> searchStream = Arrays.stream(searchList);
-        Stream<Module> searchModuleStream = searchStream.map(code -> new Module(new Code(code),
-                "", "", "", 0, false, false, false, false,
-                new ArrayList<Code>(), new Prereq()));
+        Stream<String> filteredStream = Arrays.stream(searchList).distinct();
+        Set<String> allItems = new HashSet<>();
+        Set<String> duplicatedList = Arrays.stream(searchList)
+                .filter(n -> !allItems.add(n)) //Set.add() returns false if the item was already in the set.
+                .collect(Collectors.toSet());
 
-        return new AddModuleToStudentStagedCommand(searchModuleStream.collect(Collectors.toCollection(ArrayList::new)));
+        return new AddModuleToStudentStagedCommand(filteredStream.map(code -> new Code(code))
+                .collect(Collectors.toCollection(ArrayList::new)),
+                duplicatedList);
     }
 
 }
