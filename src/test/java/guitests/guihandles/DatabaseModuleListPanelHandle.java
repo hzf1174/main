@@ -1,25 +1,25 @@
 package guitests.guihandles;
 
-import javafx.scene.Node;
-import javafx.scene.control.ListView;
-import seedu.modsuni.model.module.Module;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javafx.scene.Node;
+import javafx.scene.control.ListView;
+import seedu.modsuni.model.module.Module;
+
 /**
- * Provides a handle for {@code TakenModuleListPanel} containing the list of {@code ModuleCard}.
+ * Provides a handle for {@code DatabaseModuleListPanel} containing the list of {@code ModuleCard}.
  */
-public class TakenModuleListPanelHandle extends NodeHandle<ListView<Module>> {
-    public static final String MODULE_LIST_VIEW_ID = "#takenModuleListView";
+public class DatabaseModuleListPanelHandle extends NodeHandle<ListView<Module>> {
+    public static final String MODULE_LIST_VIEW_ID = "#databaseModuleListView";
 
     private static final String CARD_PANE_ID = "#cardPane";
 
     private Optional<Module> lastRememberedSelectedModuleCard;
 
-    public TakenModuleListPanelHandle(ListView<Module> takenModuleListPanelNode) {
-        super(takenModuleListPanelNode);
+    public DatabaseModuleListPanelHandle(ListView<Module> databaseModuleListPanelNode) {
+        super(databaseModuleListPanelNode);
     }
 
     /**

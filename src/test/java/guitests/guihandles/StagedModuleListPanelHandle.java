@@ -9,17 +9,17 @@ import javafx.scene.control.ListView;
 import seedu.modsuni.model.module.Module;
 
 /**
- * Provides a handle for {@code ModuleListPanel} containing the list of {@code ModuleCard}.
+ * Provides a handle for {@code StagedModuleListPanel} containing the list of {@code ModuleCard}.
  */
-public class ModuleListPanelHandle extends NodeHandle<ListView<Module>> {
-    public static final String MODULE_LIST_VIEW_ID = "#moduleListView";
+public class StagedModuleListPanelHandle extends NodeHandle<ListView<Module>> {
+    public static final String MODULE_LIST_VIEW_ID = "#stagedModuleListView";
 
     private static final String CARD_PANE_ID = "#cardPane";
 
     private Optional<Module> lastRememberedSelectedModuleCard;
 
-    public ModuleListPanelHandle(ListView<Module> moduleListPanelNode) {
-        super(moduleListPanelNode);
+    public StagedModuleListPanelHandle(ListView<Module> stagedModuleListPanelNode) {
+        super(stagedModuleListPanelNode);
     }
 
     /**

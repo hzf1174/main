@@ -14,10 +14,16 @@ import org.junit.Test;
 
 import guitests.guihandles.BrowserPanelHandle;
 import seedu.modsuni.MainApp;
+import seedu.modsuni.commons.events.ui.DatabaseModulePanelSelectionChangedEvent;
 import seedu.modsuni.commons.events.ui.ModulePanelSelectionChangedEvent;
+import seedu.modsuni.commons.events.ui.StagedModulePanelSelectionChangedEvent;
+import seedu.modsuni.commons.events.ui.TakenModulePanelSelectionChangedEvent;
 
 public class BrowserPanelTest extends GuiUnitTest {
     private ModulePanelSelectionChangedEvent selectionChangedEventStub;
+    private StagedModulePanelSelectionChangedEvent stagedSelectionChangedEventStub;
+    private TakenModulePanelSelectionChangedEvent takenSelectionChangedEventStub;
+    private DatabaseModulePanelSelectionChangedEvent databaseSelectionChangedEventStub;
 
     private BrowserPanel browserPanel;
     private BrowserPanelHandle browserPanelHandle;
@@ -25,6 +31,9 @@ public class BrowserPanelTest extends GuiUnitTest {
     @Before
     public void setUp() {
         selectionChangedEventStub = new ModulePanelSelectionChangedEvent(ACC1002);
+        stagedSelectionChangedEventStub = new StagedModulePanelSelectionChangedEvent(ACC1002);
+        takenSelectionChangedEventStub = new TakenModulePanelSelectionChangedEvent(ACC1002);
+        databaseSelectionChangedEventStub = new DatabaseModulePanelSelectionChangedEvent(ACC1002);
 
         guiRobot.interact(() -> browserPanel = new BrowserPanel());
         uiPartRule.setUiPart(browserPanel);
@@ -33,13 +42,58 @@ public class BrowserPanelTest extends GuiUnitTest {
     }
 
     @Test
-    public void display() throws Exception {
+    public void displayForModulePanel() throws Exception {
         // default web page
         URL expectedDefaultPageUrl = MainApp.class.getResource(FXML_FILE_FOLDER + DEFAULT_PAGE);
         assertEquals(expectedDefaultPageUrl, browserPanelHandle.getLoadedUrl());
 
         // associated web page of a module
         postNow(selectionChangedEventStub);
+        URL expectedModuleUrl = new URL(BrowserPanel.SEARCH_PAGE_URL + ACC1002.getCode().code.replaceAll(" ",
+                "%20"));
+
+        waitUntilBrowserLoaded(browserPanelHandle);
+        assertEquals(expectedModuleUrl, browserPanelHandle.getLoadedUrl());
+    }
+
+    @Test
+    public void displayForStagedModulePanel() throws Exception {
+        // default web page
+        URL expectedDefaultPageUrl = MainApp.class.getResource(FXML_FILE_FOLDER + DEFAULT_PAGE);
+        assertEquals(expectedDefaultPageUrl, browserPanelHandle.getLoadedUrl());
+
+        // associated web page of a module
+        postNow(stagedSelectionChangedEventStub);
+        URL expectedModuleUrl = new URL(BrowserPanel.SEARCH_PAGE_URL + ACC1002.getCode().code.replaceAll(" ",
+                "%20"));
+
+        waitUntilBrowserLoaded(browserPanelHandle);
+        assertEquals(expectedModuleUrl, browserPanelHandle.getLoadedUrl());
+    }
+
+    @Test
+    public void displayForTakenModulePanel() throws Exception {
+        // default web page
+        URL expectedDefaultPageUrl = MainApp.class.getResource(FXML_FILE_FOLDER + DEFAULT_PAGE);
+        assertEquals(expectedDefaultPageUrl, browserPanelHandle.getLoadedUrl());
+
+        // associated web page of a module
+        postNow(takenSelectionChangedEventStub);
+        URL expectedModuleUrl = new URL(BrowserPanel.SEARCH_PAGE_URL + ACC1002.getCode().code.replaceAll(" ",
+                "%20"));
+
+        waitUntilBrowserLoaded(browserPanelHandle);
+        assertEquals(expectedModuleUrl, browserPanelHandle.getLoadedUrl());
+    }
+
+    @Test
+    public void displayForDatabaseModulePanel() throws Exception {
+        // default web page
+        URL expectedDefaultPageUrl = MainApp.class.getResource(FXML_FILE_FOLDER + DEFAULT_PAGE);
+        assertEquals(expectedDefaultPageUrl, browserPanelHandle.getLoadedUrl());
+
+        // associated web page of a module
+        postNow(databaseSelectionChangedEventStub);
         URL expectedModuleUrl = new URL(BrowserPanel.SEARCH_PAGE_URL + ACC1002.getCode().code.replaceAll(" ",
                 "%20"));
 

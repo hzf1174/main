@@ -15,8 +15,8 @@ import java.nio.file.Paths;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import guitests.guihandles.DatabaseModuleListPanelHandle;
 import guitests.guihandles.ModuleCardHandle;
-import guitests.guihandles.ModuleListPanelHandle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -26,7 +26,7 @@ import seedu.modsuni.commons.util.XmlUtil;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.storage.XmlSerializableModuleList;
 
-public class ModuleListPanelTest extends GuiUnitTest {
+public class DatabaseModuleListPanelTest extends GuiUnitTest {
     private static final ObservableList<Module> TYPICAL_MODULES =
             FXCollections.observableList(getTypicalModules());
 
@@ -36,16 +36,16 @@ public class ModuleListPanelTest extends GuiUnitTest {
 
     private static final long CARD_CREATION_AND_DELETION_TIMEOUT = 2500;
 
-    private ModuleListPanelHandle moduleListPanelHandle;
+    private DatabaseModuleListPanelHandle databaseModuleListPanelHandle;
 
     @Test
     public void display() {
         initUi(TYPICAL_MODULES);
 
         for (int i = 0; i < TYPICAL_MODULES.size(); i++) {
-            moduleListPanelHandle.navigateToCard(TYPICAL_MODULES.get(i));
+            databaseModuleListPanelHandle.navigateToCard(TYPICAL_MODULES.get(i));
             Module expectedModule = TYPICAL_MODULES.get(i);
-            ModuleCardHandle actualCard = moduleListPanelHandle.getModuleCardHandle(i);
+            ModuleCardHandle actualCard = databaseModuleListPanelHandle.getModuleCardHandle(i);
 
             assertCardDisplaysModule(expectedModule, actualCard);
             assertEquals(Integer.toString(i + 1) + ". ", actualCard.getId());
@@ -58,14 +58,15 @@ public class ModuleListPanelTest extends GuiUnitTest {
         postNow(JUMP_TO_SECOND_EVENT);
         guiRobot.pauseForHuman();
 
-        ModuleCardHandle expectedModule = moduleListPanelHandle.getModuleCardHandle(INDEX_SECOND_MODULE.getZeroBased());
-        ModuleCardHandle selectedModule = moduleListPanelHandle.getHandleToSelectedCard();
+        ModuleCardHandle expectedModule = databaseModuleListPanelHandle
+                .getModuleCardHandle(INDEX_SECOND_MODULE.getZeroBased());
+        ModuleCardHandle selectedModule = databaseModuleListPanelHandle.getHandleToSelectedCard();
         assertCardEquals(expectedModule, selectedModule);
     }
 
     /**
-     * Verifies that creating and deleting large number of modules in {@code ModuleListPanel} requires lesser than
-     * {@code CARD_CREATION_AND_DELETION_TIMEOUT} milliseconds to execute.
+     * Verifies that creating and deleting large number of modules in {@code DatabaseModuleListPanel}
+     * requires lesser than {@code CARD_CREATION_AND_DELETION_TIMEOUT} milliseconds to execute.
      */
     @Test
     @Ignore
@@ -80,7 +81,7 @@ public class ModuleListPanelTest extends GuiUnitTest {
 
     /**
      * Returns a list of modules containing {@code moduleCount} modules that is used to populate the
-     * {@code ModuleListPanel}.
+     * {@code DatabaseModuleListPanel}.
      */
     private ObservableList<Module> createBackingList(int moduleCount) throws Exception {
         Path xmlFile = createXmlFileWithModules(moduleCount);
@@ -114,14 +115,15 @@ public class ModuleListPanelTest extends GuiUnitTest {
     }
 
     /**
-     * Initializes {@code moduleListPanelHandle} with a {@code ModuleListPanel} backed by {@code backingList}.
-     * Also shows the {@code Stage} that displays only {@code ModuleListPanel}.
+     * Initializes {@code databaseModuleListPanelHandle} with a {@code databaseModuleListPanel}
+     * backed by {@code backingList}.
+     * Also shows the {@code Stage} that displays only {@code databaseModuleListPanel}.
      */
     private void initUi(ObservableList<Module> backingList) {
-        ModuleListPanel moduleListPanel = new ModuleListPanel(backingList);
-        uiPartRule.setUiPart(moduleListPanel);
+        DatabaseModuleListPanel databaseModuleListPanel = new DatabaseModuleListPanel(backingList);
+        uiPartRule.setUiPart(databaseModuleListPanel);
 
-        moduleListPanelHandle = new ModuleListPanelHandle(getChildNode(moduleListPanel.getRoot(),
-                ModuleListPanelHandle.MODULE_LIST_VIEW_ID));
+        databaseModuleListPanelHandle = new DatabaseModuleListPanelHandle(
+                getChildNode(databaseModuleListPanel.getRoot(), DatabaseModuleListPanelHandle.MODULE_LIST_VIEW_ID));
     }
 }
