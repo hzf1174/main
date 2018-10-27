@@ -2,7 +2,6 @@ package seedu.modsuni.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,9 +10,11 @@ import static seedu.modsuni.testutil.TypicalModules.ACC1002;
 import static seedu.modsuni.testutil.TypicalModules.ACC1002X;
 import static seedu.modsuni.testutil.TypicalModules.CS1010;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -23,6 +24,7 @@ import org.junit.rules.ExpectedException;
 
 import javafx.collections.ObservableList;
 
+import seedu.modsuni.commons.exceptions.DataConversionException;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -35,12 +37,10 @@ import seedu.modsuni.model.credential.ReadOnlyCredentialStore;
 import seedu.modsuni.model.credential.Username;
 import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
-import seedu.modsuni.model.module.Prereq;
 import seedu.modsuni.model.person.Person;
 import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.User;
 import seedu.modsuni.model.user.student.Student;
-import seedu.modsuni.testutil.ModuleBuilder;
 import seedu.modsuni.testutil.StudentBuilder;
 import seedu.modsuni.testutil.TypicalModules;
 
@@ -57,24 +57,29 @@ public class RemoveModuleFromStudentTakenCommandTest {
     @Test
     public void constructor_nullModule_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
-        new RemoveModuleFromStudentTakenCommand(null);
+        new RemoveModuleFromStudentTakenCommand(null, new HashSet<>());
+    }
+
+    @Test
+    public void constructor_nullDuplicate_throwsNullPointerException() {
+        thrown.expect(NullPointerException.class);
+        new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(new Code("CS2103T"))), null);
     }
 
     @Test
     public void execute_moduleAcceptedByModel_removeSuccessful() throws Exception {
-        Module validModuleBeforeSearch = new Module(new Code("ACC1002"), "", "", "",
-                0, true, true, true, true, new ArrayList<Code>(), new Prereq());
-
+        Code validCodeBeforeSearch = new Code("ACC1002");
         RemoveModuleFromStudentTakenCommand removeModuleFromStudentTakenCommand =
-                new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(validModuleBeforeSearch)));
+                new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(validCodeBeforeSearch)),
+                        new HashSet<>());
         RemoveModuleFromStudentTakenCommandTest.ModelStubForTest modelStub =
                 new RemoveModuleFromStudentTakenCommandTest.ModelStubForTest(ACC1002);
 
         CommandResult commandResult = removeModuleFromStudentTakenCommand.execute(modelStub, commandHistory);
         Module validModuleAfterSearch = removeModuleFromStudentTakenCommand.getSearchedModule();
 
-        assertNotEquals(validModuleBeforeSearch, validModuleAfterSearch);
-        assertEquals(createCommandResult("", "", " ACC1002"),
+        assertEquals(validCodeBeforeSearch, validModuleAfterSearch.getCode());
+        assertEquals(createCommandResult("", "", "", " ACC1002"),
                 commandResult.feedbackToUser);
         assertFalse(modelStub.student.hasModulesTaken(validModuleAfterSearch));
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
@@ -82,43 +87,43 @@ public class RemoveModuleFromStudentTakenCommandTest {
 
     @Test
     public void execute_moduleNotFound_throwsCommandException() throws Exception {
-        Module validModuleBeforeSearch = new Module(new Code("ACC1002"), "", "", "",
-                0, true, true, true, true, new ArrayList<Code>(), new Prereq());
-
+        Code validCodeBeforeSearch = new Code("ACC1002");
         RemoveModuleFromStudentTakenCommand removeModuleFromStudentTakenCommand =
-                new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(validModuleBeforeSearch)));
+                new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(validCodeBeforeSearch)),
+                        new HashSet<>());
         RemoveModuleFromStudentTakenCommandTest.ModelStub modelStub =
                 new RemoveModuleFromStudentTakenCommandTest.ModelStubForTest();
 
         CommandResult commandResult = removeModuleFromStudentTakenCommand.execute(modelStub, commandHistory);
         Module validModuleAfterSearch = removeModuleFromStudentTakenCommand.getSearchedModule();
-        assertNotEquals(validModuleBeforeSearch, validModuleAfterSearch);
-        assertEquals(createCommandResult("", " ACC1002", ""), commandResult.feedbackToUser);
+        assertEquals(validCodeBeforeSearch, validModuleAfterSearch.getCode());
+        assertEquals(createCommandResult("", "", " ACC1002", ""), commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
     }
 
 
     @Test
     public void execute_nonexistentModule_throwsCommandException() throws Exception {
-        Module nonexistentModule = CS1010;
+        Code nonexistentCode = new Code("CS1010");
         RemoveModuleFromStudentTakenCommand removeModuleFromStudentTakenCommand =
-                new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(nonexistentModule)));
+                new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(nonexistentCode)),
+                        new HashSet<>());
         RemoveModuleFromStudentTakenCommandTest.ModelStub modelStub =
-                new RemoveModuleFromStudentTakenCommandTest.ModelStubForTest(nonexistentModule);
+                new RemoveModuleFromStudentTakenCommandTest.ModelStubForTest(CS1010);
 
         CommandResult commandResult = removeModuleFromStudentTakenCommand.execute(modelStub, commandHistory);
         Module validModuleAfterSearch = removeModuleFromStudentTakenCommand.getSearchedModule();
         assertNull(validModuleAfterSearch);
-        assertEquals(createCommandResult(" CS1010", "", ""), commandResult.feedbackToUser);
+        assertEquals(createCommandResult("", " CS1010", "", ""), commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
     }
 
     @Test
     public void execute_nonStudentUser_throwsCommandException() throws Exception {
-        Module validModuleBeforeSearch = new Module(new Code("ACC1002X"), "", "", "",
-                0, true, true, true, true, new ArrayList<Code>(), new Prereq());
+        Code validCodeBeforeSearch = new Code("ACC1002X");
         RemoveModuleFromStudentTakenCommand removeModuleFromStudentTakenCommand =
-                new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(validModuleBeforeSearch)));
+                new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(validCodeBeforeSearch)),
+                        new HashSet<>());
         RemoveModuleFromStudentTakenCommandTest.ModelStub modelStub =
                 new RemoveModuleFromStudentTakenCommandTest.ModelStubWithNonStudentUser();
 
@@ -129,11 +134,10 @@ public class RemoveModuleFromStudentTakenCommandTest {
 
     @Test
     public void execute_notLogin_throwsCommandException() throws Exception {
-        Module validModuleBeforeSearch = new Module(new Code("ACC1002X"), "", "", "",
-                0, true, true, true, true, new ArrayList<Code>(), new Prereq());
-
+        Code validCodeBeforeSearch = new Code("ACC1002X");
         RemoveModuleFromStudentTakenCommand removeModuleFromStudentTakenCommand =
-                new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(validModuleBeforeSearch)));
+                new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(validCodeBeforeSearch)),
+                        new HashSet<>());
         RemoveModuleFromStudentTakenCommandTest.ModelStub modelStub =
                 new RemoveModuleFromStudentTakenCommandTest.ModelStubWithNotLogin();
 
@@ -144,40 +148,63 @@ public class RemoveModuleFromStudentTakenCommandTest {
 
     @Test
     public void execute_hybridModules_removedCorrectly() throws Exception {
-        Module validModule = new Module(new Code("ACC1002X"), "", "", "",
-                0, true, true, true, true, new ArrayList<Code>(), new Prereq());
-        Module duplicateModule = new Module(new Code("ACC1002"), "", "", "",
-                0, true, true, true, true, new ArrayList<Code>(), new Prereq());
-        Module notExistModule = new Module(new Code("CS1010"), "", "", "",
-                0, true, true, true, true, new ArrayList<Code>(), new Prereq());
+        Code validCode = new Code("ACC1002X");
+        Code notExistOwnCode = new Code("ACC1002");
+        Code notExistDataCode = new Code("CS1010");
         RemoveModuleFromStudentTakenCommand removeModuleFromStudentTakenCommand =
                 new RemoveModuleFromStudentTakenCommand(new ArrayList<>(
-                        Arrays.asList(validModule, duplicateModule, notExistModule)));
+                        Arrays.asList(validCode, notExistOwnCode, notExistDataCode)), new HashSet<>());
         RemoveModuleFromStudentTakenCommandTest.ModelStub modelStub =
                 new RemoveModuleFromStudentTakenCommandTest.ModelStubForTest(ACC1002X);
 
         CommandResult commandResult = removeModuleFromStudentTakenCommand.execute(modelStub, commandHistory);
         Module validModuleAfterSearch = removeModuleFromStudentTakenCommand.getSearchedModule();
         assertFalse(((ModelStubForTest) modelStub).checkModule(ACC1002X));
-        assertEquals(createCommandResult(" CS1010", " ACC1002", " ACC1002X"), commandResult.feedbackToUser);
+        assertEquals(createCommandResult("", " CS1010", " ACC1002", " ACC1002X"), commandResult.feedbackToUser);
+        assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
+    }
+
+    @Test
+    public void execute_hybridModulesWithDuplicateInCommand_addedCorrectly() throws Exception {
+        Code validCode = new Code("ACC1002X");
+        Code duplicateCode = new Code("ACC1002");
+        Code notExistCode = new Code("CS1010");
+        HashSet<String> duplicateCodeInCommandSet = new HashSet<>();
+        duplicateCodeInCommandSet.add("ACC1002");
+        duplicateCodeInCommandSet.add("CS1010");
+
+        RemoveModuleFromStudentTakenCommand removeModuleFromStudentTakenCommand =
+                new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(validCode,
+                        duplicateCode, notExistCode)), duplicateCodeInCommandSet);
+        RemoveModuleFromStudentTakenCommandTest.ModelStub modelStub =
+                new RemoveModuleFromStudentTakenCommandTest.ModelStubForTest(ACC1002X);
+
+        CommandResult commandResult = removeModuleFromStudentTakenCommand.execute(modelStub, commandHistory);
+        assertEquals(createCommandResult(" ACC1002 CS1010", " CS1010", " ACC1002",
+                " ACC1002X"), commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
     }
 
     @Test
     public void equals() {
-        Module cs1010 = new ModuleBuilder().withCode(new Code("CS1010")).build();
-        Module acc1002x = new ModuleBuilder().withCode(new Code("ACC1002X")).build();
+        Code cs1010 = new Code("CS1010");
+        Code acc1002x = new Code("ACC1002X");
+        HashSet<String> cs1010Duplicate = new HashSet<>();
+
+        cs1010Duplicate.add("CS1010");
         RemoveModuleFromStudentTakenCommand removeCs1010Command =
-                new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(cs1010)));
+                new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(cs1010)), new HashSet<>());
         RemoveModuleFromStudentTakenCommand removeAcc1002XCommand =
-                new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(acc1002x)));
+                new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(acc1002x)), new HashSet<>());
+        RemoveModuleFromStudentTakenCommand removeCs1010DuplicateCs1010Command =
+                new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(cs1010)), cs1010Duplicate);
 
         // same object -> returns true
         assertTrue(removeCs1010Command.equals(removeCs1010Command));
 
         // same values -> returns true
         RemoveModuleFromStudentTakenCommand removeCs1010CommandCopy =
-                new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(cs1010)));
+                new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(cs1010)), new HashSet<>());
         assertTrue(removeCs1010Command.equals(removeCs1010CommandCopy));
 
         // different types -> returns false
@@ -186,8 +213,14 @@ public class RemoveModuleFromStudentTakenCommandTest {
         // null -> returns false
         assertFalse(removeCs1010Command.equals(null));
 
-        // different person -> returns false
+        // different code -> returns false
         assertFalse(removeCs1010Command.equals(removeAcc1002XCommand));
+
+        // different duplicate -> returns false
+        assertFalse(removeCs1010Command.equals(removeCs1010DuplicateCs1010Command));
+
+        // different code and duplicate -> returns false
+        assertFalse(removeAcc1002XCommand.equals(removeCs1010DuplicateCs1010Command));
     }
 
     /**
@@ -270,7 +303,17 @@ public class RemoveModuleFromStudentTakenCommandTest {
         }
 
         @Override
-        public ObservableList<Module> getFilteredModuleList() {
+        public ObservableList<Module> getFilteredStagedModuleList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Module> getFilteredTakenModuleList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Module> getFilteredDatabaseModuleList() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -280,7 +323,7 @@ public class RemoveModuleFromStudentTakenCommandTest {
         }
 
         @Override
-        public void updateFilteredModuleList(Predicate<Module> predicate) {
+        public void updateFilteredDatabaseModuleList(Predicate<Module> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -328,6 +371,7 @@ public class RemoveModuleFromStudentTakenCommandTest {
         public void addAdmin(Admin admin, Path savePath) {
             throw new AssertionError("This method should not be called.");
         }
+
         @Override
         public void addModuleToDatabase(Module module) {
             throw new AssertionError("This method should not be called.");
@@ -387,7 +431,7 @@ public class RemoveModuleFromStudentTakenCommandTest {
 
 
         @Override
-        public Optional<Module> searchModuleInModuleList(Module module) {
+        public Optional<Module> searchCodeInDatabase(Code code) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -397,7 +441,7 @@ public class RemoveModuleFromStudentTakenCommandTest {
         }
 
         @Override
-        public Optional<User> readUserFile(Path pathFile) {
+        public Optional<User> readUserFile(Path filePath) throws IOException, DataConversionException {
             throw new AssertionError("This method should not be called.");
         }
     }
@@ -453,11 +497,6 @@ public class RemoveModuleFromStudentTakenCommandTest {
         }
 
         @Override
-        public void commitAddressBook() {
-            // called by {@code AddCommand#execute()}
-        }
-
-        @Override
         public boolean isStudent() {
             return true;
         }
@@ -468,21 +507,39 @@ public class RemoveModuleFromStudentTakenCommandTest {
         }
 
         @Override
-        public Optional<Module> searchModuleInModuleList(Module module) {
-            return moduleList.getModuleInformation(module);
-
+        public Optional<Module> searchCodeInDatabase(Code code) {
+            return moduleList.searchCode(code);
         }
     }
 
     /**
      * Create a command result with three types of Code.
      */
-    private String createCommandResult(String notExistDataCode, String notExistOwnCode, String removeSuccessCode) {
-        return RemoveModuleFromStudentTakenCommand.MESSAGE_MODULE_NOT_EXISTS_IN_DATABASE
-                + notExistDataCode + '\n'
-                + RemoveModuleFromStudentTakenCommand.MESSAGE_MODULE_NOT_EXISTS
-                + notExistOwnCode + '\n'
-                + RemoveModuleFromStudentTakenCommand.MESSAGE_REMOVE_MODULE_SUCCESS
+    private String createCommandResult(String duplicateCodeInCommand, String notExistDataCode,
+                                       String notExistOwnCode, String removeSuccessCode) {
+        if (duplicateCodeInCommand != "") {
+            duplicateCodeInCommand = RemoveModuleFromStudentTakenCommand.MESSAGE_DUPLICATE_FOUND_IN_COMMAND
+                    .concat(duplicateCodeInCommand + '\n');
+        }
+
+        if (notExistDataCode != "") {
+            notExistDataCode = RemoveModuleFromStudentTakenCommand.MESSAGE_MODULE_NOT_EXISTS_IN_DATABASE
+                    .concat(notExistDataCode + '\n');
+        }
+
+        if (notExistOwnCode != "") {
+            notExistOwnCode = RemoveModuleFromStudentTakenCommand.MESSAGE_MODULE_NOT_EXISTS
+                    .concat(notExistOwnCode + '\n');
+        }
+
+        if (removeSuccessCode != "") {
+            removeSuccessCode = RemoveModuleFromStudentTakenCommand.MESSAGE_REMOVE_MODULE_SUCCESS
+                    .concat(removeSuccessCode + '\n');
+        }
+
+        return duplicateCodeInCommand
+                + notExistDataCode
+                + notExistOwnCode
                 + removeSuccessCode;
     }
 }

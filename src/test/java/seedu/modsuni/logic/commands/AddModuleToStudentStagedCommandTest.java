@@ -2,15 +2,18 @@ package seedu.modsuni.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static seedu.modsuni.testutil.TypicalModules.ACC1002;
+import static seedu.modsuni.testutil.TypicalModules.ACC1002X;
+import static seedu.modsuni.testutil.TypicalModules.CS1010;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -33,13 +36,11 @@ import seedu.modsuni.model.credential.ReadOnlyCredentialStore;
 import seedu.modsuni.model.credential.Username;
 import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
-import seedu.modsuni.model.module.Prereq;
 import seedu.modsuni.model.module.UniqueModuleList;
 import seedu.modsuni.model.person.Person;
 import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.User;
 import seedu.modsuni.model.user.student.Student;
-import seedu.modsuni.testutil.ModuleBuilder;
 import seedu.modsuni.testutil.StudentBuilder;
 import seedu.modsuni.testutil.TypicalModules;
 
@@ -55,72 +56,73 @@ public class AddModuleToStudentStagedCommandTest {
     @Test
     public void constructor_nullModule_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
-        new AddModuleToStudentStagedCommand(null);
+        new AddModuleToStudentStagedCommand(null, new HashSet<>());
+    }
+
+    @Test
+    public void constructor_nullDuplicate_throwsNullPointerException() {
+        thrown.expect(NullPointerException.class);
+        new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(new Code("CS2103T"))), null);
     }
 
     @Test
     public void execute_moduleAcceptedByModel_addSuccessful() throws Exception {
         AddModuleToStudentStagedCommandTest.ModelStubAcceptingModuleAdded modelStub =
                 new AddModuleToStudentStagedCommandTest.ModelStubAcceptingModuleAdded();
-        Module validModuleBeforeSearch = new Module(new Code("ACC1002X"), "", "", "",
-                0, true, true, true, true, new ArrayList<Code>(), new Prereq());
-
+        Code validCodeBeforeSearch = new Code("ACC1002X");
         AddModuleToStudentStagedCommand addModuleToStudentStagedCommand =
-                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(validModuleBeforeSearch)));
+                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(validCodeBeforeSearch)),
+                        new HashSet<>());
 
         CommandResult commandResult = addModuleToStudentStagedCommand.execute(modelStub, commandHistory);
         Module validModuleAfterSearch = addModuleToStudentStagedCommand.getSearchedModule();
         UniqueModuleList expectModuleList = new UniqueModuleList();
         expectModuleList.add(validModuleAfterSearch);
 
-        assertNotEquals(validModuleBeforeSearch, validModuleAfterSearch);
-        assertEquals(createCommandResult("", "", " ACC1002X"), commandResult.feedbackToUser);
+        assertEquals(validCodeBeforeSearch, validModuleAfterSearch.getCode());
+        assertEquals(createCommandResult("", "", "", " ACC1002X"), commandResult.feedbackToUser);
         assertEquals(expectModuleList, modelStub.student.getModulesStaged());
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
     }
 
     @Test
     public void execute_duplicateModule_cannotAdded() throws Exception {
-        Module validModuleBeforeSearch = new Module(new Code("ACC1002X"), "", "", "",
-                0, true, true, true, true, new ArrayList<Code>(), new Prereq());
-
+        Code validCodeBeforeSearch = new Code("ACC1002X");
         AddModuleToStudentStagedCommand addModuleToStudentStagedCommand =
-                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(validModuleBeforeSearch)));
+                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(validCodeBeforeSearch)),
+                        new HashSet<>());
         AddModuleToStudentStagedCommandTest.ModelStub modelStub =
-                new AddModuleToStudentStagedCommandTest.ModelStubWithModule(validModuleBeforeSearch);
+                new AddModuleToStudentStagedCommandTest.ModelStubWithModule(ACC1002X);
 
         CommandResult commandResult = addModuleToStudentStagedCommand.execute(modelStub, commandHistory);
         Module validModuleAfterSearch = addModuleToStudentStagedCommand.getSearchedModule();
-        assertNotEquals(validModuleBeforeSearch, validModuleAfterSearch);
-        assertEquals(createCommandResult("", " ACC1002X", ""), commandResult.feedbackToUser);
+        assertEquals(validCodeBeforeSearch, validModuleAfterSearch.getCode());
+        assertEquals(createCommandResult("", "", " ACC1002X", ""), commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
 
     }
 
     @Test
     public void execute_nonexistentModule_cannotAdded() throws Exception {
-        Module nonexistentModule = new Module(new Code("CS1010"), "", "", "",
-                0, true, true, true, true, new ArrayList<Code>(), new Prereq());
-
+        Code nonexistentCode = new Code("CS1010");
         AddModuleToStudentStagedCommand addModuleToStudentStagedCommand =
-                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(nonexistentModule)));
+                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(nonexistentCode)), new HashSet<>());
         AddModuleToStudentStagedCommandTest.ModelStub modelStub =
-                new AddModuleToStudentStagedCommandTest.ModelStubWithModule(nonexistentModule);
+                new AddModuleToStudentStagedCommandTest.ModelStubWithModule(CS1010);
 
         CommandResult commandResult = addModuleToStudentStagedCommand.execute(modelStub, commandHistory);
         Module validModuleAfterSearch = addModuleToStudentStagedCommand.getSearchedModule();
         assertNull(validModuleAfterSearch);
-        assertEquals(createCommandResult(" CS1010", "", ""), commandResult.feedbackToUser);
+        assertEquals(createCommandResult("", " CS1010", "", ""), commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
     }
 
     @Test
     public void execute_nonStudentUser_throwsCommandException() throws Exception {
-        Module validModuleBeforeSearch = new Module(new Code("ACC1002X"), "", "", "",
-                0, true, true, true, true, new ArrayList<Code>(), new Prereq());
-
+        Code validCodeBeforeSearch = new Code("ACC1002X");
         AddModuleToStudentStagedCommand addModuleToStudentStagedCommand =
-                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(validModuleBeforeSearch)));
+                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(validCodeBeforeSearch)),
+                        new HashSet<>());
         AddModuleToStudentStagedCommandTest.ModelStub modelStub =
                 new AddModuleToStudentStagedCommandTest.ModelStubWithNonStudentUser();
 
@@ -131,11 +133,10 @@ public class AddModuleToStudentStagedCommandTest {
 
     @Test
     public void execute_notLogin_throwsCommandException() throws Exception {
-        Module validModuleBeforeSearch = new Module(new Code("ACC1002X"), "", "", "",
-                0, true, true, true, true, new ArrayList<Code>(), new Prereq());
-
+        Code validCodeBeforeSearch = new Code("ACC1002X");
         AddModuleToStudentStagedCommand addModuleToStudentStagedCommand =
-                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(validModuleBeforeSearch)));
+                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(validCodeBeforeSearch)),
+                        new HashSet<>());
         AddModuleToStudentStagedCommandTest.ModelStub modelStub =
                 new AddModuleToStudentStagedCommandTest.ModelStubWithNotLogin();
 
@@ -146,38 +147,63 @@ public class AddModuleToStudentStagedCommandTest {
 
     @Test
     public void execute_hybridModules_addedCorrectly() throws Exception {
-        Module validModule = new Module(new Code("ACC1002X"), "", "", "",
-                0, true, true, true, true, new ArrayList<Code>(), new Prereq());
-        Module duplicateModule = new Module(new Code("ACC1002"), "", "", "",
-                0, true, true, true, true, new ArrayList<Code>(), new Prereq());
-        Module notExistModule = new Module(new Code("CS1010"), "", "", "",
-                0, true, true, true, true, new ArrayList<Code>(), new Prereq());
+        Code validCode = new Code("ACC1002X");
+        Code duplicateCode = new Code("ACC1002");
+        Code notExistCode = new Code("CS1010");
         AddModuleToStudentStagedCommand addModuleToStudentStagedCommand =
-                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(validModule,
-                        duplicateModule, notExistModule)));
+                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(validCode,
+                        duplicateCode, notExistCode)), new HashSet<>());
         AddModuleToStudentStagedCommandTest.ModelStub modelStub =
-                new AddModuleToStudentStagedCommandTest.ModelStubForHybrid(duplicateModule);
+                new AddModuleToStudentStagedCommandTest.ModelStubForHybrid(ACC1002);
 
         CommandResult commandResult = addModuleToStudentStagedCommand.execute(modelStub, commandHistory);
-        assertEquals(createCommandResult(" CS1010", " ACC1002", " ACC1002X"), commandResult.feedbackToUser);
+        assertEquals(createCommandResult("", " CS1010", " ACC1002", " ACC1002X"), commandResult.feedbackToUser);
+        assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
+    }
+
+    @Test
+    public void execute_hybridModulesWithDuplicateInCommand_addedCorrectly() throws Exception {
+        Code validCode = new Code("ACC1002X");
+        Code duplicateCode = new Code("ACC1002");
+        Code notExistCode = new Code("CS1010");
+        HashSet<String> duplicateCodeInCommandSet = new HashSet<>();
+        duplicateCodeInCommandSet.add("ACC1002");
+        duplicateCodeInCommandSet.add("CS1010");
+
+        AddModuleToStudentStagedCommand addModuleToStudentStagedCommand =
+                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(validCode,
+                        duplicateCode, notExistCode)), duplicateCodeInCommandSet);
+        AddModuleToStudentStagedCommandTest.ModelStub modelStub =
+                new AddModuleToStudentStagedCommandTest.ModelStubForHybrid(ACC1002);
+
+        CommandResult commandResult = addModuleToStudentStagedCommand.execute(modelStub, commandHistory);
+        assertEquals(createCommandResult(" ACC1002 CS1010", " CS1010", " ACC1002",
+                " ACC1002X"), commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
     }
 
     @Test
     public void equals() {
-        Module cs1010 = new ModuleBuilder().withCode(new Code("CS1010")).build();
-        Module acc1002x = new ModuleBuilder().withCode(new Code("ACC1002X")).build();
+        Code cs1010 = new Code("CS1010");
+        Code acc1002x = new Code("ACC1002X");
+        HashSet<String> cs1010Duplicate = new HashSet<>();
+
+        cs1010Duplicate.add("CS1010");
+
         AddModuleToStudentStagedCommand addCs1010Command =
-                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(cs1010)));
+                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(cs1010)), new HashSet<>());
         AddModuleToStudentStagedCommand addAcc1002XCommand =
-                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(acc1002x)));
+                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(acc1002x)), new HashSet<>());
+        AddModuleToStudentStagedCommand addCs1010DuplicateCs1010Command =
+                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(cs1010)), cs1010Duplicate);
+
 
         // same object -> returns true
         assertTrue(addCs1010Command.equals(addCs1010Command));
 
         // same values -> returns true
         AddModuleToStudentStagedCommand addCs1010CommandCopy =
-                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(cs1010)));
+                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(cs1010)), new HashSet<>());
         assertTrue(addCs1010Command.equals(addCs1010CommandCopy));
 
         // different types -> returns false
@@ -186,8 +212,14 @@ public class AddModuleToStudentStagedCommandTest {
         // null -> returns false
         assertFalse(addCs1010Command.equals(null));
 
-        // different person -> returns false
+        // different code -> returns false
         assertFalse(addCs1010Command.equals(addAcc1002XCommand));
+
+        // different duplicate -> returns false
+        assertFalse(addCs1010Command.equals(addCs1010DuplicateCs1010Command));
+
+        // different code and duplicate -> returns false
+        assertFalse(addAcc1002XCommand.equals(addCs1010DuplicateCs1010Command));
     }
 
     /**
@@ -270,7 +302,17 @@ public class AddModuleToStudentStagedCommandTest {
         }
 
         @Override
-        public ObservableList<Module> getFilteredModuleList() {
+        public ObservableList<Module> getFilteredStagedModuleList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Module> getFilteredTakenModuleList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Module> getFilteredDatabaseModuleList() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -280,7 +322,7 @@ public class AddModuleToStudentStagedCommandTest {
         }
 
         @Override
-        public void updateFilteredModuleList(Predicate<Module> predicate) {
+        public void updateFilteredDatabaseModuleList(Predicate<Module> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -388,7 +430,7 @@ public class AddModuleToStudentStagedCommandTest {
 
 
         @Override
-        public Optional<Module> searchModuleInModuleList(Module module) {
+        public Optional<Module> searchCodeInDatabase(Code code) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -441,8 +483,8 @@ public class AddModuleToStudentStagedCommandTest {
         }
 
         @Override
-        public Optional<Module> searchModuleInModuleList(Module module) {
-            return moduleList.getModuleInformation(module);
+        public Optional<Module> searchCodeInDatabase(Code code) {
+            return moduleList.searchCode(code);
         }
 
         @Override
@@ -476,8 +518,8 @@ public class AddModuleToStudentStagedCommandTest {
         }
 
         @Override
-        public Optional<Module> searchModuleInModuleList(Module module) {
-            return moduleList.getModuleInformation(module);
+        public Optional<Module> searchCodeInDatabase(Code code) {
+            return moduleList.searchCode(code);
         }
 
         @Override
@@ -517,8 +559,8 @@ public class AddModuleToStudentStagedCommandTest {
         }
 
         @Override
-        public Optional<Module> searchModuleInModuleList(Module module) {
-            return moduleList.getModuleInformation(module);
+        public Optional<Module> searchCodeInDatabase(Code code) {
+            return moduleList.searchCode(code);
         }
 
         @Override
@@ -535,12 +577,31 @@ public class AddModuleToStudentStagedCommandTest {
     /**
      * Create a command result with three types of Code.
      */
-    private String createCommandResult(String notExistCode, String duplicateCode, String addSuccessCode) {
-        return AddModuleToStudentStagedCommand.MESSAGE_MODULE_NOT_EXISTS_IN_DATABASE
-                + notExistCode + '\n'
-                + AddModuleToStudentStagedCommand.MESSAGE_DUPLICATE_MODULE
-                + duplicateCode + '\n'
-                + AddModuleToStudentStagedCommand.MESSAGE_SUCCESS
+    private String createCommandResult(String duplicateCodeInCommand, String notExistCode,
+                                       String duplicateCode, String addSuccessCode) {
+        if (duplicateCodeInCommand != "") {
+            duplicateCodeInCommand = AddModuleToStudentStagedCommand.MESSAGE_DUPLICATE_FOUND_IN_COMMAND
+                    .concat(duplicateCodeInCommand + '\n');
+        }
+
+        if (notExistCode != "") {
+            notExistCode = AddModuleToStudentStagedCommand.MESSAGE_MODULE_NOT_EXISTS_IN_DATABASE
+                    .concat(notExistCode + '\n');
+        }
+
+        if (duplicateCode != "") {
+            duplicateCode = AddModuleToStudentStagedCommand.MESSAGE_DUPLICATE_MODULE
+                    .concat(duplicateCode + '\n');
+        }
+
+        if (addSuccessCode != "") {
+            addSuccessCode = AddModuleToStudentStagedCommand.MESSAGE_SUCCESS
+                    .concat(addSuccessCode + '\n');
+        }
+
+        return duplicateCodeInCommand
+                + notExistCode
+                + duplicateCode
                 + addSuccessCode;
     }
 

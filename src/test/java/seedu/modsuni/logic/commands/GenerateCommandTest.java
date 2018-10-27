@@ -29,6 +29,7 @@ import seedu.modsuni.model.credential.CredentialStore;
 import seedu.modsuni.model.credential.Password;
 import seedu.modsuni.model.credential.ReadOnlyCredentialStore;
 import seedu.modsuni.model.credential.Username;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.person.Person;
 import seedu.modsuni.model.user.Admin;
@@ -126,6 +127,36 @@ public class GenerateCommandTest {
         }
 
         @Override
+        public boolean hasModuleTaken(Module module) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeModuleTaken(Module module) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addModuleTaken(Module module) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasModuleStaged(Module module) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeModuleStaged(Module module) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addModuleStaged(Module module) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void resetData(ReadOnlyAddressBook newData) {
             throw new AssertionError("This method should not be called.");
         }
@@ -166,8 +197,18 @@ public class GenerateCommandTest {
         }
 
         @Override
-        public ObservableList<Module> getFilteredModuleList() {
-            return null;
+        public ObservableList<Module> getFilteredStagedModuleList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Module> getFilteredTakenModuleList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Module> getFilteredDatabaseModuleList() {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -176,8 +217,8 @@ public class GenerateCommandTest {
         }
 
         @Override
-        public void updateFilteredModuleList(Predicate<Module> predicate) {
-
+        public void updateFilteredDatabaseModuleList(Predicate<Module> predicate) {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -208,7 +249,6 @@ public class GenerateCommandTest {
         @Override
         public void addCredential(Credential credential) {
             throw new AssertionError("This method should not be called.");
-
         }
 
         @Override
@@ -238,7 +278,7 @@ public class GenerateCommandTest {
 
         @Override
         public boolean hasModuleInDatabase(Module module) {
-            throw new AssertionError("This method should not be called.");
+            return false;
         }
 
         @Override
@@ -247,37 +287,17 @@ public class GenerateCommandTest {
         }
 
         @Override
+        public boolean isVerifiedCredential(Credential credential) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Password getCredentialPassword(User user) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public boolean isAdmin() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasModuleTaken(Module module) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void removeModuleTaken(Module module) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void addModuleTaken(Module module) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasModuleStaged(Module module) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void removeModuleStaged(Module module) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void addModuleStaged(Module module) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -293,19 +313,20 @@ public class GenerateCommandTest {
         }
 
         @Override
-        public boolean isVerifiedCredential(Credential credential) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public Password getCredentialPassword(User user) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public User getCurrentUser() {
             throw new AssertionError("This method should not be called.");
 
+        }
+
+        @Override
+        public void setCurrentUser(User user) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+
+        @Override
+        public Optional<Module> searchCodeInDatabase(Code code) {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -317,19 +338,7 @@ public class GenerateCommandTest {
         public Optional<User> readUserFile(Path filePath) throws IOException, DataConversionException {
             throw new AssertionError("This method should not be called.");
         }
-
-        @Override
-        public void setCurrentUser(User user) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public Optional<Module> searchModuleInModuleList(Module module) {
-            throw new AssertionError("This method should not be called.");
-        }
-
     }
-
     /**
      * A Model stub with a user.
      */
