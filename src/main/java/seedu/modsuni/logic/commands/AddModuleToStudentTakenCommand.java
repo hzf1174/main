@@ -3,13 +3,16 @@ package seedu.modsuni.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Optional;
+import java.util.Set;
 
 import seedu.modsuni.commons.core.EventsCenter;
 import seedu.modsuni.commons.events.ui.ShowTakenTabRequestEvent;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 
 /**
@@ -34,9 +37,11 @@ public class AddModuleToStudentTakenCommand extends Command {
             "These modules can not be added because they do not exist in our database:";
     public static final String MESSAGE_NOT_STUDENT = "Only a student user can execute this command";
     public static final String MESSAGE_NOT_LOGIN = "Please register or login";
+    public static final String MESSAGE_DUPLICATE_FOUND_IN_COMMAND = "We found these duplicate entries in your input:";
 
-    private final ArrayList<Module> toSearch;
+    private final ArrayList<Code> toSearch;
     private Module toAdd;
+    private String duplicateCodeInCommand;
     private String addSuccessCode;
     private String duplicateCode;
     private String notExistCode;
@@ -44,10 +49,25 @@ public class AddModuleToStudentTakenCommand extends Command {
     /**
      * Creates an AddModuleToStudentTakenCommand to add the specified {@code module}
      */
-    public AddModuleToStudentTakenCommand(ArrayList<Module> moduleList) {
-        requireNonNull(moduleList);
-        toSearch = moduleList;
+    public AddModuleToStudentTakenCommand(ArrayList<Code> codeList, Set<String> duplicateSet) {
+        requireNonNull(codeList);
+        requireNonNull(duplicateSet);
+
+        toSearch = codeList;
         toAdd = null;
+
+        if (duplicateSet.isEmpty()) {
+            duplicateCodeInCommand = "";
+        } else {
+            duplicateCodeInCommand = MESSAGE_DUPLICATE_FOUND_IN_COMMAND;
+            Iterator<String> it = duplicateSet.iterator();
+            while (it.hasNext()) {
+                String code = it.next();
+                duplicateCodeInCommand = duplicateCodeInCommand.concat(" " + code);
+            }
+            duplicateCodeInCommand = duplicateCodeInCommand.concat("\n");
+        }
+
         addSuccessCode = MESSAGE_SUCCESS;
         duplicateCode = MESSAGE_DUPLICATE_MODULE;
         notExistCode = MESSAGE_MODULE_NOT_EXISTS_IN_DATABASE;
@@ -69,35 +89,53 @@ public class AddModuleToStudentTakenCommand extends Command {
             throw new CommandException(MESSAGE_NOT_STUDENT);
         }
 
-        for (Module module : toSearch) {
-            Optional<Module> optionalModule = model.searchModuleInModuleList(module);
+        for (Code code: toSearch) {
+            Optional<Module> optionalModule = model.searchCodeInDatabase(code);
 
             if (optionalModule.isPresent()) {
                 toAdd = optionalModule.get();
             } else {
-                notExistCode = notExistCode.concat(" " + module.getCode().toString());
+                notExistCode = notExistCode.concat(" " + code.toString());
                 continue;
             }
 
             if (model.hasModuleTaken(toAdd)) {
-                duplicateCode = duplicateCode.concat(" " + module.getCode().toString());
+                duplicateCode = duplicateCode.concat(" " + code.toString());
                 continue;
             }
 
             model.addModuleTaken(toAdd);
-            addSuccessCode = addSuccessCode.concat(" " + module.getCode().toString());
+            addSuccessCode = addSuccessCode.concat(" " + code.toString());
         }
 
         EventsCenter.getInstance().post(new ShowTakenTabRequestEvent());
 
-        return new CommandResult(notExistCode + '\n'
-                + duplicateCode + '\n' + addSuccessCode);
+        if (notExistCode.equals(MESSAGE_MODULE_NOT_EXISTS_IN_DATABASE)) {
+            notExistCode = "";
+        } else {
+            notExistCode = notExistCode.concat("\n");
+        }
+
+        if (duplicateCode.equals(MESSAGE_DUPLICATE_MODULE)) {
+            duplicateCode = "";
+        } else {
+            duplicateCode = duplicateCode.concat("\n");
+        }
+
+        if (addSuccessCode.equals(MESSAGE_SUCCESS)) {
+            addSuccessCode = "";
+        } else {
+            addSuccessCode = addSuccessCode.concat("\n");
+        }
+
+        return new CommandResult(duplicateCodeInCommand + notExistCode + duplicateCode + addSuccessCode);
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof AddModuleToStudentTakenCommand // instanceof handles nulls
-                && toSearch.equals(((AddModuleToStudentTakenCommand) other).toSearch));
+                && toSearch.equals(((AddModuleToStudentTakenCommand) other).toSearch))
+                && duplicateCodeInCommand.equals(((AddModuleToStudentTakenCommand) other).duplicateCodeInCommand);
     }
 }

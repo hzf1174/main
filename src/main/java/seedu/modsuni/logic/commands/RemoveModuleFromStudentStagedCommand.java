@@ -3,13 +3,16 @@ package seedu.modsuni.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Optional;
+import java.util.Set;
 
 import seedu.modsuni.commons.core.EventsCenter;
 import seedu.modsuni.commons.events.ui.ShowStagedTabRequestEvent;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 
 /**
@@ -33,17 +36,35 @@ public class RemoveModuleFromStudentStagedCommand extends Command {
             "These modules can not be removed because they do not exist in your staged module list:";
     public static final String MESSAGE_NOT_STUDENT = "Only a student user can execute this command";
     public static final String MESSAGE_NOT_LOGIN = "Please register or login";
+    public static final String MESSAGE_DUPLICATE_FOUND_IN_COMMAND = "We found these duplicate entries in your input:";
 
-    private final ArrayList<Module> toSearch;
+
+    private final ArrayList<Code> toSearch;
     private Module toRemove;
+    private String duplicateCodeInCommand;
     private String removeSuccessCode;
     private String notExistOwnCode;
     private String notExistDataCode;
 
-    public RemoveModuleFromStudentStagedCommand(ArrayList<Module> moduleList) {
+    public RemoveModuleFromStudentStagedCommand(ArrayList<Code> moduleList, Set<String> duplicateSet) {
         requireNonNull(moduleList);
+        requireNonNull(duplicateSet);
+
         toSearch = moduleList;
         toRemove = null;
+
+        if (duplicateSet.isEmpty()) {
+            duplicateCodeInCommand = "";
+        } else {
+            duplicateCodeInCommand = MESSAGE_DUPLICATE_FOUND_IN_COMMAND;
+            Iterator<String> it = duplicateSet.iterator();
+            while (it.hasNext()) {
+                String code = it.next();
+                duplicateCodeInCommand = duplicateCodeInCommand.concat(" " + code);
+            }
+            duplicateCodeInCommand = duplicateCodeInCommand.concat("\n");
+        }
+
         removeSuccessCode = MESSAGE_REMOVE_MODULE_SUCCESS;
         notExistOwnCode = MESSAGE_MODULE_NOT_EXISTS;
         notExistDataCode = MESSAGE_MODULE_NOT_EXISTS_IN_DATABASE;
@@ -65,35 +86,54 @@ public class RemoveModuleFromStudentStagedCommand extends Command {
             throw new CommandException(MESSAGE_NOT_STUDENT);
         }
 
-        for (Module module : toSearch) {
-            Optional<Module> optionalModule = model.searchModuleInModuleList(module);
+        for (Code code : toSearch) {
+            Optional<Module> optionalModule = model.searchCodeInDatabase(code);
 
             if (optionalModule.isPresent()) {
                 toRemove = optionalModule.get();
             } else {
-                notExistDataCode = notExistDataCode.concat(" " + module.getCode().toString());
+                notExistDataCode = notExistDataCode.concat(" " + code.toString());
                 continue;
             }
 
             if (!model.hasModuleStaged(toRemove)) {
-                notExistOwnCode = notExistOwnCode.concat(" " + module.getCode().toString());
+                notExistOwnCode = notExistOwnCode.concat(" " + code.toString());
                 continue;
             }
 
             model.removeModuleStaged(toRemove);
-            removeSuccessCode = removeSuccessCode.concat(" " + module.getCode().toString());
+            removeSuccessCode = removeSuccessCode.concat(" " + code.toString());
         }
 
         EventsCenter.getInstance().post(new ShowStagedTabRequestEvent());
 
-        return new CommandResult(notExistDataCode + '\n'
-                + notExistOwnCode + '\n' + removeSuccessCode);
+        if (notExistDataCode.equals(MESSAGE_MODULE_NOT_EXISTS_IN_DATABASE)) {
+            notExistDataCode = "";
+        } else {
+            notExistDataCode = notExistDataCode.concat("\n");
+        }
+
+        if (notExistOwnCode.equals(MESSAGE_MODULE_NOT_EXISTS)) {
+            notExistOwnCode = "";
+        } else {
+            notExistOwnCode = notExistOwnCode.concat("\n");
+        }
+
+        if (removeSuccessCode.equals(MESSAGE_REMOVE_MODULE_SUCCESS)) {
+            removeSuccessCode = "";
+        } else {
+            removeSuccessCode = removeSuccessCode.concat("\n");
+        }
+
+        return new CommandResult(duplicateCodeInCommand + notExistDataCode
+                + notExistOwnCode + removeSuccessCode);
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof RemoveModuleFromStudentStagedCommand // instanceof handles nulls
-                && toSearch.equals(((RemoveModuleFromStudentStagedCommand) other).toSearch)); // state check
+                && toSearch.equals(((RemoveModuleFromStudentStagedCommand) other).toSearch)) // state check
+                && duplicateCodeInCommand.equals(((RemoveModuleFromStudentStagedCommand) other).duplicateCodeInCommand);
     }
 }
