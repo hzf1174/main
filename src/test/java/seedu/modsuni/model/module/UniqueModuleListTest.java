@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 import static seedu.modsuni.testutil.TypicalModules.ACC1002;
 import static seedu.modsuni.testutil.TypicalModules.CS1010;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -152,11 +151,8 @@ public class UniqueModuleListTest {
     @Test
     public void search() {
         UniqueModuleList list = new UniqueModuleList();
-        Module toSearch = new Module(new Code("CS1010"), "", "", "",
-                0, true, true, true, true, new ArrayList<Code>(), new Prereq());
-        Module toSearchNotExist = new Module(new Code("CS2103T"), "", "", "",
-                0, true, true, true, true, new ArrayList<Code>(), new Prereq());
-
+        Code toSearch = new Code("CS1010");
+        Code toSearchNotExist = new Code("CS2103T");
         list.add(CS1010);
         Optional<Module> optional = list.search(toSearch);
         assertTrue(optional.isPresent());

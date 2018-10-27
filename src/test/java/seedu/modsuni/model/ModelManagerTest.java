@@ -1,5 +1,6 @@
 package seedu.modsuni.model;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -20,6 +21,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.modsuni.model.credential.CredentialStore;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.user.exceptions.NotStudentUserException;
 import seedu.modsuni.model.user.student.Student;
 import seedu.modsuni.testutil.AddressBookBuilder;
@@ -281,9 +283,38 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void getFilteredModuleList_modifyList_throwsUnsupportedOperationException() {
+    public void getFilteredDatabaseModuleList_modifyList_throwsUnsupportedOperationException() {
         thrown.expect(UnsupportedOperationException.class);
-        modelManager.getFilteredModuleList().remove(0);
+        modelManager.getFilteredDatabaseModuleList().remove(0);
+    }
+
+    @Test
+    public void getFilteredStagedModuleList_modifyList_throwsUnsupportedOperationException() {
+        thrown.expect(UnsupportedOperationException.class);
+        modelManager.getFilteredStagedModuleList().remove(0);
+    }
+
+    @Test
+    public void getFilteredTakenModuleList_modifyList_throwsUnsupportedOperationException() {
+        thrown.expect(UnsupportedOperationException.class);
+        modelManager.getFilteredTakenModuleList().remove(0);
+    }
+
+    @Test
+    public void searchCodeInDatabase_nullCode_throwsNullPointerException() {
+        thrown.expect(NullPointerException.class);
+        modelManager.searchCodeInDatabase(null);
+    }
+
+    @Test
+    public void searchCodeInDatabase_codeAbsent_returnsEmptyOptional() {
+        assertFalse(modelManager.searchCodeInDatabase(new Code("CS1010")).isPresent());
+    }
+
+    @Test
+    public void searchCodeInDatabase_codeExist_returnsOptionalWithModule() {
+        modelManager.addModuleToDatabase(CS1010);
+        assertEquals(modelManager.searchCodeInDatabase(new Code("CS1010")).get(), CS1010);
     }
 
     @Test
