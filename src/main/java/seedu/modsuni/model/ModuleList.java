@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javafx.collections.ObservableList;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.module.UniqueModuleList;
 
@@ -83,8 +84,13 @@ public class ModuleList implements ReadOnlyModuleList {
 
     //// util methods
 
-    public Optional<Module> getModuleInformation(Module target) {
-        return modules.search(target);
+    /**
+     * Searches {@code code} inside this {@code ModuleList}.
+     * Returns an optional of module searched by {@code code}.
+     */
+    public Optional<Module> searchCode(Code code) {
+        requireNonNull(code);
+        return modules.search(code);
     }
 
     @Override

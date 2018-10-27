@@ -25,6 +25,7 @@ import seedu.modsuni.model.credential.CredentialStore;
 import seedu.modsuni.model.credential.Password;
 import seedu.modsuni.model.credential.ReadOnlyCredentialStore;
 import seedu.modsuni.model.credential.Username;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.person.Person;
 import seedu.modsuni.model.user.Admin;
@@ -98,9 +99,10 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public Optional<Module> searchModuleInModuleList(Module module) {
+    public Optional<Module> searchCodeInDatabase(Code code) {
+        requireNonNull(code);
         ModuleList moduleList = (ModuleList) getModuleList();
-        return moduleList.getModuleInformation(module);
+        return moduleList.searchCode(code);
     }
 
     /**
@@ -222,7 +224,7 @@ public class ModelManager extends ComponentManager implements Model {
         if (currentUser == null) {
             return false;
         }
-        return currentUser.getRole() == Role.STUDENT;
+        return currentUser.getRole() == Role.STUDENT && currentUser instanceof Student;
     }
 
     //=========== Admin Account Management =============================================================
@@ -412,7 +414,7 @@ public class ModelManager extends ComponentManager implements Model {
         currentUser = user;
         if (isStudent()) {
             Student student = (Student) getCurrentUser(); (
-                    (ModuleList) stagedModuleList).setModules(student.getModulesStaged().asUnmodifiableObservableList()); (
+            (ModuleList) stagedModuleList).setModules(student.getModulesStaged().asUnmodifiableObservableList()); (
                     (ModuleList) takenModuleList).setModules(student.getModulesTaken().asUnmodifiableObservableList());
         }
     }

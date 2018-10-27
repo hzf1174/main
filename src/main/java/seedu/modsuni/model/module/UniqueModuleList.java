@@ -62,10 +62,10 @@ public class UniqueModuleList implements Iterable<Module> {
     /**
      * Returns the Optional of the Module.
      */
-    public Optional<Module> search(Module toSearch) {
+    public Optional<Module> search(Code toSearch) {
         requireNonNull(toSearch);
         for (Module module : internalList) {
-            if (module.getCode().equals(toSearch.getCode())) {
+            if (module.getCode().equals(toSearch)) {
                 return Optional.of(module);
             }
         }

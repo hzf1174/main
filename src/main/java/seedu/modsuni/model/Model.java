@@ -12,6 +12,7 @@ import seedu.modsuni.model.credential.Credential;
 import seedu.modsuni.model.credential.Password;
 import seedu.modsuni.model.credential.ReadOnlyCredentialStore;
 import seedu.modsuni.model.credential.Username;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.person.Person;
 import seedu.modsuni.model.user.Admin;
@@ -255,8 +256,8 @@ public interface Model {
     Optional<User> readUserFile(Path filePath) throws IOException, DataConversionException;
 
     /**
-     * Returns the optional of the module in the storage.
+     * Returns the optional of the module in the database.
      */
-    Optional<Module> searchModuleInModuleList(Module module);
+    Optional<Module> searchCodeInDatabase(Code code);
 
 }
